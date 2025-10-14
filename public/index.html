@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 AI视频生成器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-video"></i>
+                <h1>Sora2 AI视频生成器</h1>
+            </div>
+            <p class="subtitle">使用先进的AI技术，从文本描述生成高质量视频</p>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 生成表单 -->
+            <div class="form-section">
+                <div class="form-card">
+                    <h2><i class="fas fa-magic"></i> 视频生成设置</h2>
+                    
+                    <form id="videoForm" class="video-form">
+                        <!-- 提示词输入 -->
+                        <div class="form-group">
+                            <label for="prompt">
+                                <i class="fas fa-comment-dots"></i>
+                                视频描述提示词 *
+                            </label>
+                            <textarea 
+                                id="prompt" 
+                                name="prompt" 
+                                placeholder="请详细描述您想要生成的视频内容，例如：一只可爱的小猫在草地上玩耍，阳光明媚，微风轻拂..."
+                                required
+                                rows="4"
+                            ></textarea>
+                            <div class="char-count">
+                                <span id="charCount">0</span> / 500
+                            </div>
+                        </div>
+
+                        <!-- 参考图片URL -->
+                        <div class="form-group">
+                            <label for="url">
+                                <i class="fas fa-image"></i>
+                                参考图片URL (可选)
+                            </label>
+                            <input 
+                                type="url" 
+                                id="url" 
+                                name="url" 
+                                placeholder="https://example.com/image.jpg"
+                            >
+                            <small>提供参考图片可以帮助AI更好地理解您的需求</small>
+                        </div>
+
+                        <!-- 视频设置 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="aspectRatio">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                    视频比例
+                                </label>
+                                <select id="aspectRatio" name="aspectRatio">
+                                    <option value="9:16">9:16 (竖屏)</option>
+                                    <option value="16:9" selected>16:9 (横屏)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="duration">
+                                    <i class="fas fa-clock"></i>
+                                    视频时长
+                                </label>
+                                <select id="duration" name="duration">
+                                    <option value="10" selected>10秒</option>
+                                    <option value="15">15秒</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="size">
+                                    <i class="fas fa-hd-video"></i>
+                                    视频质量
+                                </label>
+                                <select id="size" name="size">
+                                    <option value="small" selected>标准质量</option>
+                                    <option value="large">高清质量</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 生成按钮 -->
+                        <div class="form-actions">
+                            <button type="submit" id="generateBtn" class="generate-btn">
+                                <i class="fas fa-play"></i>
+                                生成视频
+                            </button>
+                            <button type="button" id="clearBtn" class="clear-btn">
+                                <i class="fas fa-trash"></i>
+                                清空表单
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 进度显示 -->
+            <div id="progressSection" class="progress-section" style="display: none;">
+                <div class="progress-card">
+                    <h3><i class="fas fa-spinner fa-spin"></i> 正在生成视频...</h3>
+                    <div class="progress-bar">
+                        <div id="progressBar" class="progress-fill"></div>
+                    </div>
+                    <div id="progressText" class="progress-text">准备中...</div>
+                    <div id="taskId" class="task-id" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- 结果展示 -->
+            <div id="resultSection" class="result-section" style="display: none;">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> 视频生成完成</h3>
+                    <div id="videoContainer" class="video-container">
+                        <!-- 生成的视频将显示在这里 -->
+                    </div>
+                    <div class="result-actions">
+                        <button id="downloadBtn" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            下载视频
+                        </button>
+                        <button id="newVideoBtn" class="new-video-btn">
+                            <i class="fas fa-plus"></i>
+                            生成新视频
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 错误显示 -->
+            <div id="errorSection" class="error-section" style="display: none;">
+                <div class="error-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> 生成失败</h3>
+                    <div id="errorMessage" class="error-message"></div>
+                    <button id="retryBtn" class="retry-btn">
+                        <i class="fas fa-redo"></i>
+                        重试
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 示例提示词 -->
+        <aside class="examples-section">
+            <h3><i class="fas fa-lightbulb"></i> 提示词示例</h3>
+            <div class="examples-grid">
+                <div class="example-card" data-prompt="一只可爱的小猫在花园里追逐蝴蝶，阳光明媚，花朵盛开">
+                    <i class="fas fa-cat"></i>
+                    <span>可爱小猫</span>
+                </div>
+                <div class="example-card" data-prompt="未来城市的空中交通，飞行汽车穿梭在高楼大厦之间，霓虹灯闪烁">
+                    <i class="fas fa-city"></i>
+                    <span>未来城市</span>
+                </div>
+                <div class="example-card" data-prompt="海浪拍打着岩石，夕阳西下，海鸥在天空中飞翔">
+                    <i class="fas fa-water"></i>
+                    <span>海边日落</span>
+                </div>
+                <div class="example-card" data-prompt="雪花飘落在森林中，一只小鹿在雪地里觅食，宁静祥和">
+                    <i class="fas fa-snowflake"></i>
+                    <span>雪景森林</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 加载脚本 -->
+    <script src="app.js"></script>
+</body>
+</html>
