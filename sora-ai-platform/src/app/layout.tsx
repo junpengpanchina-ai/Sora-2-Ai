@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider } from '@/components/providers/SessionProvider';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   description: '只需一句话，让AI为您生成专业级视频内容。从创意到成品，只需几分钟。',
   keywords: ['AI视频生成', 'Sora', '视频制作', '人工智能'],
   authors: [{ name: 'Sora AI Team' }],
-  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
