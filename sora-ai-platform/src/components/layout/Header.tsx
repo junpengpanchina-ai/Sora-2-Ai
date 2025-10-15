@@ -25,6 +25,9 @@ const Header: React.FC = () => {
             <Link href="/generate" className="text-gray-600 hover:text-gray-900 transition-colors">
               生成视频
             </Link>
+            <Link href="/test-api" className="text-gray-600 hover:text-gray-900 transition-colors">
+              API测试
+            </Link>
             <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
               模板库
             </Link>
@@ -61,6 +64,9 @@ const Header: React.FC = () => {
             <div className="flex flex-col space-y-4 pt-4">
               <Link href="/generate" className="text-gray-600 hover:text-gray-900 transition-colors">
                 生成视频
+              </Link>
+              <Link href="/test-api" className="text-gray-600 hover:text-gray-900 transition-colors">
+                API测试
               </Link>
               <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
                 模板库
