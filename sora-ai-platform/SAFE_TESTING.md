@@ -85,3 +85,4 @@ SELECT id, name, email, "subscriptionPlan", "createdAt" FROM "User";
 
 
 
+
