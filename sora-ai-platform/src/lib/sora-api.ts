@@ -26,8 +26,15 @@ export interface VideoResult {
   error?: string;
 }
 
+export interface VideoResultResponse {
+  code: number;
+  msg: string;
+  data?: VideoResult;
+}
+
 export class SoraAPI {
   private baseUrl = 'https://grsai.dakka.com.cn';
+  private apiKey = process.env.NEXT_PUBLIC_SORA_API_KEY || '';
   
   async generateVideo(params: VideoGenerationParams): Promise<VideoGenerationResponse> {
     try {
@@ -35,6 +42,7 @@ export class SoraAPI {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : '',
         },
         body: JSON.stringify({
           model: 'sora-2',
@@ -68,6 +76,7 @@ export class SoraAPI {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : '',
         },
         body: JSON.stringify({ id })
       });
@@ -76,8 +85,26 @@ export class SoraAPI {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.json();
-      return result.data || result;
+      const result: VideoResultResponse = await response.json();
+      
+      // 处理API响应
+      if (result.code === 0 && result.data) {
+        return result.data;
+      } else if (result.code === -22) {
+        return {
+          id,
+          progress: 0,
+          status: 'failed',
+          error: '任务不存在',
+        };
+      } else {
+        return {
+          id,
+          progress: 0,
+          status: 'failed',
+          error: result.msg || '获取结果失败',
+        };
+      }
     } catch (error) {
       console.error('获取结果失败:', error);
       return {

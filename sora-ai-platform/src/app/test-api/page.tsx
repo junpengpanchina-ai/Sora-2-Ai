@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { SoraAPI } from '@/lib/sora-api';
 
 export default function TestAPIPage() {
   const [result, setResult] = useState<string>('');
@@ -19,39 +18,98 @@ export default function TestAPIPage() {
     setResult('正在测试API连接...');
     
     try {
-      const soraAPI = new SoraAPI();
-      
       // 第一步：测试视频生成
       setResult('步骤1: 正在调用视频生成API...\n');
-      const response = await soraAPI.generateVideo({
-        prompt,
-        aspectRatio,
-        duration,
-        size
+      const generateResponse = await fetch('/api/generate-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt,
+          aspectRatio,
+          duration,
+          size
+        })
       });
       
-      setResult(prev => prev + `生成请求响应:\n${JSON.stringify(response, null, 2)}\n\n`);
+      const generateData = await generateResponse.json();
+      setResult(prev => prev + `生成请求响应:\n${JSON.stringify(generateData, null, 2)}\n\n`);
       
-      if (response.code === 0 && response.data?.id) {
-        setResult(prev => prev + `步骤2: 开始轮询结果 (ID: ${response.data.id})...\n`);
+      if (generateData.success && generateData.data?.id) {
+        setResult(prev => prev + `步骤2: 开始轮询结果 (ID: ${generateData.data.id})...\n`);
         
         // 第二步：轮询结果
-        const finalResult = await soraAPI.pollResult(
-          response.data.id,
-          (progressResult) => {
-            setResult(prev => prev + `进度更新: ${progressResult.progress}% - ${progressResult.status}\n`);
-          }
-        );
-        
+        const finalResult = await pollVideoResult(generateData.data.id);
         setResult(prev => prev + `\n最终结果:\n${JSON.stringify(finalResult, null, 2)}`);
       } else {
-        setResult(prev => prev + `生成失败: ${response.msg}`);
+        setResult(prev => prev + `生成失败: ${generateData.error}`);
       }
     } catch (error) {
       setResult(prev => prev + `\n错误: ${error instanceof Error ? error.message : '未知错误'}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  const pollVideoResult = async (id: string) => {
+    const maxAttempts = 10; // 测试时减少轮询次数
+    let attempts = 0;
+
+    return new Promise((resolve) => {
+      const poll = async () => {
+        try {
+          const response = await fetch('/api/video-result', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id })
+          });
+
+          const data = await response.json();
+          
+          if (data.success) {
+            const result = data.data;
+            setResult(prev => prev + `进度更新: ${result.progress}% - ${result.status}\n`);
+
+            if (result.status === 'succeeded' || result.status === 'failed') {
+              resolve(result);
+              return;
+            }
+
+            attempts++;
+            if (attempts < maxAttempts) {
+              setTimeout(poll, 3000); // 每3秒轮询一次
+            } else {
+              resolve({
+                id,
+                progress: 0,
+                status: 'failed',
+                error: '轮询超时'
+              });
+            }
+          } else {
+            resolve({
+              id,
+              progress: 0,
+              status: 'failed',
+              error: data.error || '获取结果失败'
+            });
+          }
+        } catch (error) {
+          resolve({
+            id,
+            progress: 0,
+            status: 'failed',
+            error: `轮询失败: ${error instanceof Error ? error.message : '未知错误'}`
+          });
+        }
+      };
+
+      // 开始轮询
+      setTimeout(poll, 1000);
+    });
   };
 
   const testConnection = async () => {

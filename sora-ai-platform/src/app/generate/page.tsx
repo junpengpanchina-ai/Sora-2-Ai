@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
-import { SoraAPI, VideoResult } from '@/lib/sora-api';
+import { VideoResult } from '@/lib/sora-api';
 
 export default function GeneratePage() {
   const [prompt, setPrompt] = useState('');
@@ -16,7 +16,6 @@ export default function GeneratePage() {
   const [result, setResult] = useState<VideoResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const soraAPI = new SoraAPI();
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -30,29 +29,94 @@ export default function GeneratePage() {
     setProgress(0);
 
     try {
-      // 调用Sora2 API生成视频
-      const response = await soraAPI.generateVideo({
-        prompt,
-        aspectRatio,
-        duration,
-        size
+      // 调用后端API生成视频
+      const response = await fetch('/api/generate-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt,
+          aspectRatio,
+          duration,
+          size
+        })
       });
 
-      if (response.code === 0 && response.data?.id) {
+      const data = await response.json();
+
+      if (data.success && data.data?.id) {
         // 开始轮询结果
-        const finalResult = await soraAPI.pollResult(response.data.id, (progressResult) => {
-          setProgress(progressResult.progress);
-        });
-        
+        const finalResult = await pollVideoResult(data.data.id);
         setResult(finalResult);
       } else {
-        setError(response.msg || '生成失败');
+        setError(data.error || '生成失败');
       }
     } catch (err) {
       setError(`生成失败: ${err instanceof Error ? err.message : '未知错误'}`);
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const pollVideoResult = async (id: string): Promise<VideoResult> => {
+    const maxAttempts = 60; // 最多轮询60次
+    let attempts = 0;
+
+    return new Promise((resolve) => {
+      const poll = async () => {
+        try {
+          const response = await fetch('/api/video-result', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id })
+          });
+
+          const data = await response.json();
+          
+          if (data.success) {
+            const result = data.data;
+            setProgress(result.progress);
+
+            if (result.status === 'succeeded' || result.status === 'failed') {
+              resolve(result);
+              return;
+            }
+
+            attempts++;
+            if (attempts < maxAttempts) {
+              setTimeout(poll, 2000); // 每2秒轮询一次
+            } else {
+              resolve({
+                id,
+                progress: 0,
+                status: 'failed',
+                error: '轮询超时'
+              });
+            }
+          } else {
+            resolve({
+              id,
+              progress: 0,
+              status: 'failed',
+              error: data.error || '获取结果失败'
+            });
+          }
+        } catch (error) {
+          resolve({
+            id,
+            progress: 0,
+            status: 'failed',
+            error: `轮询失败: ${error instanceof Error ? error.message : '未知错误'}`
+          });
+        }
+      };
+
+      // 开始轮询
+      setTimeout(poll, 1000);
+    });
   };
 
   return (

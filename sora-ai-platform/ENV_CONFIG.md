@@ -25,7 +25,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_live_51SC17u7EnbQTQa8yZiXL4Ln16DuIrr9nruj
 STRIPE_WEBHOOK_SECRET="whsec_your_webhook_secret_here"
 
 # Sora API 配置
-SORA_API_KEY="your-sora-api-key-here"
+NEXT_PUBLIC_SORA_API_KEY="your-sora-api-key-here"
 ```
 
 ## 🔑 还需要获取的密钥：
@@ -38,7 +38,11 @@ SORA_API_KEY="your-sora-api-key-here"
 ### 2. Webhook Secret
 - 创建Webhook后获取（以`whsec_`开头）
 
-### 3. NextAuth Secret
+### 3. Sora API Key
+- 从Sora2 API服务提供商获取API密钥
+- 用于调用视频生成接口
+
+### 4. NextAuth Secret
 生成一个随机密钥：
 ```bash
 openssl rand -base64 32
