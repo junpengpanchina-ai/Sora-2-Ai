@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { stripe } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,10 +17,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '缺少价格ID' }, { status: 400 })
     }
 
-    // 模拟支付流程，实际应用中应该连接Stripe
+    // 创建Stripe结账会话
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer_email: session.user.email,
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url: `${process.env.NEXTAUTH_URL}/dashboard?success=true`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/pricing?canceled=true`,
+      metadata: {
+        plan: plan,
+        userId: session.user.email,
+      },
+    })
+
     return NextResponse.json({ 
-      url: '/dashboard?success=true',
-      message: '支付功能演示模式'
+      url: checkoutSession.url,
+      sessionId: checkoutSession.id
     })
   } catch (error) {
     console.error('创建结账会话错误:', error)

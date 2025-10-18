@@ -18,7 +18,7 @@ export const SUBSCRIPTION_PLANS = {
     name: '基础版',
     description: '适合个人用户',
     price: 29,
-    priceId: 'price_basic_monthly', // 需要在Stripe中创建
+    priceId: 'price_1SJe367EnbQTQa8yPMxoe1dB', // 基础版价格ID
     features: [
       '每月10个视频',
       '基础视频质量',
@@ -35,7 +35,7 @@ export const SUBSCRIPTION_PLANS = {
     name: '专业版',
     description: '适合内容创作者',
     price: 99,
-    priceId: 'price_pro_monthly',
+    priceId: 'price_1SJe377EnbQTQa8y90ZshYnJ', // 专业版价格ID
     features: [
       '每月50个视频',
       '高清视频质量',
@@ -53,7 +53,7 @@ export const SUBSCRIPTION_PLANS = {
     name: '企业版',
     description: '适合团队和企业',
     price: 299,
-    priceId: 'price_enterprise_monthly',
+    priceId: 'price_1SJe387EnbQTQa8y46MdIgP0', // 企业版价格ID
     features: [
       '无限视频生成',
       '4K视频质量',
