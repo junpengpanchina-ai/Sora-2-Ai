@@ -6,10 +6,13 @@ import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import MobileMenu from './MobileMenu';
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import { useTranslations } from '@/hooks/useTranslations';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session, status } = useSession();
+  const t = useTranslations();
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
@@ -27,49 +30,50 @@ const Header: React.FC = () => {
           
           <nav className="hidden md:flex space-x-8">
             <Link href="/" className="text-gray-700 hover:text-gray-900">
-              首页
+              {t.nav('home')}
             </Link>
             <Link href="/generate" className="text-gray-700 hover:text-gray-900">
-              生成视频
+              {t.nav('generate')}
             </Link>
             {session && (
               <>
                 <Link href="/mvp" className="text-gray-700 hover:text-gray-900 font-medium">
-                  🚀 MVP
+                  {t.nav('mvp')}
                 </Link>
                 <Link href="/achievements" className="text-gray-700 hover:text-gray-900">
-                  成就
+                  {t.nav('achievements')}
                 </Link>
                 <Link href="/referral" className="text-gray-700 hover:text-gray-900">
-                  邀请
+                  {t.nav('referral')}
                 </Link>
                 <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
-                  仪表板
+                  {t.nav('dashboard')}
                 </Link>
               </>
             )}
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSwitcher currentLocale="en" />
             {session ? (
               <>
                 <span className="text-sm text-gray-700">
                   {session.user?.name || session.user?.email}
                 </span>
                 <Link href="/dashboard">
-                  <Button variant="outline">仪表板</Button>
+                  <Button variant="outline">{t.nav('dashboard')}</Button>
                 </Link>
                 <Button variant="outline" onClick={handleSignOut}>
-                  退出
+                  {t.common('logout')}
                 </Button>
               </>
             ) : (
               <>
                 <Link href="/auth/signin">
-                  <Button variant="outline">登录</Button>
+                  <Button variant="outline">{t.common('login')}</Button>
                 </Link>
                 <Link href="/auth/signup">
-                  <Button>注册</Button>
+                  <Button>{t.common('register')}</Button>
                 </Link>
               </>
             )}

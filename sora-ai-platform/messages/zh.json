@@ -1,0 +1,366 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除",
+    "create": "创建",
+    "update": "更新",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "refresh": "刷新",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "close": "关闭",
+    "open": "打开",
+    "view": "查看",
+    "download": "下载",
+    "upload": "上传",
+    "share": "分享",
+    "copy": "复制",
+    "paste": "粘贴",
+    "cut": "剪切",
+    "undo": "撤销",
+    "redo": "重做",
+    "select": "选择",
+    "all": "全部",
+    "none": "无",
+    "yes": "是",
+    "no": "否",
+    "ok": "确定",
+    "apply": "应用",
+    "reset": "重置",
+    "clear": "清除",
+    "submit": "提交",
+    "login": "登录",
+    "logout": "退出",
+    "register": "注册",
+    "signup": "注册",
+    "signin": "登录",
+    "profile": "个人资料",
+    "settings": "设置",
+    "help": "帮助",
+    "about": "关于",
+    "contact": "联系",
+    "support": "支持",
+    "feedback": "反馈",
+    "report": "举报",
+    "privacy": "隐私",
+    "terms": "条款",
+    "cookies": "Cookie"
+  },
+  "navigation": {
+    "home": "首页",
+    "dashboard": "仪表板",
+    "generate": "生成视频",
+    "pricing": "定价",
+    "achievements": "成就",
+    "referral": "邀请",
+    "mvp": "🚀 MVP",
+    "admin": "管理",
+    "performance": "性能"
+  },
+  "auth": {
+    "welcome": "欢迎来到 Sora AI",
+    "signInTitle": "登录您的账户",
+    "signUpTitle": "创建您的账户",
+    "email": "邮箱地址",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "name": "姓名",
+    "rememberMe": "记住我",
+    "forgotPassword": "忘记密码？",
+    "dontHaveAccount": "还没有账户？",
+    "alreadyHaveAccount": "已有账户？",
+    "signInWithGoogle": "使用 Google 登录",
+    "signUpWithGoogle": "使用 Google 注册",
+    "referralCode": "邀请码（可选）",
+    "referralCodePlaceholder": "输入邀请码",
+    "referralCodeDescription": "使用邀请码注册可获得免费视频"
+  },
+  "home": {
+    "title": "Sora AI - 用AI创造无限可能",
+    "subtitle": "只需一句话，让AI为您生成专业级视频内容。从创意到成品，只需几分钟。",
+    "getStarted": "立即开始",
+    "learnMore": "了解更多",
+    "watchDemo": "观看演示",
+    "features": {
+      "title": "强大功能",
+      "aiGeneration": {
+        "title": "AI视频生成",
+        "description": "使用先进的AI技术创建精彩视频"
+      },
+      "easyToUse": {
+        "title": "简单易用",
+        "description": "简单界面，专业效果"
+      },
+      "fastProcessing": {
+        "title": "快速处理",
+        "description": "几分钟生成视频，不是几小时"
+      }
+    },
+    "growthFeatures": {
+      "title": "全新增长功能",
+      "userLevel": {
+        "title": "用户等级系统",
+        "description": "4级用户体系，专属特权"
+      },
+      "invitationReward": {
+        "title": "邀请奖励机制",
+        "description": "邀请好友，获得奖励"
+      },
+      "socialSharing": {
+        "title": "社交分享功能",
+        "description": "8个平台分享您的创作"
+      }
+    }
+  },
+  "pricing": {
+    "title": "选择您的套餐",
+    "subtitle": "为每个创作者提供灵活的定价选项",
+    "basic": {
+      "name": "基础版",
+      "price": "¥49",
+      "period": "/月",
+      "description": "适合个人创作者",
+      "features": [
+        "每月15个视频",
+        "10秒时长",
+        "标准画质",
+        "基础模板",
+        "邮件支持"
+      ],
+      "button": "开始使用"
+    },
+    "pro": {
+      "name": "专业版",
+      "price": "¥199",
+      "period": "/月",
+      "description": "适合专业创作者",
+      "features": [
+        "每月40个视频",
+        "15秒时长",
+        "高清画质",
+        "高级模板",
+        "优先支持",
+        "高级分析"
+      ],
+      "button": "升级专业版",
+      "popular": "最受欢迎"
+    },
+    "enterprise": {
+      "name": "企业版",
+      "price": "¥599",
+      "period": "/月",
+      "description": "适合团队和企业",
+      "features": [
+        "每月120个视频",
+        "15秒时长",
+        "4K画质",
+        "全部模板",
+        "专属支持",
+        "定制品牌",
+        "API访问"
+      ],
+      "button": "联系销售"
+    },
+    "invitationReward": {
+      "title": "邀请奖励计划",
+      "description": "邀请好友，获得奖励",
+      "newUserReward": "新用户注册即获得1个10秒免费视频",
+      "referralRewards": [
+        "成功邀请1位好友：获得1个15秒免费视频",
+        "成功邀请3位好友：获得3个15秒免费视频",
+        "成功邀请5位好友：获得1个月基础版体验"
+      ],
+      "automaticReward": "奖励将在好友注册成功后自动发放到您的账户",
+      "oneTimeOnly": "每个好友只能被邀请一次"
+    }
+  },
+  "achievements": {
+    "title": "我的成就与等级",
+    "subtitle": "持续创作，解锁更多特权和奖励！",
+    "userLevel": "我的等级",
+    "achievementProgress": "成就进度",
+    "unlockedAchievements": "已解锁成就",
+    "lockedAchievements": "待解锁成就",
+    "totalPoints": "总积分",
+    "freeVideosLeft": "剩余免费视频",
+    "levels": {
+      "bronze": {
+        "name": "铜牌创作者",
+        "description": "基础创作工具和标准视频质量"
+      },
+      "silver": {
+        "name": "银牌创作者",
+        "description": "高级工具和高清质量"
+      },
+      "gold": {
+        "name": "金牌创作者",
+        "description": "专业工具和高级功能"
+      },
+      "diamond": {
+        "name": "钻石创作者",
+        "description": "顶级工具和无限访问"
+      }
+    },
+    "achievements": {
+      "firstVideo": {
+        "title": "初出茅庐",
+        "description": "生成您的第一个视频"
+      },
+      "videoMaster": {
+        "title": "视频大师",
+        "description": "生成10个视频"
+      },
+      "prolificCreator": {
+        "title": "高产创作者",
+        "description": "生成50个视频"
+      },
+      "creationLegend": {
+        "title": "创作传奇",
+        "description": "生成100个视频"
+      },
+      "socialButterfly": {
+        "title": "社交达人",
+        "description": "分享10个视频到社交媒体"
+      },
+      "viralCreator": {
+        "title": "病毒式创作者",
+        "description": "单个视频获得1000个赞"
+      },
+      "influencer": {
+        "title": "影响力者",
+        "description": "总点赞数达到10000"
+      },
+      "referralKing": {
+        "title": "邀请之王",
+        "description": "成功邀请5个好友"
+      },
+      "growthChampion": {
+        "title": "增长冠军",
+        "description": "成功邀请20个好友"
+      },
+      "communityBuilder": {
+        "title": "社区建设者",
+        "description": "成功邀请50个好友"
+      },
+      "streakMaster": {
+        "title": "连续创作",
+        "description": "连续7天创作视频"
+      },
+      "consistencyChampion": {
+        "title": "坚持冠军",
+        "description": "连续30天创作视频"
+      },
+      "dedicationMaster": {
+        "title": "专注大师",
+        "description": "连续100天创作视频"
+      }
+    },
+    "rewards": {
+      "freeVideos": "获得{count}个免费视频",
+      "badge": "徽章：{badge}",
+      "title": "称号：{title}"
+    }
+  },
+  "referral": {
+    "title": "我的邀请与奖励",
+    "subtitle": "邀请好友，一起享受AI视频创作的乐趣！",
+    "myInviteCode": "我的邀请码",
+    "myRewards": "我的奖励",
+    "inviteCodeDescription": "分享您的专属邀请链接，好友注册成功后，您将获得免费视频奖励。",
+    "copyLink": "复制链接",
+    "generateCode": "生成我的邀请码",
+    "successfulInvites": "您已成功邀请{count}位好友。",
+    "noRewards": "您还没有任何待领取的奖励。",
+    "inviteRules": {
+      "title": "邀请规则",
+      "rules": [
+        "新用户注册即获得1个10秒免费视频。",
+        "成功邀请1位好友注册，您将获得1个15秒免费视频。",
+        "成功邀请3位好友注册，您将获得3个15秒免费视频。",
+        "成功邀请5位好友注册，您将获得1个月基础版体验。",
+        "奖励将在好友注册成功后自动发放到您的账户。",
+        "每个好友只能被邀请一次。"
+      ]
+    },
+    "rewards": {
+      "claimed": "已领取",
+      "claim": "领取",
+      "rewardedOn": "邀请于{date}"
+    }
+  },
+  "mvp": {
+    "title": "🚀 MVP 增长仪表板",
+    "subtitle": "您的AI视频创作生态核心数据一览",
+    "myLevel": "我的等级",
+    "achievementProgress": "成就进度",
+    "inviteFriends": "邀请好友",
+    "freeVideosLeft": "免费视频剩余",
+    "quickActions": {
+      "title": "快速入口",
+      "generateVideo": "生成新视频",
+      "upgradeSubscription": "升级订阅"
+    },
+    "communityActivity": {
+      "title": "社区活跃度",
+      "totalUsers": "总用户数",
+      "totalVideos": "总视频数",
+      "totalShares": "总分享数",
+      "recentActivity": "最近活动"
+    },
+    "personalizedRecommendations": "个性化推荐",
+    "shareYourCreation": "分享您的创作"
+  },
+  "performance": {
+    "title": "性能监控仪表板",
+    "subtitle": "实时监控应用性能指标和优化建议",
+    "performanceScore": "性能评分",
+    "pageLoadTime": "页面加载时间",
+    "firstContentfulPaint": "首次内容绘制",
+    "memoryUsage": "内存使用",
+    "coreMetrics": "核心性能指标",
+    "cacheStats": "缓存统计",
+    "optimizationRecommendations": "优化建议",
+    "refreshData": "刷新数据",
+    "clearCache": "清空缓存",
+    "excellent": "优秀",
+    "good": "良好",
+    "needsOptimization": "需要优化"
+  },
+  "errors": {
+    "pageNotFound": "页面未找到",
+    "pageNotFoundDescription": "抱歉，您访问的页面不存在。",
+    "goHome": "返回首页",
+    "unauthorized": "未授权",
+    "unauthorizedDescription": "请先登录以访问此页面。",
+    "serverError": "服务器错误",
+    "serverErrorDescription": "出现错误，请稍后重试。",
+    "networkError": "网络错误",
+    "networkErrorDescription": "请检查您的网络连接并重试。"
+  },
+  "notifications": {
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息",
+    "videoGenerated": "视频生成成功！",
+    "rewardClaimed": "奖励领取成功！",
+    "inviteCodeGenerated": "邀请码生成成功！",
+    "profileUpdated": "个人资料更新成功！",
+    "subscriptionUpdated": "订阅更新成功！",
+    "shareSuccessful": "分享成功！",
+    "achievementUnlocked": "成就解锁！",
+    "levelUp": "等级提升！",
+    "errorOccurred": "发生错误",
+    "tryAgain": "请重试",
+    "networkError": "网络错误，请检查连接"
+  }
+}

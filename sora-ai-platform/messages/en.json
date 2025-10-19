@@ -1,0 +1,366 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload",
+    "share": "Share",
+    "copy": "Copy",
+    "paste": "Paste",
+    "cut": "Cut",
+    "undo": "Undo",
+    "redo": "Redo",
+    "select": "Select",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "apply": "Apply",
+    "reset": "Reset",
+    "clear": "Clear",
+    "submit": "Submit",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "signup": "Sign Up",
+    "signin": "Sign In",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "contact": "Contact",
+    "support": "Support",
+    "feedback": "Feedback",
+    "report": "Report",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "generate": "Generate Video",
+    "pricing": "Pricing",
+    "achievements": "Achievements",
+    "referral": "Invite Friends",
+    "mvp": "🚀 MVP",
+    "admin": "Admin",
+    "performance": "Performance"
+  },
+  "auth": {
+    "welcome": "Welcome to Sora AI",
+    "signInTitle": "Sign In to Your Account",
+    "signUpTitle": "Create Your Account",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "rememberMe": "Remember Me",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "referralCode": "Referral Code (Optional)",
+    "referralCodePlaceholder": "Enter referral code",
+    "referralCodeDescription": "Get free videos when you sign up with a referral code"
+  },
+  "home": {
+    "title": "Sora AI - Create Unlimited Possibilities with AI",
+    "subtitle": "Generate professional-grade video content with just one sentence. From idea to finished product in minutes.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "watchDemo": "Watch Demo",
+    "features": {
+      "title": "Powerful Features",
+      "aiGeneration": {
+        "title": "AI Video Generation",
+        "description": "Create stunning videos with advanced AI technology"
+      },
+      "easyToUse": {
+        "title": "Easy to Use",
+        "description": "Simple interface, professional results"
+      },
+      "fastProcessing": {
+        "title": "Fast Processing",
+        "description": "Generate videos in minutes, not hours"
+      }
+    },
+    "growthFeatures": {
+      "title": "New Growth Features",
+      "userLevel": {
+        "title": "User Level System",
+        "description": "4-tier user system with exclusive privileges"
+      },
+      "invitationReward": {
+        "title": "Invitation Reward Mechanism",
+        "description": "Invite friends and earn rewards"
+      },
+      "socialSharing": {
+        "title": "Social Sharing Function",
+        "description": "Share your creations across 8 platforms"
+      }
+    }
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Flexible pricing options for every creator",
+    "basic": {
+      "name": "Basic",
+      "price": "$49",
+      "period": "/month",
+      "description": "Perfect for individual creators",
+      "features": [
+        "15 videos per month",
+        "10-second duration",
+        "Standard quality",
+        "Basic templates",
+        "Email support"
+      ],
+      "button": "Get Started"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$199",
+      "period": "/month",
+      "description": "Ideal for professional creators",
+      "features": [
+        "40 videos per month",
+        "15-second duration",
+        "HD quality",
+        "Premium templates",
+        "Priority support",
+        "Advanced analytics"
+      ],
+      "button": "Go Pro",
+      "popular": "Most Popular"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "$599",
+      "period": "/month",
+      "description": "For teams and businesses",
+      "features": [
+        "120 videos per month",
+        "15-second duration",
+        "4K quality",
+        "All templates",
+        "Dedicated support",
+        "Custom branding",
+        "API access"
+      ],
+      "button": "Contact Sales"
+    },
+    "invitationReward": {
+      "title": "Invitation Reward Program",
+      "description": "Invite friends and earn rewards",
+      "newUserReward": "New users get 1 free 10-second video",
+      "referralRewards": [
+        "Invite 1 friend: Get 1 free 15-second video",
+        "Invite 3 friends: Get 3 free 15-second videos",
+        "Invite 5 friends: Get 1 month Basic plan trial"
+      ],
+      "automaticReward": "Rewards are automatically credited to your account",
+      "oneTimeOnly": "Each friend can only be invited once"
+    }
+  },
+  "achievements": {
+    "title": "My Achievements & Levels",
+    "subtitle": "Keep creating to unlock more privileges and rewards!",
+    "userLevel": "My Level",
+    "achievementProgress": "Achievement Progress",
+    "unlockedAchievements": "Unlocked Achievements",
+    "lockedAchievements": "Locked Achievements",
+    "totalPoints": "Total Points",
+    "freeVideosLeft": "Free Videos Left",
+    "levels": {
+      "bronze": {
+        "name": "Bronze Creator",
+        "description": "Basic creation tools and standard video quality"
+      },
+      "silver": {
+        "name": "Silver Creator",
+        "description": "Advanced tools and HD quality"
+      },
+      "gold": {
+        "name": "Gold Creator",
+        "description": "Professional tools and premium features"
+      },
+      "diamond": {
+        "name": "Diamond Creator",
+        "description": "Ultimate tools and unlimited access"
+      }
+    },
+    "achievements": {
+      "firstVideo": {
+        "title": "First Steps",
+        "description": "Generate your first video"
+      },
+      "videoMaster": {
+        "title": "Video Master",
+        "description": "Generate 10 videos"
+      },
+      "prolificCreator": {
+        "title": "Prolific Creator",
+        "description": "Generate 50 videos"
+      },
+      "creationLegend": {
+        "title": "Creation Legend",
+        "description": "Generate 100 videos"
+      },
+      "socialButterfly": {
+        "title": "Social Butterfly",
+        "description": "Share 10 videos to social media"
+      },
+      "viralCreator": {
+        "title": "Viral Creator",
+        "description": "Get 1000 likes on a single video"
+      },
+      "influencer": {
+        "title": "Influencer",
+        "description": "Reach 10,000 total likes"
+      },
+      "referralKing": {
+        "title": "Referral King",
+        "description": "Successfully invite 5 friends"
+      },
+      "growthChampion": {
+        "title": "Growth Champion",
+        "description": "Successfully invite 20 friends"
+      },
+      "communityBuilder": {
+        "title": "Community Builder",
+        "description": "Successfully invite 50 friends"
+      },
+      "streakMaster": {
+        "title": "Consistent Creator",
+        "description": "Create videos for 7 consecutive days"
+      },
+      "consistencyChampion": {
+        "title": "Consistency Champion",
+        "description": "Create videos for 30 consecutive days"
+      },
+      "dedicationMaster": {
+        "title": "Dedication Master",
+        "description": "Create videos for 100 consecutive days"
+      }
+    },
+    "rewards": {
+      "freeVideos": "Get {count} free videos",
+      "badge": "Badge: {badge}",
+      "title": "Title: {title}"
+    }
+  },
+  "referral": {
+    "title": "My Invitations & Rewards",
+    "subtitle": "Invite friends and enjoy AI video creation together!",
+    "myInviteCode": "My Invite Code",
+    "myRewards": "My Rewards",
+    "inviteCodeDescription": "Share your exclusive invite link. When friends register successfully, you'll get free video rewards.",
+    "copyLink": "Copy Link",
+    "generateCode": "Generate My Invite Code",
+    "successfulInvites": "You have successfully invited {count} friends.",
+    "noRewards": "You don't have any pending rewards yet.",
+    "inviteRules": {
+      "title": "Invitation Rules",
+      "rules": [
+        "New users get 1 free 10-second video upon registration.",
+        "Successfully invite 1 friend: Get 1 free 15-second video.",
+        "Successfully invite 3 friends: Get 3 free 15-second videos.",
+        "Successfully invite 5 friends: Get 1 month Basic plan trial.",
+        "Rewards are automatically credited to your account when friends register successfully.",
+        "Each friend can only be invited once."
+      ]
+    },
+    "rewards": {
+      "claimed": "Claimed",
+      "claim": "Claim",
+      "rewardedOn": "Invited on {date}"
+    }
+  },
+  "mvp": {
+    "title": "🚀 MVP Growth Dashboard",
+    "subtitle": "Your AI video creation ecosystem core data at a glance",
+    "myLevel": "My Level",
+    "achievementProgress": "Achievement Progress",
+    "inviteFriends": "Invite Friends",
+    "freeVideosLeft": "Free Videos Left",
+    "quickActions": {
+      "title": "Quick Actions",
+      "generateVideo": "Generate New Video",
+      "upgradeSubscription": "Upgrade Subscription"
+    },
+    "communityActivity": {
+      "title": "Community Activity",
+      "totalUsers": "Total Users",
+      "totalVideos": "Total Videos",
+      "totalShares": "Total Shares",
+      "recentActivity": "Recent Activity"
+    },
+    "personalizedRecommendations": "Personalized Recommendations",
+    "shareYourCreation": "Share Your Creation"
+  },
+  "performance": {
+    "title": "Performance Monitoring Dashboard",
+    "subtitle": "Real-time monitoring of application performance metrics and optimization recommendations",
+    "performanceScore": "Performance Score",
+    "pageLoadTime": "Page Load Time",
+    "firstContentfulPaint": "First Contentful Paint",
+    "memoryUsage": "Memory Usage",
+    "coreMetrics": "Core Performance Metrics",
+    "cacheStats": "Cache Statistics",
+    "optimizationRecommendations": "Optimization Recommendations",
+    "refreshData": "Refresh Data",
+    "clearCache": "Clear Cache",
+    "excellent": "Excellent",
+    "good": "Good",
+    "needsOptimization": "Needs Optimization"
+  },
+  "errors": {
+    "pageNotFound": "Page Not Found",
+    "pageNotFoundDescription": "Sorry, the page you're looking for doesn't exist.",
+    "goHome": "Go Home",
+    "unauthorized": "Unauthorized",
+    "unauthorizedDescription": "Please log in to access this page.",
+    "serverError": "Server Error",
+    "serverErrorDescription": "Something went wrong. Please try again later.",
+    "networkError": "Network Error",
+    "networkErrorDescription": "Please check your internet connection and try again."
+  },
+  "notifications": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "videoGenerated": "Video generated successfully!",
+    "rewardClaimed": "Reward claimed successfully!",
+    "inviteCodeGenerated": "Invite code generated successfully!",
+    "profileUpdated": "Profile updated successfully!",
+    "subscriptionUpdated": "Subscription updated successfully!",
+    "shareSuccessful": "Shared successfully!",
+    "achievementUnlocked": "Achievement unlocked!",
+    "levelUp": "Level up!",
+    "errorOccurred": "An error occurred",
+    "tryAgain": "Please try again",
+    "networkError": "Network error, please check your connection"
+  }
+}
