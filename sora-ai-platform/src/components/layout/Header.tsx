@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
+import MobileMenu from './MobileMenu';
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session, status } = useSession();
 
   const handleSignOut = () => {
@@ -77,58 +78,19 @@ const Header: React.FC = () => {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-gray-900"
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <Icon name="menu" className="h-6 w-6" />
+              <Icon name="menu" className="h-6 w-6 text-gray-600" />
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
-                首页
-              </Link>
-              <Link href="/generate" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
-                生成视频
-              </Link>
-              {session && (
-                <>
-                  <Link href="/dashboard" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
-                    仪表板
-                  </Link>
-                  <Link href="/payments" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
-                    支付记录
-                  </Link>
-                </>
-              )}
-              <div className="px-3 py-2">
-                {session ? (
-                  <>
-                    <div className="text-sm text-gray-700 mb-2">
-                      {session.user?.name || session.user?.email}
-                    </div>
-                    <Button variant="outline" onClick={handleSignOut} className="w-full">
-                      退出登录
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/auth/signin">
-                      <Button variant="outline" className="w-full mb-2">登录</Button>
-                    </Link>
-                    <Link href="/auth/signup">
-                      <Button className="w-full">注册</Button>
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+        <MobileMenu 
+          isOpen={isMobileMenuOpen} 
+          onClose={() => setIsMobileMenuOpen(false)} 
+        />
       </div>
     </header>
   );

@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import ShareButton from '@/components/social/ShareButton'
 import ViralTrigger from '@/components/growth/ViralTrigger'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { notificationManager } from '@/components/ui/Notification'
 import { viralEngine } from '@/lib/viral-engine'
 
 export default function MVPDashboard() {
@@ -82,10 +84,7 @@ export default function MVPDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">加载中...</p>
-        </div>
+        <LoadingSpinner size="lg" text="加载用户数据..." />
       </div>
     )
   }
@@ -134,7 +133,14 @@ export default function MVPDashboard() {
             </div>
             <p className="text-gray-600 mb-4">使用AI生成高质量视频内容</p>
             <Button 
-              onClick={() => window.location.href = '/generate'}
+              onClick={() => {
+                notificationManager.show({
+                  type: 'info',
+                  title: '开始创作',
+                  message: '正在跳转到视频生成页面...'
+                })
+                window.location.href = '/generate'
+              }}
               className="w-full"
             >
               立即创作
