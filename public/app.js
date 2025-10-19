@@ -105,7 +105,7 @@ class SoraApp {
                 this.showError(data.message);
                 break;
             case 'timeout':
-                this.showError('生成超时，请重试');
+                this.showError('视频生成时间较长，请稍后手动查询结果。任务ID: ' + this.currentTaskId);
                 break;
         }
     }
@@ -175,7 +175,12 @@ class SoraApp {
 
     // 开始轮询结果
     startPolling() {
+        let pollCount = 0;
+        const maxPolls = 120; // 最多轮询120次（6分钟）
+        
         const pollInterval = setInterval(async () => {
+            pollCount++;
+            
             try {
                 const response = await fetch('/api/get-result', {
                     method: 'POST',
@@ -198,6 +203,12 @@ class SoraApp {
                         this.showError(result.data.error || '生成失败');
                         this.isGenerating = false;
                         this.updateGenerateButton();
+                    } else if (pollCount >= maxPolls) {
+                        // 超时处理
+                        clearInterval(pollInterval);
+                        this.showError('视频生成时间较长，请稍后手动查询结果。任务ID: ' + this.currentTaskId);
+                        this.isGenerating = false;
+                        this.updateGenerateButton();
                     }
                 } else {
                     clearInterval(pollInterval);
@@ -211,7 +222,7 @@ class SoraApp {
                 this.isGenerating = false;
                 this.updateGenerateButton();
             }
-        }, 2000);
+        }, 3000); // 每3秒轮询一次
     }
 
     // 获取表单数据

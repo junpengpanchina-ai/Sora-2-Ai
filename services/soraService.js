@@ -35,7 +35,7 @@ class SoraService {
           'Content-Type': 'application/json',
           'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : undefined
         },
-        timeout: 30000 // 30秒超时
+        timeout: 60000 // 60秒超时
       });
 
       console.log('Sora2 API响应:', response.data);
@@ -87,7 +87,7 @@ class SoraService {
           'Content-Type': 'application/json',
           'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : undefined
         },
-        timeout: 10000 // 10秒超时
+        timeout: 30000 // 30秒超时
       });
 
       console.log('获取结果响应:', response.data);

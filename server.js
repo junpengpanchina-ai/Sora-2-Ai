@@ -130,7 +130,7 @@ wss.on('connection', (ws) => {
 
 // 轮询结果函数
 async function pollResult(ws, id) {
-  const maxAttempts = 60; // 最多轮询60次
+  const maxAttempts = 120; // 最多轮询120次（4分钟）
   let attempts = 0;
   
   const poll = async () => {
@@ -155,11 +155,11 @@ async function pollResult(ws, id) {
       // 继续轮询
       attempts++;
       if (attempts < maxAttempts) {
-        setTimeout(poll, 2000); // 每2秒轮询一次
+        setTimeout(poll, 3000); // 每3秒轮询一次
       } else {
         ws.send(JSON.stringify({ 
           type: 'timeout', 
-          message: '轮询超时' 
+          message: '视频生成时间较长，请稍后手动查询结果' 
         }));
       }
     } catch (error) {
