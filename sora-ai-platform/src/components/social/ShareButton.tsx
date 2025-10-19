@@ -51,6 +51,30 @@ const SHARE_PLATFORMS = [
     color: 'bg-blue-500',
     url: (title: string, url: string) => 
       `https://www.bilibili.com/video/${videoId}`
+  },
+  {
+    id: 'qq',
+    name: 'QQ',
+    icon: 'message-square',
+    color: 'bg-blue-600',
+    url: (title: string, url: string) => 
+      `https://connect.qq.com/widget/shareqq/index.html?title=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`
+  },
+  {
+    id: 'facebook',
+    name: 'Facebook',
+    icon: 'facebook',
+    color: 'bg-blue-700',
+    url: (title: string, url: string) => 
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+  },
+  {
+    id: 'twitter',
+    name: 'Twitter',
+    icon: 'twitter',
+    color: 'bg-sky-500',
+    url: (title: string, url: string) => 
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`
   }
 ]
 

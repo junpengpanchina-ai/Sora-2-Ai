@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import ShareButton from '@/components/social/ShareButton'
 import ViralTrigger from '@/components/growth/ViralTrigger'
+import { viralEngine } from '@/lib/viral-engine'
 
 export default function MVPDashboard() {
   const { data: session } = useSession()
@@ -17,6 +18,12 @@ export default function MVPDashboard() {
     freeVideosLeft: 0,
     userTier: 'bronze',
     achievements: []
+  })
+  const [socialProof, setSocialProof] = useState({
+    totalUsers: 0,
+    totalVideos: 0,
+    totalShares: 0,
+    recentActivity: []
   })
   const [loading, setLoading] = useState(true)
 
@@ -37,6 +44,10 @@ export default function MVPDashboard() {
         userTier: 'silver',
         achievements: ['first_video', 'video_master']
       })
+      
+      // 获取社交证明数据
+      const socialProofData = viralEngine.getSocialProof()
+      setSocialProof(socialProofData)
     } catch (error) {
       console.error('获取用户数据失败:', error)
     } finally {
@@ -190,6 +201,35 @@ export default function MVPDashboard() {
             <p className="text-sm text-gray-500">解锁成就</p>
           </Card>
         </div>
+
+        {/* 社交证明 */}
+        <Card className="p-6 mb-8">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">社区活跃度</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-blue-600">{socialProof.totalUsers.toLocaleString()}</p>
+              <p className="text-sm text-gray-500">总用户数</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-green-600">{socialProof.totalVideos.toLocaleString()}</p>
+              <p className="text-sm text-gray-500">总视频数</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-purple-600">{socialProof.totalShares.toLocaleString()}</p>
+              <p className="text-sm text-gray-500">总分享数</p>
+            </div>
+          </div>
+          <div className="border-t pt-4">
+            <h4 className="text-sm font-medium text-gray-900 mb-2">最近活动</h4>
+            <div className="space-y-1">
+              {socialProof.recentActivity.slice(0, 3).map((activity, index) => (
+                <p key={index} className="text-sm text-gray-600">
+                  {activity.user} {activity.action}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Card>
 
         {/* 病毒式传播触发器 */}
         <Card className="p-6 mb-8">

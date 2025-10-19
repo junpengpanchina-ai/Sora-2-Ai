@@ -5,23 +5,35 @@ import { useSession } from 'next-auth/react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
-import { USER_TIERS, growthEngine } from '@/lib/growth-engine'
+import { achievementSystem, USER_TIERS } from '@/lib/achievement-system'
+import { viralEngine } from '@/lib/viral-engine'
 
-interface UserAchievement {
-  id: string
-  title: string
-  description: string
-  icon: string
-  progress: number
-  maxProgress: number
-  unlocked: boolean
-  unlockedAt?: Date
-  reward: string
+interface UserStats {
+  totalVideos: number
+  monthlyVideos: number
+  referralCount: number
+  socialShares: number
+  totalLikes: number
+  streakDays: number
+  freeVideosLeft: number
 }
 
 export default function AchievementsPage() {
   const { data: session } = useSession()
-  const [achievements, setAchievements] = useState<UserAchievement[]>([])
+  const [userStats, setUserStats] = useState<UserStats>({
+    totalVideos: 0,
+    monthlyVideos: 0,
+    referralCount: 0,
+    socialShares: 0,
+    totalLikes: 0,
+    streakDays: 0,
+    freeVideosLeft: 0
+  })
+  const [achievements, setAchievements] = useState({
+    unlocked: [],
+    locked: [],
+    totalPoints: 0
+  })
   const [userTier, setUserTier] = useState(USER_TIERS[0])
   const [loading, setLoading] = useState(true)
 
@@ -33,77 +45,23 @@ export default function AchievementsPage() {
 
   const fetchUserAchievements = async () => {
     try {
-      // 模拟获取用户成就数据
-      const mockAchievements: UserAchievement[] = [
-        {
-          id: 'first_video',
-          title: '初出茅庐',
-          description: '生成第一个视频',
-          icon: '🎬',
-          progress: 1,
-          maxProgress: 1,
-          unlocked: true,
-          unlockedAt: new Date('2024-01-15'),
-          reward: '获得1个免费视频'
-        },
-        {
-          id: 'video_master',
-          title: '视频大师',
-          description: '生成10个视频',
-          icon: '🎭',
-          progress: 7,
-          maxProgress: 10,
-          unlocked: false,
-          reward: '获得5个免费视频'
-        },
-        {
-          id: 'social_butterfly',
-          title: '社交达人',
-          description: '分享10个视频到社交媒体',
-          icon: '📱',
-          progress: 3,
-          maxProgress: 10,
-          unlocked: false,
-          reward: '获得专属分享工具'
-        },
-        {
-          id: 'referral_king',
-          title: '邀请之王',
-          description: '成功邀请5个好友',
-          icon: '👑',
-          progress: 2,
-          maxProgress: 5,
-          unlocked: false,
-          reward: '获得1个月专业版'
-        },
-        {
-          id: 'streak_master',
-          title: '连续创作',
-          description: '连续7天创作视频',
-          icon: '🔥',
-          progress: 3,
-          maxProgress: 7,
-          unlocked: false,
-          reward: '获得创作灵感包'
-        },
-        {
-          id: 'quality_creator',
-          title: '品质创作者',
-          description: '获得100个点赞',
-          icon: '⭐',
-          progress: 45,
-          maxProgress: 100,
-          unlocked: false,
-          reward: '获得金牌创作者认证'
-        }
-      ]
+      // 模拟用户数据
+      const mockUserStats: UserStats = {
+        totalVideos: 15,
+        monthlyVideos: 8,
+        referralCount: 3,
+        socialShares: 12,
+        totalLikes: 156,
+        streakDays: 5,
+        freeVideosLeft: 2
+      }
 
-      setAchievements(mockAchievements)
+      setUserStats(mockUserStats)
       
-      // 计算用户等级
-      const monthlyVideos = 25 // 模拟数据
-      const tier = growthEngine.calculateUserTier(monthlyVideos)
-      setUserTier(tier)
+      // 使用成就系统计算成就
+      const achievementData = achievementSystem.getUserAchievements(mockUserStats)
+      setAchievements(achievementData)
+      setUserTier(achievementData.userTier)
     } catch (error) {
       console.error('获取成就数据失败:', error)
     } finally {
@@ -190,13 +148,13 @@ export default function AchievementsPage() {
         </Card>
 
         {/* 已解锁成就 */}
-        {unlockedAchievements.length > 0 && (
+        {achievements.unlocked.length > 0 && (
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              已解锁成就 ({unlockedAchievements.length})
+              已解锁成就 ({achievements.unlocked.length})
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {unlockedAchievements.map((achievement) => (
+              {achievements.unlocked.map((achievement: any) => (
                 <Card key={achievement.id} className="p-6 border-green-200 bg-green-50">
                   <div className="flex items-start space-x-4">
                     <div className="text-3xl">{achievement.icon}</div>
@@ -209,7 +167,7 @@ export default function AchievementsPage() {
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-green-600 font-medium">
-                          {achievement.reward}
+                          {achievement.rewards.freeVideos ? `获得${achievement.rewards.freeVideos}个免费视频` : achievement.rewards.badges?.[0] || '成就奖励'}
                         </span>
                         <span className="text-xs text-gray-500">
                           {achievement.unlockedAt?.toLocaleDateString()}
@@ -226,10 +184,10 @@ export default function AchievementsPage() {
         {/* 待解锁成就 */}
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            待解锁成就 ({lockedAchievements.length})
+            待解锁成就 ({achievements.locked.length})
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {lockedAchievements.map((achievement) => (
+            {achievements.locked.map((achievement: any) => (
               <Card key={achievement.id} className="p-6 border-gray-200">
                 <div className="flex items-start space-x-4">
                   <div className="text-3xl opacity-50">{achievement.icon}</div>
@@ -259,7 +217,7 @@ export default function AchievementsPage() {
 
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">
-                        {achievement.reward}
+                        {achievement.rewards.freeVideos ? `获得${achievement.rewards.freeVideos}个免费视频` : achievement.rewards.badges?.[0] || '成就奖励'}
                       </span>
                       <span className="text-xs text-gray-400">
                         还需 {achievement.maxProgress - achievement.progress} 步

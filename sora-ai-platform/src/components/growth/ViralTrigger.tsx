@@ -4,16 +4,24 @@ import React, { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
-import { VIRAL_TRIGGERS, ViralTrigger } from '@/lib/growth-engine'
+import { viralEngine, ViralEvent } from '@/lib/viral-engine'
 
 interface ViralTriggerProps {
   onTriggerAction?: (triggerId: string, action: string) => void
 }
 
 export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerProps) {
-  const [triggers, setTriggers] = useState<ViralTrigger[]>([])
+  const [triggers, setTriggers] = useState<ViralEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [userStats, setUserStats] = useState({
+    totalVideos: 15,
+    monthlyVideos: 8,
+    socialShares: 12,
+    referralCount: 3,
+    totalLikes: 156,
+    streakDays: 5
+  })
 
   useEffect(() => {
     fetchTriggers()
@@ -21,9 +29,9 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
 
   const fetchTriggers = async () => {
     try {
-      const response = await fetch('/api/growth/triggers')
-      const data = await response.json()
-      setTriggers(data.triggers || [])
+      // 使用病毒式传播引擎获取个性化事件
+      const personalizedTriggers = viralEngine.getPersonalizedEvents('user123', userStats)
+      setTriggers(personalizedTriggers)
     } catch (error) {
       console.error('获取触发器失败:', error)
     } finally {
@@ -34,19 +42,18 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
   const handleTriggerAction = async (triggerId: string, action: string) => {
     setActionLoading(triggerId)
     try {
-      const response = await fetch('/api/growth/triggers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ triggerId, action })
-      })
+      // 使用病毒式传播引擎处理事件
+      const result = await viralEngine.processViralEvent(triggerId, 'user123', action)
       
-      const result = await response.json()
       if (result.success) {
         // 显示成功消息
         alert(result.message)
         onTriggerAction?.(triggerId, action)
+        
+        // 刷新触发器列表
+        fetchTriggers()
       } else {
-        alert(result.error || '操作失败')
+        alert('操作失败')
       }
     } catch (error) {
       console.error('处理触发器失败:', error)
@@ -58,22 +65,24 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
 
   const getTriggerIcon = (type: string) => {
     switch (type) {
-      case 'social': return 'share'
-      case 'achievement': return 'trophy'
-      case 'scarcity': return 'clock'
-      case 'fear': return 'alert-triangle'
-      case 'surprise': return 'gift'
+      case 'social_currency': return 'share'
+      case 'trigger': return 'zap'
+      case 'emotion': return 'heart'
+      case 'public': return 'eye'
+      case 'practical': return 'tool'
+      case 'story': return 'book-open'
       default: return 'star'
     }
   }
 
   const getTriggerColor = (type: string) => {
     switch (type) {
-      case 'social': return 'bg-blue-500'
-      case 'achievement': return 'bg-yellow-500'
-      case 'scarcity': return 'bg-red-500'
-      case 'fear': return 'bg-orange-500'
-      case 'surprise': return 'bg-purple-500'
+      case 'social_currency': return 'bg-blue-500'
+      case 'trigger': return 'bg-yellow-500'
+      case 'emotion': return 'bg-pink-500'
+      case 'public': return 'bg-green-500'
+      case 'practical': return 'bg-purple-500'
+      case 'story': return 'bg-indigo-500'
       default: return 'bg-gray-500'
     }
   }
@@ -112,11 +121,12 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
         <Card 
           key={trigger.id} 
           className={`p-4 border-l-4 ${
-            trigger.type === 'achievement' ? 'border-l-green-500 bg-green-50' :
-            trigger.type === 'social' ? 'border-l-blue-500 bg-blue-50' :
-            trigger.type === 'scarcity' ? 'border-l-red-500 bg-red-50' :
-            trigger.type === 'fear' ? 'border-l-orange-500 bg-orange-50' :
-            'border-l-purple-500 bg-purple-50'
+            trigger.type === 'social_currency' ? 'border-l-blue-500 bg-blue-50' :
+            trigger.type === 'trigger' ? 'border-l-yellow-500 bg-yellow-50' :
+            trigger.type === 'emotion' ? 'border-l-pink-500 bg-pink-50' :
+            trigger.type === 'public' ? 'border-l-green-500 bg-green-50' :
+            trigger.type === 'practical' ? 'border-l-purple-500 bg-purple-50' :
+            'border-l-indigo-500 bg-indigo-50'
           }`}
         >
           <div className="flex items-start space-x-4">
