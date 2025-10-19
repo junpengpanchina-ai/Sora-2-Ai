@@ -78,9 +78,9 @@ export default function PricingPage() {
                 
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-gray-900">
-                    ¥{plan.price}
+                    {plan.price === 0 ? '免费' : `¥${plan.price}`}
                   </span>
-                  <span className="text-gray-600">/月</span>
+                  {plan.price > 0 && <span className="text-gray-600">/月</span>}
                 </div>
 
                 <ul className="space-y-3 mb-8 text-left">
@@ -97,31 +97,56 @@ export default function PricingPage() {
                   className={`w-full ${
                     key === 'pro' 
                       ? 'bg-primary-600 hover:bg-primary-700' 
+                      : key === 'free'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
                       : ''
                   }`}
-                  variant={key === 'pro' ? 'primary' : 'outline'}
+                  variant={key === 'pro' ? 'primary' : key === 'free' ? 'primary' : 'outline'}
                   size="lg"
                 >
-                  {session ? '立即订阅' : '登录后订阅'}
+                  {key === 'free' ? '立即开始' : session ? '立即订阅' : '登录后订阅'}
                 </Button>
               </div>
             </Card>
           ))}
         </div>
 
-        {/* 免费试用说明 */}
+        {/* 邀请奖励说明 */}
         <div className="mt-12 text-center">
-          <Card className="p-6 max-w-2xl mx-auto">
+          <Card className="p-6 max-w-4xl mx-auto">
             <div className="flex items-center justify-center mb-4">
-              <Icon name="star" className="h-8 w-8 text-yellow-500 mr-2" />
-              <h3 className="text-xl font-semibold text-gray-900">免费试用</h3>
+              <Icon name="gift" className="h-8 w-8 text-green-500 mr-2" />
+              <h3 className="text-xl font-semibold text-gray-900">邀请奖励计划</h3>
             </div>
-            <p className="text-gray-600 mb-4">
-              所有方案都提供7天免费试用，无需信用卡即可开始体验
+            <p className="text-gray-600 mb-6">
+              邀请好友注册，双方都能获得免费视频奖励！
             </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="text-center">
+                <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl font-bold text-green-600">1</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">注册即送</h4>
+                <p className="text-sm text-gray-600">新用户注册即获得1个10秒免费视频</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl font-bold text-blue-600">1</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">邀请1人</h4>
+                <p className="text-sm text-gray-600">邀请1人注册，获得1个15秒免费视频</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl font-bold text-purple-600">3</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">邀请3人</h4>
+                <p className="text-sm text-gray-600">邀请3人注册，获得3个15秒免费视频</p>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/auth/signup">
-                <Button size="lg">开始免费试用</Button>
+                <Button size="lg">立即注册</Button>
               </Link>
               <Link href="/generate">
                 <Button variant="outline" size="lg">先体验功能</Button>

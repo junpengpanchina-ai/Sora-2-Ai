@@ -33,11 +33,17 @@ const Header: React.FC = () => {
             </Link>
             {session && (
               <>
+                <Link href="/mvp" className="text-gray-700 hover:text-gray-900 font-medium">
+                  🚀 MVP
+                </Link>
+                <Link href="/achievements" className="text-gray-700 hover:text-gray-900">
+                  成就
+                </Link>
+                <Link href="/referral" className="text-gray-700 hover:text-gray-900">
+                  邀请
+                </Link>
                 <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
                   仪表板
-                </Link>
-                <Link href="/payments" className="text-gray-700 hover:text-gray-900">
-                  支付记录
                 </Link>
               </>
             )}

@@ -18,7 +18,7 @@ async function createProducts() {
       description: '适合个人用户的AI视频生成服务',
       metadata: {
         plan: 'basic',
-        videosPerMonth: '10',
+        videosPerMonth: '15',
         maxDuration: '10',
         maxResolution: '720p'
       }
@@ -26,7 +26,7 @@ async function createProducts() {
 
     const basicPrice = await stripe.prices.create({
       product: basicProduct.id,
-      unit_amount: 2900, // ¥29.00 (以分为单位)
+      unit_amount: 4900, // ¥49.00 (以分为单位)
       currency: 'cny',
       recurring: {
         interval: 'month'
@@ -46,7 +46,7 @@ async function createProducts() {
       description: '适合内容创作者的高级AI视频生成服务',
       metadata: {
         plan: 'pro',
-        videosPerMonth: '50',
+        videosPerMonth: '40',
         maxDuration: '15',
         maxResolution: '1080p'
       }
@@ -54,7 +54,7 @@ async function createProducts() {
 
     const proPrice = await stripe.prices.create({
       product: proProduct.id,
-      unit_amount: 9900, // ¥99.00 (以分为单位)
+      unit_amount: 19900, // ¥199.00 (以分为单位)
       currency: 'cny',
       recurring: {
         interval: 'month'
@@ -74,15 +74,15 @@ async function createProducts() {
       description: '适合团队和企业的企业级AI视频生成服务',
       metadata: {
         plan: 'enterprise',
-        videosPerMonth: 'unlimited',
-        maxDuration: '30',
+        videosPerMonth: '120',
+        maxDuration: '15',
         maxResolution: '4K'
       }
     });
 
     const enterprisePrice = await stripe.prices.create({
       product: enterpriseProduct.id,
-      unit_amount: 29900, // ¥299.00 (以分为单位)
+      unit_amount: 59900, // ¥599.00 (以分为单位)
       currency: 'cny',
       recurring: {
         interval: 'month'

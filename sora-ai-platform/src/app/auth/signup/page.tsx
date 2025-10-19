@@ -14,9 +14,19 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [referralCode, setReferralCode] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+
+  // 从URL参数获取邀请码
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const ref = urlParams.get('ref')
+    if (ref) {
+      setReferralCode(ref)
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,6 +50,7 @@ export default function SignUpPage() {
           name,
           email,
           password,
+          referralCode,
         }),
       })
 
@@ -156,6 +167,27 @@ export default function SignUpPage() {
                   placeholder="请再次输入密码"
                 />
               </div>
+            </div>
+
+            <div>
+              <label htmlFor="referralCode" className="block text-sm font-medium text-gray-700">
+                邀请码 <span className="text-gray-400">(可选)</span>
+              </label>
+              <div className="mt-1">
+                <Input
+                  id="referralCode"
+                  name="referralCode"
+                  type="text"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                  placeholder="请输入邀请码"
+                />
+              </div>
+              {referralCode && (
+                <p className="mt-1 text-sm text-green-600">
+                  🎉 使用邀请码注册，您和邀请人都将获得免费视频奖励！
+                </p>
+              )}
             </div>
 
             {error && (

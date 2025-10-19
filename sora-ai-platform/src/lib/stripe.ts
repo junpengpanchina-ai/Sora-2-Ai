@@ -17,16 +17,17 @@ export const SUBSCRIPTION_PLANS = {
   basic: {
     name: '基础版',
     description: '适合个人用户',
-    price: 29,
+    price: 49,
     priceId: 'price_1SJe367EnbQTQa8yPMxoe1dB', // 基础版价格ID
     features: [
-      '每月10个视频',
-      '基础视频质量',
+      '每月15个视频',
+      '10秒视频长度',
+      '720p视频质量',
       '标准支持',
       '社区访问'
     ],
     limits: {
-      videosPerMonth: 10,
+      videosPerMonth: 15,
       maxDuration: 10, // 秒
       maxResolution: '720p'
     }
@@ -34,17 +35,18 @@ export const SUBSCRIPTION_PLANS = {
   pro: {
     name: '专业版',
     description: '适合内容创作者',
-    price: 99,
+    price: 199,
     priceId: 'price_1SJe377EnbQTQa8y90ZshYnJ', // 专业版价格ID
     features: [
-      '每月50个视频',
-      '高清视频质量',
+      '每月40个视频',
+      '15秒视频长度',
+      '1080p视频质量',
       '优先支持',
       '高级模板',
       '批量处理'
     ],
     limits: {
-      videosPerMonth: 50,
+      videosPerMonth: 40,
       maxDuration: 15,
       maxResolution: '1080p'
     }
@@ -52,10 +54,11 @@ export const SUBSCRIPTION_PLANS = {
   enterprise: {
     name: '企业版',
     description: '适合团队和企业',
-    price: 299,
+    price: 599,
     priceId: 'price_1SJe387EnbQTQa8y46MdIgP0', // 企业版价格ID
     features: [
-      '无限视频生成',
+      '每月120个视频',
+      '15秒视频长度',
       '4K视频质量',
       '专属客服',
       'API访问',
@@ -63,8 +66,8 @@ export const SUBSCRIPTION_PLANS = {
       '自定义品牌'
     ],
     limits: {
-      videosPerMonth: -1, // 无限
-      maxDuration: 30,
+      videosPerMonth: 120,
+      maxDuration: 15,
       maxResolution: '4K'
     }
   }
