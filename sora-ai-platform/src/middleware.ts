@@ -8,40 +8,7 @@ export default createMiddleware({
   defaultLocale: 'en',
   
   // 语言检测策略
-  localeDetection: true,
-  
-  // 路径前缀策略
-  pathnames: {
-    '/': '/',
-    '/dashboard': {
-      en: '/dashboard',
-      zh: '/仪表板'
-    },
-    '/generate': {
-      en: '/generate',
-      zh: '/生成视频'
-    },
-    '/pricing': {
-      en: '/pricing',
-      zh: '/定价'
-    },
-    '/achievements': {
-      en: '/achievements',
-      zh: '/成就'
-    },
-    '/referral': {
-      en: '/referral',
-      zh: '/邀请'
-    },
-    '/mvp': {
-      en: '/mvp',
-      zh: '/mvp'
-    },
-    '/admin/performance': {
-      en: '/admin/performance',
-      zh: '/admin/性能'
-    }
-  }
+  localeDetection: true
 })
 
 export const config = {
