@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
             session.subscription as string
           )
 
+          // 更新用户订阅信息
           await prisma.user.update({
             where: { email: session.customer_email! },
             data: {
@@ -39,6 +40,30 @@ export async function POST(request: NextRequest) {
               subscriptionEndsAt: new Date((subscription as any).current_period_end * 1000),
             },
           })
+
+          // 创建支付记录
+          const user = await prisma.user.findUnique({
+            where: { email: session.customer_email! }
+          })
+
+          if (user) {
+            await prisma.payment.create({
+              data: {
+                stripePaymentId: session.payment_intent as string,
+                stripeSessionId: session.id,
+                stripeSubscriptionId: subscription.id,
+                amount: session.amount_total || 0,
+                currency: session.currency || 'cny',
+                status: 'succeeded',
+                paymentMethod: 'card',
+                description: `订阅 ${session.metadata?.plan || 'basic'} 计划`,
+                plan: session.metadata?.plan || 'basic',
+                billingPeriod: 'monthly',
+                paidAt: new Date(),
+                userId: user.id
+              }
+            })
+          }
         }
         break
       }
@@ -79,6 +104,78 @@ export async function POST(request: NextRequest) {
           data: {
             subscriptionStatus: 'past_due',
           },
+        })
+        break
+      }
+
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object as Stripe.Invoice
+        
+        // 查找对应的支付记录并更新
+        if (invoice.subscription) {
+          await prisma.payment.updateMany({
+            where: { stripeSubscriptionId: invoice.subscription as string },
+            data: {
+              status: 'succeeded',
+              paidAt: new Date(),
+            }
+          })
+        }
+        break
+      }
+
+      case 'charge.dispute.created': {
+        const dispute = event.data.object as Stripe.Dispute
+        
+        // 更新支付记录为争议状态
+        await prisma.payment.updateMany({
+          where: { stripePaymentId: dispute.payment_intent as string },
+          data: {
+            status: 'disputed',
+            refundReason: `争议: ${dispute.reason}`,
+          }
+        })
+        break
+      }
+
+      case 'charge.refunded': {
+        const charge = event.data.object as Stripe.Charge
+        
+        // 更新支付记录为已退款
+        await prisma.payment.updateMany({
+          where: { stripePaymentId: charge.payment_intent as string },
+          data: {
+            status: 'refunded',
+            refundedAmount: charge.amount_refunded,
+            refundedAt: new Date(),
+            refundReason: '用户申请退款',
+          }
+        })
+        break
+      }
+
+      case 'payment_intent.payment_failed': {
+        const paymentIntent = event.data.object as Stripe.PaymentIntent
+        
+        // 更新支付记录为失败状态
+        await prisma.payment.updateMany({
+          where: { stripePaymentId: paymentIntent.id },
+          data: {
+            status: 'failed',
+          }
+        })
+        break
+      }
+
+      case 'payment_intent.canceled': {
+        const paymentIntent = event.data.object as Stripe.PaymentIntent
+        
+        // 更新支付记录为取消状态
+        await prisma.payment.updateMany({
+          where: { stripePaymentId: paymentIntent.id },
+          data: {
+            status: 'canceled',
+          }
         })
         break
       }

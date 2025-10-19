@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Account {
@@ -16,12 +16,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -55,6 +55,7 @@ model User {
   accounts Account[]
   sessions Session[]
   videos   Video[]
+  payments Payment[]
 }
 
 model VerificationToken {
@@ -80,4 +81,39 @@ model Video {
   
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id                String   @id @default(cuid())
+  stripePaymentId   String   @unique // Stripe payment intent ID
+  stripeSessionId   String?  // Stripe checkout session ID
+  stripeSubscriptionId String? // Stripe subscription ID
+  amount            Int      // 金额（分）
+  currency          String   @default("cny") // 货币
+  status            String   // pending, succeeded, failed, canceled, refunded
+  paymentMethod     String?  // card, alipay, wechat
+  description       String?  // 支付描述
+  
+  // 退款相关
+  refundedAmount    Int      @default(0) // 已退款金额（分）
+  refundedAt        DateTime? // 退款时间
+  refundReason      String?  // 退款原因
+  
+  // 关联信息
+  plan              String?  // basic, pro, enterprise
+  billingPeriod     String?  // monthly, yearly
+  
+  // 时间戳
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  paidAt            DateTime? // 支付成功时间
+  
+  // 关联用户
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([stripePaymentId])
+  @@index([status])
+  @@index([createdAt])
 }

@@ -32,9 +32,14 @@ const Header: React.FC = () => {
               生成视频
             </Link>
             {session && (
-              <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
-                仪表板
-              </Link>
+              <>
+                <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
+                  仪表板
+                </Link>
+                <Link href="/payments" className="text-gray-700 hover:text-gray-900">
+                  支付记录
+                </Link>
+              </>
             )}
           </nav>
 
@@ -85,9 +90,14 @@ const Header: React.FC = () => {
                 生成视频
               </Link>
               {session && (
-                <Link href="/dashboard" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
-                  仪表板
-                </Link>
+                <>
+                  <Link href="/dashboard" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
+                    仪表板
+                  </Link>
+                  <Link href="/payments" className="block px-3 py-2 text-gray-700 hover:text-gray-900">
+                    支付记录
+                  </Link>
+                </>
               )}
               <div className="px-3 py-2">
                 {session ? (

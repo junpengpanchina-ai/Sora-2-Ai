@@ -1,9 +1,11 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { prisma } from "./prisma"
 
 export const authOptions: NextAuthOptions = {
-  // adapter: PrismaAdapter(prisma), // 暂时注释掉，避免数据库连接问题
+  adapter: PrismaAdapter(prisma), // 启用数据库适配器
   providers: [
     CredentialsProvider({
       name: "credentials",
