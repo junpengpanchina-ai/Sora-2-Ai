@@ -1,7 +1,3 @@
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
-import { notFound } from 'next/navigation'
-import { locales } from '@/i18n'
 import Header from '@/components/layout/Header'
 import ErrorBoundary from '@/components/ui/ErrorBoundary'
 import NotificationContainer from '@/components/ui/NotificationContainer'
@@ -16,25 +12,16 @@ export default async function LocaleLayout({
   params
 }: LocaleLayoutProps) {
   const { locale } = await params
-  // 验证语言是否支持
-  if (!locales.includes(locale as any)) {
-    notFound()
-  }
-
-  // 获取消息
-  const messages = await getMessages({ locale })
 
   return (
     <html lang={locale}>
       <body>
         <ErrorBoundary>
-          <NextIntlClientProvider messages={messages} locale={locale} timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}>
-            <Header />
-            <main>
-              {children}
-            </main>
-            <NotificationContainer />
-          </NextIntlClientProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+          <NotificationContainer />
         </ErrorBoundary>
       </body>
     </html>

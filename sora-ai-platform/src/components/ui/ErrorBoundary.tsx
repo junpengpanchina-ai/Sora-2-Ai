@@ -4,7 +4,6 @@ import React, { Component, ErrorInfo, ReactNode } from 'react'
 import { Card } from './Card'
 import { Button } from './Button'
 import { Icon } from './Icon'
-import { useTranslations } from '@/hooks/useTranslations'
 
 interface Props {
   children: ReactNode
@@ -40,27 +39,26 @@ export default class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback
       }
 
-      const LocalizedContent: React.FC<{ error?: Error; onRetry: () => void }> = ({ error, onRetry }) => {
-        const t = useTranslations()
+      const ErrorContent: React.FC<{ error?: Error; onRetry: () => void }> = ({ error, onRetry }) => {
         return (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
             <Card className="p-8 max-w-md w-full text-center">
               <div className="mb-6">
                 <Icon name="alert-triangle" className="h-16 w-16 text-red-500 mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  {t.errors('serverError')}
+                  Something went wrong
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  {t.errors('serverErrorDescription')}
+                  We encountered an unexpected error. Please try again.
                 </p>
                 <div className="text-sm text-gray-500 mb-4 space-y-1">
-                  <p>• {t.t('guidance.checkConnection')}</p>
-                  <p>• {t.t('guidance.tryLater')}</p>
-                  <p>• {t.t('guidance.contactSupport')}</p>
+                  <p>• Check your internet connection</p>
+                  <p>• Try again in a few moments</p>
+                  <p>• Contact support if the problem persists</p>
                 </div>
                 {process.env.NODE_ENV === 'development' && error && (
                   <details className="text-left text-sm text-gray-500 mb-4">
-                    <summary className="cursor-pointer">{t.notifications('info')}</summary>
+                    <summary className="cursor-pointer">Error Details</summary>
                     <pre className="mt-2 p-2 bg-gray-100 rounded overflow-auto">
                       {error.message}
                     </pre>
@@ -70,14 +68,14 @@ export default class ErrorBoundary extends Component<Props, State> {
 
               <div className="space-y-3">
                 <Button onClick={onRetry} className="w-full">
-                  {t.common('retry')}
+                  Try Again
                 </Button>
                 <Button 
                   onClick={() => window.location.reload()} 
                   variant="outline" 
                   className="w-full"
                 >
-                  {t.common('refresh')}
+                  Refresh Page
                 </Button>
               </div>
             </Card>
@@ -85,7 +83,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         )
       }
 
-      return <LocalizedContent error={this.state.error} onRetry={this.handleRetry} />
+      return <ErrorContent error={this.state.error} onRetry={this.handleRetry} />
     }
 
     return this.props.children
