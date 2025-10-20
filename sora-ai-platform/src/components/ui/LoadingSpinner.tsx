@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg'
@@ -10,9 +11,10 @@ interface LoadingSpinnerProps {
 
 export default function LoadingSpinner({ 
   size = 'md', 
-  text = '加载中...', 
+  text = '', 
   className = '' 
 }: LoadingSpinnerProps) {
+  const t = useTranslations()
   const sizeClasses = {
     sm: 'h-4 w-4',
     md: 'h-8 w-8',
@@ -24,6 +26,9 @@ export default function LoadingSpinner({
       <div className={`animate-spin rounded-full border-2 border-gray-300 border-t-primary-600 ${sizeClasses[size]}`}></div>
       {text && (
         <p className="mt-2 text-sm text-gray-600">{text}</p>
+      )}
+      {!text && (
+        <p className="mt-2 text-sm text-gray-600">{t.common('loading')}</p>
       )}
     </div>
   )

@@ -6,6 +6,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -14,6 +15,7 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: session } = useSession()
+  const t = useTranslations()
   const t = useTranslations()
 
   const handleSignOut = () => {
@@ -29,6 +31,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       <div 
         className="fixed inset-0 bg-black bg-opacity-50 z-40" 
         onClick={onClose}
+        aria-label={t.common('close')}
       />
       
       {/* 菜单面板 */}
@@ -39,6 +42,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <button
               onClick={onClose}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label={t.common('close')}
             >
               <Icon name="x" className="h-6 w-6 text-gray-600" />
             </button>

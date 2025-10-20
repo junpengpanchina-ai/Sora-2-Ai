@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Card } from './Card'
 import { Button } from './Button'
 import { Icon } from './Icon'
+import { useTranslations } from '@/hooks/useTranslations'
 
 export interface NotificationProps {
   id: string
@@ -27,6 +28,7 @@ export default function Notification({
   onClose,
   action
 }: NotificationProps) {
+  const t = useTranslations()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -86,6 +88,9 @@ export default function Notification({
   }
 
   const styles = getTypeStyles()
+  const resolvedTitle = title || t.notifications(type)
+  const resolvedMessage = message || ''
+  const resolvedActionLabel = action?.label || t.common('ok')
 
   return (
     <div
@@ -101,8 +106,10 @@ export default function Notification({
           />
           
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-medium text-gray-900">{title}</h4>
-            <p className="text-sm text-gray-600 mt-1">{message}</p>
+            <h4 className="text-sm font-medium text-gray-900">{resolvedTitle}</h4>
+            {resolvedMessage && (
+              <p className="text-sm text-gray-600 mt-1">{resolvedMessage}</p>
+            )}
             
             {action && (
               <div className="mt-3">
@@ -112,7 +119,7 @@ export default function Notification({
                   variant="outline"
                   className="text-xs"
                 >
-                  {action.label}
+                  {resolvedActionLabel}
                 </Button>
               </div>
             )}
@@ -124,6 +131,7 @@ export default function Notification({
               setTimeout(() => onClose(id), 300)
             }}
             className="flex-shrink-0 p-1 rounded-lg hover:bg-gray-200 transition-colors"
+            aria-label={t.common('close')}
           >
             <Icon name="x" className="h-4 w-4 text-gray-400" />
           </button>

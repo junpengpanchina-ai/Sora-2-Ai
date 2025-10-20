@@ -58,7 +58,8 @@
     "cookies": "Cookie",
     "actions": "操作",
     "retry": "重试",
-    "status": "状态"
+    "status": "状态",
+    "input": "输入"
   },
   "generate": {
     "title": "生成AI视频",
@@ -94,7 +95,7 @@
     "pollTimeout": "轮询超时",
     "fetchResultFailed": "获取结果失败",
     "pollFailed": "轮询失败"
-  }
+  },
   "navigation": {
     "home": "首页",
     "dashboard": "仪表板",

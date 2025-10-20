@@ -58,7 +58,9 @@
     "cookies": "Cookies",
     "actions": "Actions",
     "retry": "Retry",
-    "status": "Status"
+    "status": "Status",
+    "submit": "Submit",
+    "input": "Input"
   },
   "navigation": {
     "home": "Home",

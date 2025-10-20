@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from '@/hooks/useTranslations';
 import { cn } from '@/lib/utils';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -8,7 +9,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, helperText, ...props }, ref) => {
+  ({ className, label, error, helperText, placeholder, ...props }, ref) => {
+    const t = useTranslations();
     return (
       <div className="space-y-2">
         {label && (
@@ -23,6 +25,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           ref={ref}
+          placeholder={placeholder ?? (label ? undefined : t.common('input'))}
           {...props}
         />
         {error && (

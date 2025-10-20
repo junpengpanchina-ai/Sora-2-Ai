@@ -84,6 +84,7 @@ const Header: React.FC = () => {
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label={t.common('open')}
             >
               <Icon name="menu" className="h-6 w-6 text-gray-600" />
             </button>
