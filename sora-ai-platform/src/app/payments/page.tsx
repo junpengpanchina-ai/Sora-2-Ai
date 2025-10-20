@@ -123,33 +123,33 @@ export default function PaymentsPage() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">{t.pricing('title')}</h1>
-          <p className="mt-2 text-gray-600">{t.pricing('subtitle')}</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t.t('payments.title')}</h1>
+          <p className="mt-2 text-gray-600">{t.t('payments.subtitle')}</p>
         </div>
 
         {/* 统计信息 */}
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">{t.notifications('success')}</div>
+              <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.totalAmount')}</div>
               <div className="text-2xl font-bold text-gray-900">
                 {formatAmount(stats.totalAmount, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">{t.pricing('invitationReward.title')}</div>
+              <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.totalRefunded')}</div>
               <div className="text-2xl font-bold text-orange-600">
                 {formatAmount(stats.totalRefunded, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">Net</div>
+              <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.netAmount')}</div>
               <div className="text-2xl font-bold text-green-600">
                 {formatAmount(stats.netAmount, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">Success</div>
+              <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.successRate')}</div>
               <div className="text-2xl font-bold text-blue-600">
                 {stats.successRate.toFixed(1)}%
               </div>
@@ -162,7 +162,7 @@ export default function PaymentsPage() {
           <div className="flex flex-wrap gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t.common('filter')}
+                {t.t('payments.filters.status')}
               </label>
               <select
                 value={statusFilter}
@@ -170,16 +170,16 @@ export default function PaymentsPage() {
                 className="border border-gray-300 rounded-md px-3 py-2"
               >
                 <option value="">{t.common('all')}</option>
-                <option value="succeeded">{t.notifications('success')}</option>
-                <option value="failed">{t.notifications('error')}</option>
-                <option value="refunded">{t.pricing('invitationReward.title')}</option>
-                <option value="canceled">{t.common('cancel')}</option>
-                <option value="disputed">Disputed</option>
+                <option value="succeeded">{t.t('payments.status.succeeded')}</option>
+                <option value="failed">{t.t('payments.status.failed')}</option>
+                <option value="refunded">{t.t('payments.status.refunded')}</option>
+                <option value="canceled">{t.t('payments.status.canceled')}</option>
+                <option value="disputed">{t.t('payments.status.disputed')}</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t.pricing('title')}
+                {t.t('payments.filters.plan')}
               </label>
               <select
                 value={planFilter}
@@ -201,7 +201,7 @@ export default function PaymentsPage() {
                 }}
                 variant="outline"
               >
-                {t.common('reset')}
+                {t.t('payments.filters.reset')}
               </Button>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function PaymentsPage() {
             </div>
           ) : payments.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-gray-600">{t.notifications('info')}</p>
+              <p className="text-gray-600">{t.t('payments.empty')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -224,22 +224,22 @@ export default function PaymentsPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.notifications('info')}
+                      {t.t('payments.table.paymentInfo')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.pricing('title')}
+                      {t.t('payments.table.amount')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.common('status')}
+                      {t.t('payments.table.status')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.pricing('title')}
+                      {t.t('payments.table.plan')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.notifications('info')}
+                      {t.t('payments.table.paidAt')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {t.common('actions')}
+                      {t.t('payments.table.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -268,7 +268,7 @@ export default function PaymentsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(payment.status)}`}>
-                          {getStatusText(payment.status)}
+                          {t.t(`payments.status.${payment.status}` as any)}
                         </span>
                         {payment.refundReason && (
                           <div className="text-xs text-gray-500 mt-1">
@@ -310,14 +310,14 @@ export default function PaymentsPage() {
                   onClick={() => setPage(page - 1)}
                   disabled={page === 1}
                 >
-                  {t.common('previous')}
+                          {t.common('previous')}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setPage(page + 1)}
                   disabled={page === totalPages}
                 >
-                  {t.common('next')}
+                          {t.common('next')}
                 </Button>
               </div>
               <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">

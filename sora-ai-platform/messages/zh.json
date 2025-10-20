@@ -82,11 +82,11 @@
     "btnGenerate": "生成视频",
     "btnGenerating": "生成中...",
     "generatingTitle": "正在生成视频",
-    "generatingTip": "请稍候，AI正在为您创作...",
+    "generatingTip": "生成中，请稍候...",
     "progressLabel": "完成",
     "errorTitle": "生成失败",
     "successTitle": "生成完成",
-    "successTip": "您的AI视频已准备就绪",
+    "successTip": "视频已准备就绪",
     "downloadVideo": "下载视频",
     "shareVideo": "分享视频",
     "failedTitle": "生成失败",
@@ -430,5 +430,37 @@
     "errorOccurred": "发生错误",
     "tryAgain": "请重试",
     "networkError": "网络错误，请检查连接"
+  },
+  "payments": {
+    "title": "支付记录",
+    "subtitle": "查看您的所有支付与退款记录",
+    "stats": {
+      "totalAmount": "总支付金额",
+      "totalRefunded": "已退款金额",
+      "netAmount": "净收入",
+      "successRate": "成功率"
+    },
+    "filters": {
+      "status": "状态筛选",
+      "plan": "套餐筛选",
+      "reset": "重置筛选"
+    },
+    "table": {
+      "paymentInfo": "支付信息",
+      "amount": "金额",
+      "status": "状态",
+      "plan": "套餐",
+      "paidAt": "支付时间",
+      "actions": "操作"
+    },
+    "status": {
+      "succeeded": "支付成功",
+      "failed": "支付失败",
+      "refunded": "已退款",
+      "canceled": "已取消",
+      "disputed": "争议中",
+      "pending": "处理中"
+    },
+    "empty": "暂无支付记录"
   }
 }

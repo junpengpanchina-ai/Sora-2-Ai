@@ -398,6 +398,39 @@
     "networkError": "Network error, please check your connection"
   }
   ,
+  "payments": {
+    "title": "Payment History",
+    "subtitle": "View all your payments and refunds",
+    "stats": {
+      "totalAmount": "Total Amount",
+      "totalRefunded": "Total Refunded",
+      "netAmount": "Net Revenue",
+      "successRate": "Success Rate"
+    },
+    "filters": {
+      "status": "Status Filter",
+      "plan": "Plan Filter",
+      "reset": "Reset Filters"
+    },
+    "table": {
+      "paymentInfo": "Payment Info",
+      "amount": "Amount",
+      "status": "Status",
+      "plan": "Plan",
+      "paidAt": "Paid At",
+      "actions": "Actions"
+    },
+    "status": {
+      "succeeded": "Succeeded",
+      "failed": "Failed",
+      "refunded": "Refunded",
+      "canceled": "Canceled",
+      "disputed": "Disputed",
+      "pending": "Processing"
+    },
+    "empty": "No payment records yet"
+  }
+  ,
   "generate": {
     "title": "Generate AI Video",
     "subtitle": "Describe the video you want, and AI will create it for you.",
@@ -419,11 +452,11 @@
     "btnGenerate": "Generate Video",
     "btnGenerating": "Generating...",
     "generatingTitle": "Generating Video",
-    "generatingTip": "Please wait while AI is creating...",
+    "generatingTip": "Generating, please wait...",
     "progressLabel": "completed",
     "errorTitle": "Generation Failed",
     "successTitle": "Generation Complete",
-    "successTip": "Your AI video is ready",
+    "successTip": "Your video is ready.",
     "downloadVideo": "Download Video",
     "shareVideo": "Share Video",
     "failedTitle": "Generation Failed",
