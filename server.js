@@ -159,7 +159,7 @@ async function pollResult(ws, id) {
       } else {
         ws.send(JSON.stringify({ 
           type: 'timeout', 
-          message: '视频生成时间较长，请稍后手动查询结果' 
+          message: '视频生成时间较长，请稍后重试' 
         }));
       }
     } catch (error) {

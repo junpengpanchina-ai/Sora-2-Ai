@@ -8,9 +8,9 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Sora AI - 用AI创造无限可能',
-  description: '只需一句话，让AI为您生成专业级视频内容。从创意到成品，只需几分钟。',
-  keywords: ['AI视频生成', 'Sora', '视频制作', '人工智能'],
+  title: 'Sora AI - Create Unlimited Possibilities with AI',
+  description: 'Generate professional-grade video content with just one sentence. From idea to finished product in minutes.',
+  keywords: ['AI video generation', 'Sora', 'video creation', 'artificial intelligence'],
   authors: [{ name: 'Sora AI Team' }],
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body className={inter.className}>
         <ErrorBoundary>
           <SessionProvider>

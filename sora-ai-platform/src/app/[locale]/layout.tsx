@@ -8,13 +8,14 @@ import NotificationContainer from '@/components/ui/NotificationContainer'
 
 interface LocaleLayoutProps {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: LocaleLayoutProps) {
+  const { locale } = await params
   // 验证语言是否支持
   if (!locales.includes(locale as any)) {
     notFound()

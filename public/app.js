@@ -105,7 +105,7 @@ class SoraApp {
                 this.showError(data.message);
                 break;
             case 'timeout':
-                this.showError('视频生成时间较长，请稍后手动查询结果。任务ID: ' + this.currentTaskId);
+                this.showError('视频生成时间较长，请稍后重试');
                 break;
         }
     }
@@ -206,7 +206,7 @@ class SoraApp {
                     } else if (pollCount >= maxPolls) {
                         // 超时处理
                         clearInterval(pollInterval);
-                        this.showError('视频生成时间较长，请稍后手动查询结果。任务ID: ' + this.currentTaskId);
+                        this.showError('视频生成时间较长，请稍后重试');
                         this.isGenerating = false;
                         this.updateGenerateButton();
                     }
@@ -270,8 +270,7 @@ class SoraApp {
     handleGenerationResult(result) {
         if (result.code === 0) {
             this.currentTaskId = result.data.id;
-            document.getElementById('taskId').textContent = `任务ID: ${result.data.id}`;
-            document.getElementById('taskId').style.display = 'block';
+            // 任务ID仅用于内部处理，不显示给用户
         } else {
             this.showError(result.msg || '生成失败');
             this.isGenerating = false;
@@ -334,7 +333,6 @@ class SoraApp {
         document.getElementById('progressSection').style.display = 'block';
         document.getElementById('progressBar').style.width = '0%';
         document.getElementById('progressText').textContent = '准备中...';
-        document.getElementById('taskId').style.display = 'none';
     }
 
     // 显示错误

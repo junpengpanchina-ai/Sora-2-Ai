@@ -1,22 +1,9 @@
-import createMiddleware from 'next-intl/middleware'
-
-export default createMiddleware({
-  // 支持的语言列表
-  locales: ['en', 'zh'],
-  
-  // 默认语言
-  defaultLocale: 'en',
-  
-  // 语言检测策略
-  localeDetection: true
-})
+// 暂时禁用国际化中间件，先让基本功能工作
+export default function middleware() {
+  // 暂时不做任何处理
+}
 
 export const config = {
-  // 匹配所有路径，除了API路由、静态文件和Next.js内部文件
-  matcher: [
-    // 匹配所有路径
-    '/((?!api|_next|_vercel|.*\\..*).*)',
-    // 但是匹配根路径
-    '/'
-  ]
+  // 暂时不匹配任何路径
+  matcher: []
 }
