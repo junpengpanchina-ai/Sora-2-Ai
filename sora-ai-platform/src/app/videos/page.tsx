@@ -121,10 +121,10 @@ export default function VideosPage() {
             <Card className="p-12 text-center">
               <Icon name="video" className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {t.achievements('unlockedAchievements')}
+                {t.t('empty.noVideos')}
               </h3>
               <p className="text-gray-600 mb-6">
-                {t.home('subtitle')}
+                {t.t('hints.createFirstVideo')}
               </p>
               <Link href="/generate">
                 <Button size="lg">{t.mvp('quickActions.generateVideo')}</Button>

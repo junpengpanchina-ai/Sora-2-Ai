@@ -202,7 +202,7 @@ export default function ReferralPage() {
           {referralData?.rewards.length === 0 ? (
             <div className="text-center py-8">
               <Icon name="gift" className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">{t.referral('noRewards')}</p>
+              <p className="text-gray-500">{t.t('empty.noRewards')}</p>
               <p className="text-sm text-gray-400 mt-2">
                 {t.referral('automaticReward')}
               </p>

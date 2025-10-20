@@ -414,6 +414,20 @@
     "networkError": "网络错误",
     "networkErrorDescription": "请检查您的网络连接并重试。"
   },
+  "empty": {
+    "noData": "暂无数据",
+    "noVideos": "暂无视频",
+    "noPayments": "暂无支付记录",
+    "noRewards": "暂无奖励"
+  },
+  "hints": {
+    "createFirstVideo": "创建您的第一个 AI 视频以开始使用"
+  },
+  "guidance": {
+    "checkConnection": "请检查网络连接",
+    "tryLater": "稍后再试",
+    "contactSupport": "如问题仍存在，请联系支持"
+  },
   "notifications": {
     "success": "成功",
     "error": "错误",

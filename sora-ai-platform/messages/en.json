@@ -380,6 +380,20 @@
     "networkError": "Network Error",
     "networkErrorDescription": "Please check your internet connection and try again."
   },
+  "empty": {
+    "noData": "No data yet",
+    "noVideos": "No videos yet",
+    "noPayments": "No payment records yet",
+    "noRewards": "No rewards yet"
+  },
+  "hints": {
+    "createFirstVideo": "Create your first AI video to get started"
+  },
+  "guidance": {
+    "checkConnection": "Check your network connection",
+    "tryLater": "Try again later",
+    "contactSupport": "If the issue persists, contact support"
+  },
   "notifications": {
     "success": "Success",
     "error": "Error",

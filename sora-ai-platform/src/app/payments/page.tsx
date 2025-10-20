@@ -216,7 +216,7 @@ export default function PaymentsPage() {
             </div>
           ) : payments.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-gray-600">{t.t('payments.empty')}</p>
+              <p className="text-gray-600">{t.t('empty.noPayments')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
