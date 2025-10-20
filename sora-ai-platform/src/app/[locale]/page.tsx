@@ -1,6 +1,8 @@
 'use client'
 
 import React from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from '@/hooks/useTranslations'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -9,6 +11,22 @@ import Link from 'next/link'
 
 export default function HomePage() {
   const t = useTranslations()
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  const handleGetStarted = () => {
+    if (status === 'loading') {
+      return // 等待加载完成
+    }
+    
+    if (session) {
+      // 已登录，跳转到视频生成页面
+      router.push('/generate')
+    } else {
+      // 未登录，跳转到登录页面
+      router.push('/auth/signin')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -26,11 +44,14 @@ export default function HomePage() {
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
-                    <Link href="/generate">
-                      <Button size="lg" className="w-full">
-                        {t.home('getStarted')}
-                      </Button>
-                    </Link>
+                    <Button 
+                      size="lg" 
+                      className="w-full"
+                      onClick={handleGetStarted}
+                      disabled={status === 'loading'}
+                    >
+                      {status === 'loading' ? t.common('loading') : t.home('getStarted')}
+                    </Button>
                   </div>
                   <div className="mt-3 sm:mt-0 sm:ml-3">
                     <Link href="/pricing">
