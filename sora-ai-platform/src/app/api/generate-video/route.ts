@@ -1,79 +1,173 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { SoraAPI } from '@/lib/sora-api'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
+      return NextResponse.json(
+        { message: '请先登录' },
+        { status: 401 }
+      )
     }
 
-    const { prompt, url, aspectRatio, duration, size } = await request.json()
+    const { prompt, aspectRatio = '16:9', size = 'large' } = await request.json()
 
-    // 验证必填参数
-    if (!prompt || prompt.trim() === '') {
-      return NextResponse.json({ 
-        error: '提示词不能为空' 
-      }, { status: 400 })
+    if (!prompt) {
+      return NextResponse.json(
+        { message: '请输入视频描述' },
+        { status: 400 }
+      )
     }
 
-    // 验证参数值
-    const validAspectRatios = ['9:16', '16:9']
-    const validDurations = [10, 15]
-    const validSizes = ['small', 'large']
-
-    if (aspectRatio && !validAspectRatios.includes(aspectRatio)) {
-      return NextResponse.json({ 
-        error: '不支持的视频比例' 
-      }, { status: 400 })
-    }
-
-    if (duration && !validDurations.includes(duration)) {
-      return NextResponse.json({ 
-        error: '不支持的视频时长' 
-      }, { status: 400 })
-    }
-
-    if (size && !validSizes.includes(size)) {
-      return NextResponse.json({ 
-        error: '不支持的视频质量' 
-      }, { status: 400 })
-    }
-
-    // 调用Sora2 API生成视频
-    const soraAPI = new SoraAPI()
-    const response = await soraAPI.generateVideo({
-      prompt,
-      url,
-      aspectRatio: aspectRatio || '9:16',
-      duration: duration || 10,
-      size: size || 'small'
+    // 检查用户剩余视频数
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id }
     })
 
-    if (response.code === 0 && response.data?.id) {
-      return NextResponse.json({
-        success: true,
+    if (!user) {
+      return NextResponse.json(
+        { message: '用户不存在' },
+        { status: 404 }
+      )
+    }
+
+    if (user.freeVideosLeft <= 0 && user.subscriptionPlan === 'free') {
+      return NextResponse.json(
+        { message: '免费视频次数已用完，请升级套餐' },
+        { status: 403 }
+      )
+    }
+
+    // 创建视频记录
+    const video = await prisma.video.create({
+      data: {
+        title: prompt.substring(0, 50),
+        prompt,
+        aspectRatio,
+        size,
+        status: 'pending',
+        progress: 0,
+        userId: session.user.id
+      }
+    })
+
+    // 减少用户免费视频数
+    if (user.subscriptionPlan === 'free') {
+      await prisma.user.update({
+        where: { id: session.user.id },
         data: {
-          id: response.data.id,
-          message: '视频生成任务已创建'
+          freeVideosLeft: { decrement: 1 }
         }
       })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: response.msg || '视频生成失败'
-      }, { status: 400 })
     }
+
+    // 模拟视频生成过程
+    setTimeout(async () => {
+      try {
+        // 更新进度
+        await prisma.video.update({
+          where: { id: video.id },
+          data: { progress: 25 }
+        })
+
+        // 模拟 API 调用
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        
+        await prisma.video.update({
+          where: { id: video.id },
+          data: { progress: 50 }
+        })
+
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        
+        await prisma.video.update({
+          where: { id: video.id },
+          data: { 
+            progress: 100,
+            status: 'completed',
+            url: `https://example.com/videos/${video.id}.mp4`,
+            duration: 15
+          }
+        })
+      } catch (error) {
+        console.error('视频生成错误:', error)
+        await prisma.video.update({
+          where: { id: video.id },
+          data: { 
+            status: 'failed',
+            progress: 0
+          }
+        })
+      }
+    }, 1000)
+
+    return NextResponse.json({
+      message: '视频生成已开始',
+      video: {
+        id: video.id,
+        status: video.status,
+        progress: video.progress
+      }
+    })
+
   } catch (error) {
-    console.error('生成视频错误:', error)
+    console.error('视频生成错误:', error)
     return NextResponse.json(
-      { 
-        success: false,
-        error: '生成视频失败: ' + (error instanceof Error ? error.message : '未知错误')
-      },
+      { message: '视频生成失败' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { message: '请先登录' },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const videoId = searchParams.get('id')
+
+    if (videoId) {
+      // 获取单个视频
+      const video = await prisma.video.findFirst({
+        where: {
+          id: videoId,
+          userId: session.user.id
+        }
+      })
+
+      if (!video) {
+        return NextResponse.json(
+          { message: '视频不存在' },
+          { status: 404 }
+        )
+      }
+
+      return NextResponse.json({ video })
+    } else {
+      // 获取用户所有视频
+      const videos = await prisma.video.findMany({
+        where: { userId: session.user.id },
+        orderBy: { createdAt: 'desc' }
+      })
+
+      return NextResponse.json({ videos })
+    }
+
+  } catch (error) {
+    console.error('获取视频错误:', error)
+    return NextResponse.json(
+      { message: '获取视频失败' },
       { status: 500 }
     )
   }

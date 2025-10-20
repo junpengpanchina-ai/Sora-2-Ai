@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,11 +36,19 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // 加密密码
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    // 生成邀请码
+    const referralCode = `${name.toLowerCase().replace(/\s+/g, '')}${Math.random().toString(36).substr(2, 6)}`
+
     // 创建用户
     const user = await prisma.user.create({
       data: {
         name,
         email,
+        password: hashedPassword,
+        referralCode,
         referredBy: referrerId,
         freeVideosLeft: 1, // 注册送1个免费视频
         subscriptionPlan: 'free'

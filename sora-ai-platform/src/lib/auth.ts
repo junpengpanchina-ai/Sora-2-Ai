@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "./prisma"
+import bcrypt from 'bcryptjs'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma), // 启用数据库适配器
@@ -18,17 +19,28 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        // 简化的认证逻辑，实际应用中应该连接数据库
-        if (credentials.email === 'admin@example.com' && credentials.password === 'password') {
-          return {
-            id: '1',
-            email: credentials.email,
-            name: 'Admin User',
-            image: null,
-          }
+        // 从数据库查找用户
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email }
+        })
+
+        if (!user || !user.password) {
+          return null
         }
+
+        // 验证密码
+        const isValidPassword = await bcrypt.compare(credentials.password, user.password)
         
-        return null
+        if (!isValidPassword) {
+          return null
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: user.image,
+        }
       }
     }),
     GoogleProvider({

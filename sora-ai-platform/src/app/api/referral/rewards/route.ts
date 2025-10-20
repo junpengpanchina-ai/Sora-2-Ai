@@ -8,40 +8,62 @@ export async function GET(request: NextRequest) {
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 })
+      return NextResponse.json(
+        { message: '请先登录' },
+        { status: 401 }
+      )
     }
 
-    // 获取用户的邀请奖励
-    const rewards = await prisma.referralReward.findMany({
-      where: { referrerId: session.user.id },
-      include: {
-        referee: {
-          select: {
-            name: true,
-            email: true,
-            createdAt: true
-          }
-        }
-      },
-      orderBy: { createdAt: 'desc' }
-    })
-
-    // 获取用户信息
+    // 获取用户的推荐统计
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: {
-        referralCode: true,
-        referralCount: true,
-        freeVideosLeft: true
+      include: {
+        referralRewardsGiven: {
+          include: {
+            referee: {
+              select: { name: true, email: true, createdAt: true }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        },
+        referralRewardsReceived: {
+          include: {
+            referrer: {
+              select: { name: true, email: true }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        }
       }
     })
 
+    if (!user) {
+      return NextResponse.json(
+        { message: '用户不存在' },
+        { status: 404 }
+      )
+    }
+
+    // 获取推荐奖励统计
+    const stats = {
+      totalReferrals: user.referralCount,
+      totalRewardsGiven: user.referralRewardsGiven.length,
+      totalRewardsReceived: user.referralRewardsReceived.length,
+      referralCode: user.referralCode,
+      inviteLink: user.referralCode ? `${process.env.NEXTAUTH_URL}/auth/signup?ref=${user.referralCode}` : null
+    }
+
     return NextResponse.json({
-      user,
-      rewards
+      stats,
+      rewardsGiven: user.referralRewardsGiven,
+      rewardsReceived: user.referralRewardsReceived
     })
+
   } catch (error) {
-    console.error('获取邀请奖励失败:', error)
-    return NextResponse.json({ error: '获取邀请奖励失败' }, { status: 500 })
+    console.error('获取推荐奖励错误:', error)
+    return NextResponse.json(
+      { message: '获取推荐奖励失败' },
+      { status: 500 }
+    )
   }
 }
