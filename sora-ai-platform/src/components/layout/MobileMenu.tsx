@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -13,6 +14,7 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: session } = useSession()
+  const t = useTranslations()
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' })
@@ -53,7 +55,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   <p className="font-medium text-gray-900">
                     {session.user?.name || session.user?.email}
                   </p>
-                  <p className="text-sm text-gray-500">创作者</p>
+                  <p className="text-sm text-gray-500">{t.common('profile')}</p>
                 </div>
               </div>
             </div>
@@ -67,7 +69,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
             >
               <Icon name="home" className="h-5 w-5 text-gray-600" />
-              <span className="text-gray-700">首页</span>
+              <span className="text-gray-700">{t.nav('home')}</span>
             </Link>
             
             <Link 
@@ -76,7 +78,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
             >
               <Icon name="video" className="h-5 w-5 text-gray-600" />
-              <span className="text-gray-700">生成视频</span>
+              <span className="text-gray-700">{t.nav('generate')}</span>
             </Link>
 
             {session && (
@@ -87,7 +89,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                 >
                   <Icon name="rocket" className="h-5 w-5 text-gray-600" />
-                  <span className="text-gray-700">🚀 MVP</span>
+                  <span className="text-gray-700">{t.nav('mvp')}</span>
                 </Link>
                 
                 <Link 
@@ -96,7 +98,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                 >
                   <Icon name="trophy" className="h-5 w-5 text-gray-600" />
-                  <span className="text-gray-700">成就</span>
+                  <span className="text-gray-700">{t.nav('achievements')}</span>
                 </Link>
                 
                 <Link 
@@ -105,7 +107,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                 >
                   <Icon name="users" className="h-5 w-5 text-gray-600" />
-                  <span className="text-gray-700">邀请</span>
+                  <span className="text-gray-700">{t.nav('referral')}</span>
                 </Link>
                 
                 <Link 
@@ -114,7 +116,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                 >
                   <Icon name="bar-chart" className="h-5 w-5 text-gray-600" />
-                  <span className="text-gray-700">仪表板</span>
+                  <span className="text-gray-700">{t.nav('dashboard')}</span>
                 </Link>
               </>
             )}
@@ -129,19 +131,19 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   variant="outline"
                   className="w-full"
                 >
-                  退出登录
+                  {t.common('logout')}
                 </Button>
               </div>
             ) : (
               <div className="space-y-3">
                 <Link href="/auth/signin" onClick={onClose}>
                   <Button variant="outline" className="w-full">
-                    登录
+                    {t.common('login')}
                   </Button>
                 </Link>
                 <Link href="/auth/signup" onClick={onClose}>
                   <Button className="w-full">
-                    注册
+                    {t.common('register')}
                   </Button>
                 </Link>
               </div>

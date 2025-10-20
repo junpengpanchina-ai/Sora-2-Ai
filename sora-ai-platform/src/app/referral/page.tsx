@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface ReferralData {
   user: {
@@ -27,6 +28,7 @@ interface ReferralData {
 }
 
 export default function ReferralPage() {
+  const t = useTranslations()
   const { data: session } = useSession()
   const [referralData, setReferralData] = useState<ReferralData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -93,10 +95,10 @@ export default function ReferralPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">请先登录</h2>
-          <p className="text-gray-600 mb-6">登录后即可查看您的邀请奖励</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.errors('unauthorized')}</h2>
+          <p className="text-gray-600 mb-6">{t.referral('subtitle')}</p>
           <Button onClick={() => window.location.href = '/auth/signin'}>
-            立即登录
+            {t.common('signin')}
           </Button>
         </Card>
       </div>
@@ -108,7 +110,7 @@ export default function ReferralPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">{t.common('loading')}</p>
         </div>
       </div>
     )
@@ -119,10 +121,10 @@ export default function ReferralPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            邀请奖励中心
+            {t.referral('title')}
           </h1>
           <p className="text-xl text-gray-600">
-            邀请好友注册，获得免费视频奖励
+            {t.referral('inviteCodeDescription')}
           </p>
         </div>
 
@@ -130,14 +132,14 @@ export default function ReferralPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="p-6 text-center">
             <Icon name="gift" className="h-12 w-12 text-green-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">我的邀请码</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.referral('myInviteCode')}</h3>
             {referralData?.user.referralCode ? (
               <div>
                 <p className="text-2xl font-bold text-primary-600 mb-2">
                   {referralData.user.referralCode}
                 </p>
                 <p className="text-sm text-gray-600">
-                  分享此邀请码给好友
+                  {t.referral('inviteCodeDescription')}
                 </p>
               </div>
             ) : (
@@ -146,7 +148,7 @@ export default function ReferralPage() {
                 loading={generating}
                 className="w-full"
               >
-                生成邀请码
+                {t.referral('generateCode')}
               </Button>
             )}
           </Card>
@@ -173,7 +175,7 @@ export default function ReferralPage() {
         {/* 邀请链接 */}
         {referralData?.user.referralCode && (
           <Card className="p-6 mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">邀请链接</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.referral('inviteLink')}</h3>
             <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="text"
@@ -184,11 +186,11 @@ export default function ReferralPage() {
               <Button
                 onClick={() => {
                   navigator.clipboard.writeText(`${window.location.origin}/auth/signup?ref=${referralData.user.referralCode}`)
-                  alert('邀请链接已复制到剪贴板')
+                  alert(t.referral('linkCopied'))
                 }}
                 variant="outline"
               >
-                复制链接
+                {t.referral('copyLink')}
               </Button>
             </div>
           </Card>
@@ -196,13 +198,13 @@ export default function ReferralPage() {
 
         {/* 奖励记录 */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">奖励记录</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">{t.referral('myRewards')}</h3>
           {referralData?.rewards.length === 0 ? (
             <div className="text-center py-8">
               <Icon name="gift" className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">暂无奖励记录</p>
+              <p className="text-gray-500">{t.referral('noRewards')}</p>
               <p className="text-sm text-gray-400 mt-2">
-                邀请好友注册后，奖励将显示在这里
+                {t.referral('automaticReward')}
               </p>
             </div>
           ) : (
@@ -221,7 +223,7 @@ export default function ReferralPage() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">
-                        邀请 {reward.referee.name || reward.referee.email} 注册
+                        {t.referral('rewards.rewardedOn', { date: new Date(reward.createdAt).toLocaleDateString() })}
                       </p>
                       <p className="text-sm text-gray-500">
                         {new Date(reward.createdAt).toLocaleDateString()}
@@ -234,7 +236,7 @@ export default function ReferralPage() {
                         {reward.rewardCount}个{reward.rewardType === 'video_10s' ? '10秒' : '15秒'}视频
                       </p>
                       <p className={`text-sm ${reward.claimed ? 'text-green-600' : 'text-yellow-600'}`}>
-                        {reward.claimed ? '已领取' : '待领取'}
+                        {reward.claimed ? t.referral('rewards.claimed') : t.referral('rewards.pending')}
                       </p>
                     </div>
                     {!reward.claimed && (
@@ -242,7 +244,7 @@ export default function ReferralPage() {
                         onClick={() => claimReward(reward.id)}
                         size="sm"
                       >
-                        领取
+                        {t.referral('rewards.claim')}
                       </Button>
                     )}
                   </div>

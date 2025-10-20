@@ -28,7 +28,7 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <ErrorBoundary>
-          <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages} locale={locale} timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}>
             <Header />
             <main>
               {children}

@@ -8,8 +8,10 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
+import { useTranslations } from '@/hooks/useTranslations'
 
 export default function SignUpPage() {
+  const t = useTranslations()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,7 +36,7 @@ export default function SignUpPage() {
     setError('')
 
     if (password !== confirmPassword) {
-      setError('密码不匹配')
+      setError(t.auth('confirmPassword'))
       setIsLoading(false)
       return
     }
@@ -67,10 +69,10 @@ export default function SignUpPage() {
         }
       } else {
         const data = await response.json()
-        setError(data.message || '注册失败')
+        setError(data.message || t.common('error'))
       }
     } catch (error) {
-      setError('注册时发生错误')
+      setError(t.notifications('errorOccurred'))
     } finally {
       setIsLoading(false)
     }
@@ -84,11 +86,11 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">创建新账户</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{t.auth('signUpTitle')}</h2>
           <p className="mt-2 text-sm text-gray-600">
-            已有账户？{' '}
+            {t.auth('alreadyHaveAccount')}{' '}
             <Link href="/auth/signin" className="font-medium text-primary-600 hover:text-primary-500">
-              立即登录
+              {t.auth('signIn')}
             </Link>
           </p>
         </div>
@@ -99,7 +101,7 @@ export default function SignUpPage() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                姓名
+                {t.auth('name')}
               </label>
               <div className="mt-1">
                 <Input
@@ -110,14 +112,14 @@ export default function SignUpPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="请输入您的姓名"
+                  placeholder={t.auth('name')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                邮箱地址
+                {t.auth('email')}
               </label>
               <div className="mt-1">
                 <Input
@@ -128,14 +130,14 @@ export default function SignUpPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="请输入您的邮箱"
+                  placeholder={t.auth('email')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                密码
+                {t.auth('password')}
               </label>
               <div className="mt-1">
                 <Input
@@ -146,14 +148,14 @@ export default function SignUpPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="请输入密码"
+                  placeholder={t.auth('password')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                确认密码
+                {t.auth('confirmPassword')}
               </label>
               <div className="mt-1">
                 <Input
@@ -164,14 +166,14 @@ export default function SignUpPage() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="请再次输入密码"
+                  placeholder={t.auth('confirmPassword')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="referralCode" className="block text-sm font-medium text-gray-700">
-                邀请码 <span className="text-gray-400">(可选)</span>
+                {t.auth('referralCode')} <span className="text-gray-400">(Optional)</span>
               </label>
               <div className="mt-1">
                 <Input
@@ -180,12 +182,12 @@ export default function SignUpPage() {
                   type="text"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value)}
-                  placeholder="请输入邀请码"
+                  placeholder={t.auth('referralCodePlaceholder')}
                 />
               </div>
               {referralCode && (
                 <p className="mt-1 text-sm text-green-600">
-                  🎉 使用邀请码注册，您和邀请人都将获得免费视频奖励！
+                  🎉 {t.auth('referralCodeDescription')}
                 </p>
               )}
             </div>
@@ -201,7 +203,7 @@ export default function SignUpPage() {
                 className="w-full"
                 size="lg"
               >
-                注册
+                {t.common('signup')}
               </Button>
             </div>
           </form>
@@ -212,7 +214,7 @@ export default function SignUpPage() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">或使用以下方式注册</span>
+                <span className="px-2 bg-white text-gray-500">{t.auth('signUpWithGoogle')}</span>
               </div>
             </div>
 
@@ -223,7 +225,7 @@ export default function SignUpPage() {
                 className="w-full"
               >
                 <Icon name="google" className="w-5 h-5 mr-2" />
-                Google 快速注册
+                {t.auth('signUpWithGoogle')}
               </Button>
             </div>
           </div>

@@ -5,12 +5,14 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { viralEngine, ViralEvent } from '@/lib/viral-engine'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface ViralTriggerProps {
   onTriggerAction?: (triggerId: string, action: string) => void
 }
 
 export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerProps) {
+  const t = useTranslations()
   const [triggers, setTriggers] = useState<ViralEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
@@ -53,11 +55,11 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
         // 刷新触发器列表
         fetchTriggers()
       } else {
-        alert('操作失败')
+        alert(t.notifications('errorOccurred'))
       }
     } catch (error) {
       console.error('处理触发器失败:', error)
-      alert('操作失败')
+      alert(t.notifications('errorOccurred'))
     } finally {
       setActionLoading(null)
     }
@@ -109,8 +111,8 @@ export default function ViralTriggerComponent({ onTriggerAction }: ViralTriggerP
     return (
       <Card className="p-8 text-center">
         <Icon name="zap" className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">暂无触发器</h3>
-        <p className="text-gray-500">继续使用平台，触发更多个性化推荐</p>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.notifications('info')}</h3>
+        <p className="text-gray-500">{t.mvp('personalizedRecommendations')}</p>
       </Card>
     )
   }

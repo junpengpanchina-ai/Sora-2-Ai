@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { achievementSystem, USER_TIERS } from '@/lib/achievement-system'
 import { viralEngine } from '@/lib/viral-engine'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface UserStats {
   totalVideos: number
@@ -19,6 +20,7 @@ interface UserStats {
 }
 
 export default function AchievementsPage() {
+  const t = useTranslations()
   const { data: session } = useSession()
   const [userStats, setUserStats] = useState<UserStats>({
     totalVideos: 0,
@@ -73,10 +75,10 @@ export default function AchievementsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">请先登录</h2>
-          <p className="text-gray-600 mb-6">登录后即可查看您的成就和等级</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.errors('unauthorized')}</h2>
+          <p className="text-gray-600 mb-6">{t.achievements('subtitle')}</p>
           <Button onClick={() => window.location.href = '/auth/signin'}>
-            立即登录
+            {t.common('signin')}
           </Button>
         </Card>
       </div>
@@ -88,7 +90,7 @@ export default function AchievementsPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">{t.common('loading')}</p>
         </div>
       </div>
     )
@@ -110,14 +112,14 @@ export default function AchievementsPage() {
             {userTier.name}
           </h1>
           <p className="text-xl text-gray-600 mb-6">
-            您已解锁专属特权，继续创作获得更多奖励！
+            {t.achievements('subtitle')}
           </p>
           
           {/* 等级进度条 */}
           <div className="max-w-md mx-auto">
             <div className="flex justify-between text-sm text-gray-600 mb-2">
-              <span>当前等级</span>
-              <span>下一等级</span>
+              <span>{t.achievements('userLevel')}</span>
+              <span>{t.achievements('levels.silver.name')}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3">
               <div 
@@ -129,14 +131,14 @@ export default function AchievementsPage() {
               ></div>
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              距离下一等级还需 5 个视频
+              {t.achievements('achievementProgress')}
             </p>
           </div>
         </div>
 
         {/* 特权展示 */}
         <Card className="p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">当前特权</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.achievements('quickActions.title')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {userTier.benefits.map((benefit, index) => (
               <div key={index} className="flex items-center space-x-3">
@@ -151,7 +153,7 @@ export default function AchievementsPage() {
         {achievements.unlocked.length > 0 && (
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              已解锁成就 ({achievements.unlocked.length})
+              {t.achievements('unlockedAchievements')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {achievements.unlocked.map((achievement: any) => (
@@ -167,7 +169,7 @@ export default function AchievementsPage() {
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-green-600 font-medium">
-                          {achievement.rewards.freeVideos ? `获得${achievement.rewards.freeVideos}个免费视频` : achievement.rewards.badges?.[0] || '成就奖励'}
+                          {achievement.rewards.freeVideos ? t.achievements('rewards.freeVideos', { count: achievement.rewards.freeVideos }) : achievement.rewards.badges?.[0] || t.notifications('success')}
                         </span>
                         <span className="text-xs text-gray-500">
                           {achievement.unlockedAt?.toLocaleDateString()}
@@ -184,7 +186,7 @@ export default function AchievementsPage() {
         {/* 待解锁成就 */}
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            待解锁成就 ({achievements.locked.length})
+            {t.achievements('lockedAchievements')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {achievements.locked.map((achievement: any) => (
@@ -202,7 +204,7 @@ export default function AchievementsPage() {
                     {/* 进度条 */}
                     <div className="mb-3">
                       <div className="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>进度</span>
+                        <span>{t.achievements('achievementProgress')}</span>
                         <span>{achievement.progress}/{achievement.maxProgress}</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -217,10 +219,10 @@ export default function AchievementsPage() {
 
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">
-                        {achievement.rewards.freeVideos ? `获得${achievement.rewards.freeVideos}个免费视频` : achievement.rewards.badges?.[0] || '成就奖励'}
+                        {achievement.rewards.freeVideos ? t.achievements('rewards.freeVideos', { count: achievement.rewards.freeVideos }) : achievement.rewards.badges?.[0] || t.notifications('success')}
                       </span>
                       <span className="text-xs text-gray-400">
-                        还需 {achievement.maxProgress - achievement.progress} 步
+                        {achievement.maxProgress - achievement.progress}
                       </span>
                     </div>
                   </div>
@@ -234,17 +236,17 @@ export default function AchievementsPage() {
         <div className="mt-12 text-center">
           <Card className="p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              继续创作，解锁更多成就！
+              {t.mvp('quickActions.title')}
             </h3>
             <p className="text-gray-600 mb-6">
-              每个成就都有独特的奖励，让您的创作之旅更加精彩
+              {t.mvp('personalizedRecommendations')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" onClick={() => window.location.href = '/generate'}>
-                立即创作
+                {t.home('getStarted')}
               </Button>
               <Button variant="outline" size="lg" onClick={() => window.location.href = '/referral'}>
-                邀请好友
+                {t.referral('title')}
               </Button>
             </div>
           </Card>

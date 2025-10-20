@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface Payment {
   id: string
@@ -31,6 +32,7 @@ interface PaymentStats {
 }
 
 export default function PaymentsPage() {
+  const t = useTranslations()
   const { data: session } = useSession()
   const [payments, setPayments] = useState<Payment[]>([])
   const [stats, setStats] = useState<PaymentStats | null>(null)
@@ -73,14 +75,14 @@ export default function PaymentsPage() {
   }, [session, page, statusFilter, planFilter])
 
   const formatAmount = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('zh-CN', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currency.toUpperCase(),
     }).format(amount / 100)
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('zh-CN')
+    return new Date(dateString).toLocaleString()
   }
 
   const getStatusColor = (status: string) => {
@@ -110,8 +112,8 @@ export default function PaymentsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">请先登录</h1>
-          <p className="text-gray-600">您需要登录才能查看支付记录</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t.errors('unauthorized')}</h1>
+          <p className="text-gray-600">{t.pricing('subtitle')}</p>
         </div>
       </div>
     )
@@ -121,33 +123,33 @@ export default function PaymentsPage() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">支付记录</h1>
-          <p className="mt-2 text-gray-600">查看您的所有支付和退款记录</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t.pricing('title')}</h1>
+          <p className="mt-2 text-gray-600">{t.pricing('subtitle')}</p>
         </div>
 
         {/* 统计信息 */}
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">总支付金额</div>
+              <div className="text-sm font-medium text-gray-500">{t.notifications('success')}</div>
               <div className="text-2xl font-bold text-gray-900">
                 {formatAmount(stats.totalAmount, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">已退款金额</div>
+              <div className="text-sm font-medium text-gray-500">{t.pricing('invitationReward.title')}</div>
               <div className="text-2xl font-bold text-orange-600">
                 {formatAmount(stats.totalRefunded, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">净收入</div>
+              <div className="text-sm font-medium text-gray-500">Net</div>
               <div className="text-2xl font-bold text-green-600">
                 {formatAmount(stats.netAmount, 'cny')}
               </div>
             </Card>
             <Card className="p-6">
-              <div className="text-sm font-medium text-gray-500">成功率</div>
+              <div className="text-sm font-medium text-gray-500">Success</div>
               <div className="text-2xl font-bold text-blue-600">
                 {stats.successRate.toFixed(1)}%
               </div>
@@ -160,34 +162,34 @@ export default function PaymentsPage() {
           <div className="flex flex-wrap gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                状态筛选
+                {t.common('filter')}
               </label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2"
               >
-                <option value="">全部状态</option>
-                <option value="succeeded">支付成功</option>
-                <option value="failed">支付失败</option>
-                <option value="refunded">已退款</option>
-                <option value="canceled">已取消</option>
-                <option value="disputed">争议中</option>
+                <option value="">{t.common('all')}</option>
+                <option value="succeeded">{t.notifications('success')}</option>
+                <option value="failed">{t.notifications('error')}</option>
+                <option value="refunded">{t.pricing('invitationReward.title')}</option>
+                <option value="canceled">{t.common('cancel')}</option>
+                <option value="disputed">Disputed</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                计划筛选
+                {t.pricing('title')}
               </label>
               <select
                 value={planFilter}
                 onChange={(e) => setPlanFilter(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2"
               >
-                <option value="">全部计划</option>
-                <option value="basic">基础版</option>
-                <option value="pro">专业版</option>
-                <option value="enterprise">企业版</option>
+                <option value="">{t.common('all')}</option>
+                <option value="basic">{t.pricing('basic.name')}</option>
+                <option value="pro">{t.pricing('pro.name')}</option>
+                <option value="enterprise">{t.pricing('enterprise.name')}</option>
               </select>
             </div>
             <div className="flex items-end">
@@ -199,7 +201,7 @@ export default function PaymentsPage() {
                 }}
                 variant="outline"
               >
-                重置筛选
+                {t.common('reset')}
               </Button>
             </div>
           </div>
@@ -210,11 +212,11 @@ export default function PaymentsPage() {
           {loading ? (
             <div className="p-8 text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-2 text-gray-600">加载中...</p>
+              <p className="mt-2 text-gray-600">{t.common('loading')}</p>
             </div>
           ) : payments.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-gray-600">暂无支付记录</p>
+              <p className="text-gray-600">{t.notifications('info')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -222,22 +224,22 @@ export default function PaymentsPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      支付信息
+                      {t.notifications('info')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      金额
+                      {t.pricing('title')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      状态
+                      {t.common('status')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      计划
+                      {t.pricing('title')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      支付时间
+                      {t.notifications('info')}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      操作
+                      {t.common('actions')}
                     </th>
                   </tr>
                 </thead>
@@ -289,7 +291,7 @@ export default function PaymentsPage() {
                             console.log('查看详情:', payment.id)
                           }}
                         >
-                          详情
+                          {t.common('view')}
                         </Button>
                       </td>
                     </tr>
@@ -308,21 +310,20 @@ export default function PaymentsPage() {
                   onClick={() => setPage(page - 1)}
                   disabled={page === 1}
                 >
-                  上一页
+                  {t.common('previous')}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setPage(page + 1)}
                   disabled={page === totalPages}
                 >
-                  下一页
+                  {t.common('next')}
                 </Button>
               </div>
               <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm text-gray-700">
-                    第 <span className="font-medium">{page}</span> 页，共{' '}
-                    <span className="font-medium">{totalPages}</span> 页
+                    {page} / {totalPages}
                   </p>
                 </div>
                 <div>
@@ -333,7 +334,7 @@ export default function PaymentsPage() {
                       disabled={page === 1}
                       className="rounded-l-md"
                     >
-                      上一页
+                      {t.common('previous')}
                     </Button>
                     <Button
                       variant="outline"
@@ -341,7 +342,7 @@ export default function PaymentsPage() {
                       disabled={page === totalPages}
                       className="rounded-r-md"
                     >
-                      下一页
+                      {t.common('next')}
                     </Button>
                   </nav>
                 </div>

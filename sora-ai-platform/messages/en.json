@@ -40,6 +40,8 @@
     "submit": "Submit",
     "login": "Login",
     "logout": "Logout",
+    "welcome": "Welcome,",
+    "free": "Free",
     "register": "Register",
     "signup": "Sign Up",
     "signin": "Sign In",
@@ -53,7 +55,10 @@
     "report": "Report",
     "privacy": "Privacy",
     "terms": "Terms",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "actions": "Actions",
+    "retry": "Retry",
+    "status": "Status"
   },
   "navigation": {
     "home": "Home",
@@ -74,10 +79,12 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "name": "Full Name",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
     "rememberMe": "Remember Me",
     "forgotPassword": "Forgot Password?",
-    "dontHaveAccount": "Don't have an account?",
-    "alreadyHaveAccount": "Already have an account?",
     "signInWithGoogle": "Sign in with Google",
     "signUpWithGoogle": "Sign up with Google",
     "referralCode": "Referral Code (Optional)",
@@ -124,6 +131,10 @@
   "pricing": {
     "title": "Choose Your Plan",
     "subtitle": "Flexible pricing options for every creator",
+    "faqTitle": "Frequently Asked Questions",
+    "cta": {
+      "loginToSubscribe": "Sign in to subscribe"
+    },
     "basic": {
       "name": "Basic",
       "price": "$49",
@@ -169,6 +180,24 @@
         "API access"
       ],
       "button": "Contact Sales"
+    },
+    "faq": {
+      "cancelAnytime": {
+        "q": "Can I cancel my subscription at any time?",
+        "a": "Yes. You can cancel anytime in your account settings without extra fees."
+      },
+      "paymentMethods": {
+        "q": "Which payment methods are supported?",
+        "a": "We support credit cards, Alipay, WeChat Pay and more."
+      },
+      "generationTime": {
+        "q": "How long does video generation take?",
+        "a": "Typically 1-3 minutes depending on length and complexity."
+      },
+      "apiAvailability": {
+        "q": "Is there an API?",
+        "a": "Enterprise plan includes API access for batch video generation."
+      }
     },
     "invitationReward": {
       "title": "Invitation Reward Program",
@@ -274,6 +303,8 @@
     "title": "My Invitations & Rewards",
     "subtitle": "Invite friends and enjoy AI video creation together!",
     "myInviteCode": "My Invite Code",
+    "inviteLink": "Invite Link",
+    "linkCopied": "Invite link copied to clipboard",
     "myRewards": "My Rewards",
     "inviteCodeDescription": "Share your exclusive invite link. When friends register successfully, you'll get free video rewards.",
     "copyLink": "Copy Link",
@@ -294,6 +325,7 @@
     "rewards": {
       "claimed": "Claimed",
       "claim": "Claim",
+      "pending": "Pending",
       "rewardedOn": "Invited on {date}"
     }
   },
@@ -362,5 +394,41 @@
     "errorOccurred": "An error occurred",
     "tryAgain": "Please try again",
     "networkError": "Network error, please check your connection"
+  }
+  ,
+  "generate": {
+    "title": "Generate AI Video",
+    "subtitle": "Describe the video you want, and AI will create it for you.",
+    "promptLabel": "Video Description",
+    "promptPlaceholder": "Describe in detail the content you want to generate...",
+    "promptRequired": "Please enter a video description",
+    "durationLabel": "Duration",
+    "aspectRatioLabel": "Aspect Ratio",
+    "advancedSettings": "Advanced Settings",
+    "videoQuality": "Video Quality",
+    "standardQuality": "Standard Quality",
+    "hdQuality": "HD Quality",
+    "stylePreset": "Style Preset",
+    "style": {
+      "realistic": "Realistic",
+      "animated": "Animated",
+      "artistic": "Artistic"
+    },
+    "btnGenerate": "Generate Video",
+    "btnGenerating": "Generating...",
+    "generatingTitle": "Generating Video",
+    "generatingTip": "Please wait while AI is creating...",
+    "progressLabel": "completed",
+    "errorTitle": "Generation Failed",
+    "successTitle": "Generation Complete",
+    "successTip": "Your AI video is ready",
+    "downloadVideo": "Download Video",
+    "shareVideo": "Share Video",
+    "failedTitle": "Generation Failed",
+    "regenerate": "Regenerate",
+    "generateFailed": "Generation failed",
+    "pollTimeout": "Polling timeout",
+    "fetchResultFailed": "Failed to fetch result",
+    "pollFailed": "Polling failed"
   }
 }

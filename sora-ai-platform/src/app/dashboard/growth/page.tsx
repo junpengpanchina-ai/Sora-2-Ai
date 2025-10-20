@@ -6,8 +6,10 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { growthEngine, GrowthMetrics } from '@/lib/growth-engine'
+import { useTranslations } from '@/hooks/useTranslations'
 
 export default function GrowthDashboard() {
+  const t = useTranslations()
   const { data: session } = useSession()
   const [metrics, setMetrics] = useState<GrowthMetrics | null>(null)
   const [loading, setLoading] = useState(true)
@@ -63,10 +65,10 @@ export default function GrowthDashboard() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">请先登录</h2>
-          <p className="text-gray-600 mb-6">登录后即可查看增长数据</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.errors('unauthorized')}</h2>
+          <p className="text-gray-600 mb-6">{t.mvp('communityActivity.recentActivity')}</p>
           <Button onClick={() => window.location.href = '/auth/signin'}>
-            立即登录
+            {t.common('signin')}
           </Button>
         </Card>
       </div>
@@ -78,17 +80,17 @@ export default function GrowthDashboard() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">{t.common('loading')}</p>
         </div>
       </div>
     )
   }
 
   const tabs = [
-    { id: 'overview', name: '总览', icon: 'chart' },
-    { id: 'acquisition', name: '获客', icon: 'users' },
-    { id: 'retention', name: '留存', icon: 'clock' },
-    { id: 'revenue', name: '收入', icon: 'dollar-sign' }
+    { id: 'overview', name: t.performance('coreMetrics'), icon: 'chart' },
+    { id: 'acquisition', name: t.navigation('achievements'), icon: 'users' },
+    { id: 'retention', name: t.mvp('communityActivity.title'), icon: 'clock' },
+    { id: 'revenue', name: t.pricing('title'), icon: 'dollar-sign' }
   ]
 
   const renderOverview = () => (
@@ -101,7 +103,7 @@ export default function GrowthDashboard() {
               <Icon name="users" className="h-6 w-6 text-blue-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">总用户数</p>
+              <p className="text-sm font-medium text-gray-600">{t.mvp('communityActivity.totalUsers')}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {metrics?.acquisition.totalUsers.toLocaleString()}
               </p>
@@ -115,7 +117,7 @@ export default function GrowthDashboard() {
               <Icon name="trending-up" className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">今日新增</p>
+              <p className="text-sm font-medium text-gray-600">{t.notifications('new')}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {metrics?.acquisition.newUsersToday}
               </p>
@@ -129,7 +131,7 @@ export default function GrowthDashboard() {
               <Icon name="dollar-sign" className="h-6 w-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">月收入</p>
+              <p className="text-sm font-medium text-gray-600">{t.pricing('title')}</p>
               <p className="text-2xl font-bold text-gray-900">
                 ¥{metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
               </p>
@@ -143,7 +145,7 @@ export default function GrowthDashboard() {
               <Icon name="share" className="h-6 w-6 text-yellow-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">病毒系数</p>
+              <p className="text-sm font-medium text-gray-600">{t.referral('title')}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {metrics?.referral.viralCoefficient.toFixed(2)}
               </p>
@@ -154,15 +156,15 @@ export default function GrowthDashboard() {
 
       {/* 增长趋势图 */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">用户增长趋势</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.mvp('communityActivity.recentActivity')}</h3>
         <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-          <p className="text-gray-500">图表组件将在这里显示</p>
+          <p className="text-gray-500">{t.common('loading')}</p>
         </div>
       </Card>
 
       {/* 增长建议 */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">增长建议</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.mvp('personalizedRecommendations')}</h3>
         <div className="space-y-3">
           {growthEngine.getGrowthRecommendations().map((recommendation, index) => (
             <div key={index} className="flex items-start space-x-3">
@@ -179,10 +181,10 @@ export default function GrowthDashboard() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">获客渠道</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.navigation('referral')}</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">邀请推荐</span>
+              <span className="text-gray-600">{t.navigation('referral')}</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-200 rounded-full h-2">
                   <div 
@@ -196,7 +198,7 @@ export default function GrowthDashboard() {
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">自然流量</span>
+              <span className="text-gray-600">{t.notifications('info')}</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-200 rounded-full h-2">
                   <div 
@@ -213,11 +215,11 @@ export default function GrowthDashboard() {
         </Card>
 
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">激活指标</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.mvp('quickActions.title')}</h3>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-sm text-gray-600 mb-1">
-                <span>首次视频生成率</span>
+                <span>{t.notifications('videoGenerated')}</span>
                 <span>{(metrics?.activation.firstVideoRate || 0) * 100}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -229,7 +231,7 @@ export default function GrowthDashboard() {
             </div>
             <div>
               <div className="flex justify-between text-sm text-gray-600 mb-1">
-                <span>模板使用率</span>
+                <span>{t.home('features.easyToUse.title')}</span>
                 <span>{(metrics?.activation.templateUsageRate || 0) * 100}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -249,23 +251,23 @@ export default function GrowthDashboard() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">次日留存</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.performance('excellent')}</h3>
           <p className="text-3xl font-bold text-blue-600 mb-2">
             {(metrics?.retention.day1Retention || 0) * 100}%
           </p>
-          <p className="text-sm text-gray-500">行业平均: 60%</p>
+          <p className="text-sm text-gray-500">60%</p>
         </Card>
 
         <Card className="p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">7日留存</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.performance('good')}</h3>
           <p className="text-3xl font-bold text-green-600 mb-2">
             {(metrics?.retention.day7Retention || 0) * 100}%
           </p>
-          <p className="text-sm text-gray-500">行业平均: 25%</p>
+          <p className="text-sm text-gray-500">25%</p>
         </Card>
 
         <Card className="p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">30日留存</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.performance('needsOptimization')}</h3>
           <p className="text-3xl font-bold text-purple-600 mb-2">
             {(metrics?.retention.day30Retention || 0) * 100}%
           </p>
@@ -274,12 +276,12 @@ export default function GrowthDashboard() {
       </div>
 
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">月活用户</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.mvp('communityActivity.totalUsers')}</h3>
         <div className="text-center">
           <p className="text-4xl font-bold text-gray-900 mb-2">
             {metrics?.retention.monthlyActiveUsers.toLocaleString()}
           </p>
-          <p className="text-gray-600">活跃用户数</p>
+          <p className="text-gray-600">{t.mvp('communityActivity.totalUsers')}</p>
         </div>
       </Card>
     </div>
@@ -289,22 +291,22 @@ export default function GrowthDashboard() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">收入指标</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.pricing('title')}</h3>
           <div className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-gray-600">月经常性收入</span>
+              <span className="text-gray-600">{t.pricing('pro.period')}</span>
               <span className="font-semibold text-gray-900">
                 ¥{metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">平均每用户收入</span>
+              <span className="text-gray-600">ARPU</span>
               <span className="font-semibold text-gray-900">
                 ¥{metrics?.revenue.averageRevenuePerUser.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">付费转化率</span>
+              <span className="text-gray-600">CVR</span>
               <span className="font-semibold text-gray-900">
                 {(metrics?.revenue.conversionRate || 0) * 100}%
               </span>
@@ -313,22 +315,22 @@ export default function GrowthDashboard() {
         </Card>
 
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">病毒式传播</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.referral('title')}</h3>
           <div className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-gray-600">总邀请数</span>
+              <span className="text-gray-600">{t.referral('successfulInvites', { count: '' })}</span>
               <span className="font-semibold text-gray-900">
                 {metrics?.referral.totalReferrals.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">病毒系数</span>
+              <span className="text-gray-600">K</span>
               <span className="font-semibold text-gray-900">
                 {metrics?.referral.viralCoefficient.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">分享率</span>
+              <span className="text-gray-600">{t.notifications('shareSuccessful')}</span>
               <span className="font-semibold text-gray-900">
                 {(metrics?.referral.shareRate || 0) * 100}%
               </span>
@@ -343,8 +345,8 @@ export default function GrowthDashboard() {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">增长仪表板</h1>
-          <p className="text-gray-600">基于经典增长理论的综合数据分析</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.mvp('title')}</h1>
+          <p className="text-gray-600">{t.mvp('subtitle')}</p>
         </div>
 
         {/* 标签页导航 */}

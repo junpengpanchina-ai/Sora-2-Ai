@@ -8,8 +8,10 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
+import { useTranslations } from '@/hooks/useTranslations'
 
 export default function SignInPage() {
+  const t = useTranslations()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -29,7 +31,7 @@ export default function SignInPage() {
       })
 
       if (result?.error) {
-        setError('登录失败，请检查您的邮箱和密码')
+        setError(t.errors('unauthorized'))
       } else {
         const session = await getSession()
         if (session) {
@@ -37,7 +39,7 @@ export default function SignInPage() {
         }
       }
     } catch (error) {
-      setError('登录时发生错误')
+      setError(t.notifications('errorOccurred'))
     } finally {
       setIsLoading(false)
     }
@@ -51,11 +53,11 @@ export default function SignInPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">登录到您的账户</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{t.auth('signInTitle')}</h2>
           <p className="mt-2 text-sm text-gray-600">
-            还没有账户？{' '}
+            {t.auth('dontHaveAccount')}{' '}
             <Link href="/auth/signup" className="font-medium text-primary-600 hover:text-primary-500">
-              立即注册
+              {t.common('signup')}
             </Link>
           </p>
         </div>
@@ -66,7 +68,7 @@ export default function SignInPage() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                邮箱地址
+                {t.auth('email')}
               </label>
               <div className="mt-1">
                 <Input
@@ -77,14 +79,14 @@ export default function SignInPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="请输入您的邮箱"
+                  placeholder={t.auth('email')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                密码
+                {t.auth('password')}
               </label>
               <div className="mt-1">
                 <Input
@@ -95,7 +97,7 @@ export default function SignInPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="请输入您的密码"
+                  placeholder={t.auth('password')}
                 />
               </div>
             </div>
@@ -111,7 +113,7 @@ export default function SignInPage() {
                 className="w-full"
                 size="lg"
               >
-                登录
+                {t.common('signin')}
               </Button>
             </div>
           </form>
@@ -122,7 +124,7 @@ export default function SignInPage() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">或使用以下方式登录</span>
+                <span className="px-2 bg-white text-gray-500">{t.auth('signInWithGoogle')}</span>
               </div>
             </div>
 
@@ -133,7 +135,7 @@ export default function SignInPage() {
                 className="w-full"
               >
                 <Icon name="google" className="w-5 h-5 mr-2" />
-                Google 快速登录
+                {t.auth('signInWithGoogle')}
               </Button>
             </div>
           </div>

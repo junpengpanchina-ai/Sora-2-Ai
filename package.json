@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "echo 'Please use: cd sora-ai-platform && npm run dev'",
     "build": "npm run build:client",
     "build:client": "webpack --mode production"
   },

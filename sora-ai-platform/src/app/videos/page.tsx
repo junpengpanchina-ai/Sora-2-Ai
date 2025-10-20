@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import Link from 'next/link'
+import { useTranslations } from '@/hooks/useTranslations'
 
 interface Video {
   id: string
@@ -23,6 +24,7 @@ interface Video {
 }
 
 export default function VideosPage() {
+  const t = useTranslations()
   const { data: session, status } = useSession()
   const router = useRouter()
   const [videos, setVideos] = useState<Video[]>([])
@@ -86,7 +88,7 @@ export default function VideosPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">加载中...</p>
+          <p className="mt-4 text-gray-600">{t.common('loading')}</p>
         </div>
       </div>
     )
@@ -99,13 +101,13 @@ export default function VideosPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">我的视频</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{t.navigation('dashboard')}</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/generate">
                 <Button>
                   <Icon name="video" className="w-4 h-4 mr-2" />
-                  创建新视频
+                  {t.mvp('quickActions.generateVideo')}
                 </Button>
               </Link>
             </div>
@@ -119,13 +121,13 @@ export default function VideosPage() {
             <Card className="p-12 text-center">
               <Icon name="video" className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                还没有视频
+                {t.achievements('unlockedAchievements')}
               </h3>
               <p className="text-gray-600 mb-6">
-                开始创建您的第一个AI视频吧
+                {t.home('subtitle')}
               </p>
               <Link href="/generate">
-                <Button size="lg">创建视频</Button>
+                <Button size="lg">{t.mvp('quickActions.generateVideo')}</Button>
               </Link>
             </Card>
           ) : (
@@ -135,7 +137,7 @@ export default function VideosPage() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h3 className="text-lg font-medium text-gray-900 mb-1">
-                        {video.title || '未命名视频'}
+                        {video.title || t.common('view')}
                       </h3>
                       <p className="text-sm text-gray-600 line-clamp-2">
                         {video.prompt}
@@ -149,7 +151,7 @@ export default function VideosPage() {
                   {video.status === 'processing' && (
                     <div className="mb-4">
                       <div className="flex justify-between text-sm text-gray-600 mb-1">
-                        <span>进度</span>
+                        <span>{t.achievements('achievementProgress')}</span>
                         <span>{video.progress}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -169,7 +171,7 @@ export default function VideosPage() {
                         className="w-full rounded-lg"
                         poster="/placeholder-video.jpg"
                       >
-                        您的浏览器不支持视频播放
+                        {t.errors('networkError')}
                       </video>
                     </div>
                   )}
@@ -178,7 +180,7 @@ export default function VideosPage() {
                     <span>{new Date(video.createdAt).toLocaleDateString()}</span>
                     <div className="flex space-x-2">
                       {video.duration && (
-                        <span>{video.duration}秒</span>
+                        <span>{video.duration}s</span>
                       )}
                       {video.aspectRatio && (
                         <span>{video.aspectRatio}</span>
@@ -189,13 +191,13 @@ export default function VideosPage() {
                   <div className="mt-4 flex space-x-2">
                     {video.url && video.status === 'completed' && (
                       <Button variant="outline" size="sm" className="flex-1">
-                        <Icon name="download" className="w-4 h-4 mr-1" />
-                        下载
+                      <Icon name="download" className="w-4 h-4 mr-1" />
+                      {t.common('download')}
                       </Button>
                     )}
                     <Button variant="outline" size="sm" className="flex-1">
                       <Icon name="settings" className="w-4 h-4 mr-1" />
-                      设置
+                      {t.common('settings')}
                     </Button>
                   </div>
                 </Card>

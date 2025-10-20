@@ -40,6 +40,8 @@
     "submit": "提交",
     "login": "登录",
     "logout": "退出",
+    "welcome": "欢迎，",
+    "free": "免费",
     "register": "注册",
     "signup": "注册",
     "signin": "登录",
@@ -53,8 +55,46 @@
     "report": "举报",
     "privacy": "隐私",
     "terms": "条款",
-    "cookies": "Cookie"
+    "cookies": "Cookie",
+    "actions": "操作",
+    "retry": "重试",
+    "status": "状态"
   },
+  "generate": {
+    "title": "生成AI视频",
+    "subtitle": "描述您想要的视频内容，AI将为您生成专业视频",
+    "promptLabel": "视频描述",
+    "promptPlaceholder": "详细描述您想要生成的视频内容...",
+    "promptRequired": "请输入视频描述",
+    "durationLabel": "视频时长",
+    "aspectRatioLabel": "视频比例",
+    "advancedSettings": "高级设置",
+    "videoQuality": "视频质量",
+    "standardQuality": "标准质量",
+    "hdQuality": "高清质量",
+    "stylePreset": "风格预设",
+    "style": {
+      "realistic": "写实风格",
+      "animated": "动画风格",
+      "artistic": "艺术风格"
+    },
+    "btnGenerate": "生成视频",
+    "btnGenerating": "生成中...",
+    "generatingTitle": "正在生成视频",
+    "generatingTip": "请稍候，AI正在为您创作...",
+    "progressLabel": "完成",
+    "errorTitle": "生成失败",
+    "successTitle": "生成完成",
+    "successTip": "您的AI视频已准备就绪",
+    "downloadVideo": "下载视频",
+    "shareVideo": "分享视频",
+    "failedTitle": "生成失败",
+    "regenerate": "重新生成",
+    "generateFailed": "生成失败",
+    "pollTimeout": "轮询超时",
+    "fetchResultFailed": "获取结果失败",
+    "pollFailed": "轮询失败"
+  }
   "navigation": {
     "home": "首页",
     "dashboard": "仪表板",
@@ -74,10 +114,12 @@
     "password": "密码",
     "confirmPassword": "确认密码",
     "name": "姓名",
+    "alreadyHaveAccount": "已有账户？",
+    "dontHaveAccount": "还没有账户？",
+    "signIn": "立即登录",
+    "signUp": "注册",
     "rememberMe": "记住我",
     "forgotPassword": "忘记密码？",
-    "dontHaveAccount": "还没有账户？",
-    "alreadyHaveAccount": "已有账户？",
     "signInWithGoogle": "使用 Google 登录",
     "signUpWithGoogle": "使用 Google 注册",
     "referralCode": "邀请码（可选）",
@@ -124,6 +166,10 @@
   "pricing": {
     "title": "选择您的套餐",
     "subtitle": "为每个创作者提供灵活的定价选项",
+    "faqTitle": "常见问题",
+    "cta": {
+      "loginToSubscribe": "登录后订阅"
+    },
     "basic": {
       "name": "基础版",
       "price": "¥49",
@@ -169,6 +215,24 @@
         "API访问"
       ],
       "button": "联系销售"
+    },
+    "faq": {
+      "cancelAnytime": {
+        "q": "可以随时取消订阅吗？",
+        "a": "可以，您可在账户设置随时取消，不会产生额外费用。"
+      },
+      "paymentMethods": {
+        "q": "支持哪些支付方式？",
+        "a": "我们支持信用卡、支付宝、微信支付等多种方式。"
+      },
+      "generationTime": {
+        "q": "视频生成需要多长时间？",
+        "a": "通常1-3分钟，取决于视频长度与复杂度。"
+      },
+      "apiAvailability": {
+        "q": "有 API 接口吗？",
+        "a": "企业版提供 API，可用于批量生成视频。"
+      }
     },
     "invitationReward": {
       "title": "邀请奖励计划",
@@ -274,6 +338,8 @@
     "title": "我的邀请与奖励",
     "subtitle": "邀请好友，一起享受AI视频创作的乐趣！",
     "myInviteCode": "我的邀请码",
+    "inviteLink": "邀请链接",
+    "linkCopied": "邀请链接已复制到剪贴板",
     "myRewards": "我的奖励",
     "inviteCodeDescription": "分享您的专属邀请链接，好友注册成功后，您将获得免费视频奖励。",
     "copyLink": "复制链接",
@@ -294,6 +360,7 @@
     "rewards": {
       "claimed": "已领取",
       "claim": "领取",
+      "pending": "待领取",
       "rewardedOn": "邀请于{date}"
     }
   },
