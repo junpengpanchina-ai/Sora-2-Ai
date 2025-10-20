@@ -53,6 +53,11 @@ export default class ErrorBoundary extends Component<Props, State> {
                 <p className="text-gray-600 mb-4">
                   {t.errors('serverErrorDescription')}
                 </p>
+                <div className="text-sm text-gray-500 mb-4 space-y-1">
+                  <p>• {t.t('guidance.checkConnection')}</p>
+                  <p>• {t.t('guidance.tryLater')}</p>
+                  <p>• {t.t('guidance.contactSupport')}</p>
+                </div>
                 {process.env.NODE_ENV === 'development' && error && (
                   <details className="text-left text-sm text-gray-500 mb-4">
                     <summary className="cursor-pointer">{t.notifications('info')}</summary>

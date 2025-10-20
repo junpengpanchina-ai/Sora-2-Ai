@@ -89,7 +89,7 @@ export default function Notification({
 
   const styles = getTypeStyles()
   const resolvedTitle = title || t.notifications(type)
-  const resolvedMessage = message || ''
+  const resolvedMessage = message || (type === 'error' ? `${t.errors('networkErrorDescription')} ${t.t('guidance.tryLater')}.` : '')
   const resolvedActionLabel = action?.label || t.common('ok')
 
   return (
