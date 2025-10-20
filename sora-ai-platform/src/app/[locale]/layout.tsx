@@ -14,16 +14,12 @@ export default async function LocaleLayout({
   const { locale } = await params
 
   return (
-    <html lang={locale}>
-      <body>
-        <ErrorBoundary>
-          <Header />
-          <main>
-            {children}
-          </main>
-          <NotificationContainer />
-        </ErrorBoundary>
-      </body>
-    </html>
+    <ErrorBoundary>
+      <Header />
+      <main>
+        {children}
+      </main>
+      <NotificationContainer />
+    </ErrorBoundary>
   )
 }
