@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
     // 加密密码
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // 生成邀请码
-    const referralCode = `${name.toLowerCase().replace(/\s+/g, '')}${Math.random().toString(36).substr(2, 6)}`
+    // 生成用户邀请码
+    const userReferralCode = `${name.toLowerCase().replace(/\s+/g, '')}${Math.random().toString(36).substr(2, 6)}`
 
     // 创建用户
     const user = await prisma.user.create({
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         password: hashedPassword,
-        referralCode,
+        referralCode: userReferralCode,
         referredBy: referrerId,
         freeVideosLeft: 1, // 注册送1个免费视频
         subscriptionPlan: 'free'

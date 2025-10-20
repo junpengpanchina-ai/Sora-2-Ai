@@ -4,19 +4,35 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
+import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { VideoResult } from '@/lib/sora-api';
 import { useTranslations } from '@/hooks/useTranslations';
 
 export default function GeneratePage() {
   const t = useTranslations();
   const [prompt, setPrompt] = useState('');
-  const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
-  const [duration, setDuration] = useState<10 | 15>(10);
-  const [size, setSize] = useState<'small' | 'large'>('small');
+  const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9' | '1:1'>('16:9');
+  const [duration, setDuration] = useState<5 | 10 | 15 | 30>(15);
+  const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium');
+  const [style, setStyle] = useState<'realistic' | 'animated' | 'artistic' | 'cinematic'>('realistic');
+  const [motion, setMotion] = useState<'static' | 'slow' | 'medium' | 'fast'>('medium');
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<VideoResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [generationId, setGenerationId] = useState<string | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const promptSuggestions = [
+    "一只可爱的小猫在花园里玩耍",
+    "未来城市的夜景，霓虹灯闪烁",
+    "海浪拍打着岩石，夕阳西下",
+    "雪花飘落在森林中，宁静祥和",
+    "宇航员在太空中漂浮，地球在背景中",
+    "古老的城堡在月光下显得神秘",
+    "热带雨林中的瀑布，鸟儿在歌唱",
+    "城市街道上的雨夜，灯光反射在湿漉漉的地面上"
+  ];
 
 
   const handleGenerate = async () => {
@@ -41,18 +57,21 @@ export default function GeneratePage() {
           prompt,
           aspectRatio,
           duration,
-          size
+          size,
+          style,
+          motion
         })
       });
 
       const data = await response.json();
 
-      if (data.success && data.data?.id) {
+      if (data.video?.id) {
+        setGenerationId(data.video.id);
         // 开始轮询结果
-        const finalResult = await pollVideoResult(data.data.id);
+        const finalResult = await pollVideoResult(data.video.id);
         setResult(finalResult);
       } else {
-        setError(data.error || t.t('generate.generateFailed'));
+        setError(data.message || t.t('generate.generateFailed'));
       }
     } catch (err) {
       setError(`${t.t('generate.generateFailed')}: ${err instanceof Error ? err.message : t.common('error')}`);
@@ -68,22 +87,27 @@ export default function GeneratePage() {
     return new Promise((resolve) => {
       const poll = async () => {
         try {
-          const response = await fetch('/api/video-result', {
-            method: 'POST',
+          const response = await fetch(`/api/generate-video?id=${id}`, {
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id })
+            }
           });
 
           const data = await response.json();
           
-          if (data.success) {
-            const result = data.data;
-            setProgress(result.progress);
+          if (data.video) {
+            const result = data.video;
+            setProgress(result.progress || 0);
 
-            if (result.status === 'succeeded' || result.status === 'failed') {
-              resolve(result);
+            if (result.status === 'completed' || result.status === 'failed') {
+              resolve({
+                id: result.id,
+                progress: result.progress || 100,
+                status: result.status === 'completed' ? 'succeeded' : 'failed',
+                results: result.url ? [{ url: result.url }] : [],
+                error: result.status === 'failed' ? '生成失败' : undefined
+              });
               return;
             }
 
@@ -95,7 +119,7 @@ export default function GeneratePage() {
                 id,
                 progress: 0,
                 status: 'failed',
-              error: t.t('generate.pollTimeout')
+                error: t.t('generate.pollTimeout')
               });
             }
           } else {
@@ -103,7 +127,7 @@ export default function GeneratePage() {
               id,
               progress: 0,
               status: 'failed',
-            error: data.error || t.t('generate.fetchResultFailed')
+              error: data.message || t.t('generate.fetchResultFailed')
             });
           }
         } catch (error) {
@@ -111,7 +135,7 @@ export default function GeneratePage() {
             id,
             progress: 0,
             status: 'failed',
-          error: `${t.t('generate.pollFailed')}: ${error instanceof Error ? error.message : t.common('error')}`
+            error: `${t.t('generate.pollFailed')}: ${error instanceof Error ? error.message : t.common('error')}`
           });
         }
       };
@@ -139,9 +163,19 @@ export default function GeneratePage() {
             <Card className="p-6">
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.t('generate.promptLabel')}
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      {t.t('generate.promptLabel')}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowSuggestions(!showSuggestions)}
+                      className="text-sm text-blue-600 hover:text-blue-800"
+                    >
+                      {showSuggestions ? '隐藏建议' : '查看建议'}
+                    </button>
+                  </div>
+                  
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
@@ -149,6 +183,27 @@ export default function GeneratePage() {
                     rows={4}
                     placeholder={t.t('generate.promptPlaceholder')}
                   />
+                  
+                  {/* 提示词建议 */}
+                  {showSuggestions && (
+                    <div className="mt-3 p-4 bg-gray-50 rounded-lg">
+                      <h4 className="text-sm font-medium text-gray-700 mb-3">提示词建议：</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {promptSuggestions.map((suggestion, index) => (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              setPrompt(suggestion);
+                              setShowSuggestions(false);
+                            }}
+                            className="text-left p-2 text-sm text-gray-600 hover:bg-white hover:text-gray-900 rounded border border-transparent hover:border-gray-300 transition-colors"
+                          >
+                            {suggestion}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -158,11 +213,13 @@ export default function GeneratePage() {
                     </label>
                     <select 
                       value={duration}
-                      onChange={(e) => setDuration(Number(e.target.value) as 10 | 15)}
+                      onChange={(e) => setDuration(Number(e.target.value) as 5 | 10 | 15 | 30)}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
+                      <option value="5">5s</option>
                       <option value="10">10s</option>
                       <option value="15">15s</option>
+                      <option value="30">30s</option>
                     </select>
                   </div>
                   
@@ -172,11 +229,12 @@ export default function GeneratePage() {
                     </label>
                     <select 
                       value={aspectRatio}
-                      onChange={(e) => setAspectRatio(e.target.value as '9:16' | '16:9')}
+                      onChange={(e) => setAspectRatio(e.target.value as '9:16' | '16:9' | '1:1')}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="9:16">9:16</option>
-                      <option value="16:9">16:9</option>
+                      <option value="9:16">9:16 (竖屏)</option>
+                      <option value="16:9">16:9 (横屏)</option>
+                      <option value="1:1">1:1 (方形)</option>
                     </select>
                   </div>
                 </div>
@@ -204,11 +262,12 @@ export default function GeneratePage() {
                   </label>
                   <select 
                     value={size}
-                    onChange={(e) => setSize(e.target.value as 'small' | 'large')}
+                    onChange={(e) => setSize(e.target.value as 'small' | 'medium' | 'large')}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="small">{t.t('generate.standardQuality')}</option>
-                    <option value="large">{t.t('generate.hdQuality')}</option>
+                    <option value="small">标准 (720p)</option>
+                    <option value="medium">高清 (1080p)</option>
+                    <option value="large">超清 (4K)</option>
                   </select>
                 </div>
                 
@@ -216,10 +275,31 @@ export default function GeneratePage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     {t.t('generate.stylePreset')}
                   </label>
-                  <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="realistic">{t.t('generate.style.realistic')}</option>
-                    <option value="animated">{t.t('generate.style.animated')}</option>
-                    <option value="artistic">{t.t('generate.style.artistic')}</option>
+                  <select 
+                    value={style}
+                    onChange={(e) => setStyle(e.target.value as 'realistic' | 'animated' | 'artistic' | 'cinematic')}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="realistic">写实风格</option>
+                    <option value="animated">动画风格</option>
+                    <option value="artistic">艺术风格</option>
+                    <option value="cinematic">电影风格</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    运动强度
+                  </label>
+                  <select 
+                    value={motion}
+                    onChange={(e) => setMotion(e.target.value as 'static' | 'slow' | 'medium' | 'fast')}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="static">静态</option>
+                    <option value="slow">缓慢</option>
+                    <option value="medium">中等</option>
+                    <option value="fast">快速</option>
                   </select>
                 </div>
               </div>
@@ -267,20 +347,30 @@ export default function GeneratePage() {
             {/* 结果展示 */}
             {result && result.status === 'succeeded' && result.results && result.results.length > 0 && (
               <Card className="p-6 mt-6">
-                <div className="text-center">
+                <div className="text-center mb-4">
                   <Icon name="check" className="w-12 h-12 text-green-500 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.t('generate.successTitle')}</h3>
                   <p className="text-gray-600 mb-4">{t.t('generate.successTip')}</p>
-                  <div className="space-y-2">
-                    <Button size="sm" className="w-full">
-                      <Icon name="download" className="w-4 h-4 mr-2" />
-                      {t.t('generate.downloadVideo')}
-                    </Button>
-                    <Button size="sm" variant="outline" className="w-full">
-                      <Icon name="share" className="w-4 h-4 mr-2" />
-                      {t.t('generate.shareVideo')}
-                    </Button>
-                  </div>
+                </div>
+                
+                {/* 视频播放器 */}
+                <div className="mb-4">
+                  <VideoPlayer 
+                    url={result.results[0].url} 
+                    title={prompt.substring(0, 50)}
+                    className="w-full h-64"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Button size="sm" className="w-full">
+                    <Icon name="download" className="w-4 h-4 mr-2" />
+                    {t.t('generate.downloadVideo')}
+                  </Button>
+                  <Button size="sm" variant="outline" className="w-full">
+                    <Icon name="share" className="w-4 h-4 mr-2" />
+                    {t.t('generate.shareVideo')}
+                  </Button>
                 </div>
               </Card>
             )}

@@ -14,7 +14,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { prompt, aspectRatio = '16:9', size = 'large' } = await request.json()
+    const { 
+      prompt, 
+      aspectRatio = '16:9', 
+      size = 'medium',
+      style = 'realistic',
+      motion = 'medium',
+      duration = 15
+    } = await request.json()
 
     if (!prompt) {
       return NextResponse.json(
@@ -49,6 +56,9 @@ export async function POST(request: NextRequest) {
         prompt,
         aspectRatio,
         size,
+        duration,
+        style,
+        motion,
         status: 'pending',
         progress: 0,
         userId: session.user.id

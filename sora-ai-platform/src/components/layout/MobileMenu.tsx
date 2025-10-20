@@ -6,7 +6,6 @@ import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
-import { useTranslations } from '@/hooks/useTranslations'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -15,7 +14,6 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: session } = useSession()
-  const t = useTranslations()
   const t = useTranslations()
 
   const handleSignOut = () => {

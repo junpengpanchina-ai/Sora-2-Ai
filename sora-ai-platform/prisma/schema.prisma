@@ -86,8 +86,10 @@ model Video {
   status      String   @default("pending") // pending, processing, completed, failed
   progress    Int      @default(0)
   duration    Int?     // in seconds
-  aspectRatio String?  // 16:9, 9:16
-  size        String?  // small, large
+  aspectRatio String?  // 16:9, 9:16, 1:1
+  size        String?  // small, medium, large
+  style       String?  // realistic, animated, artistic, cinematic
+  motion      String?  // static, slow, medium, fast
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
