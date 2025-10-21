@@ -88,7 +88,7 @@ export default function GrowthDashboard() {
 
   const tabs = [
     { id: 'overview', name: t.performance('coreMetrics'), icon: 'chart' },
-    { id: 'acquisition', name: t.navigation('achievements'), icon: 'users' },
+    { id: 'acquisition', name: '成就', icon: 'users' },
     { id: 'retention', name: t.mvp('communityActivity.title'), icon: 'clock' },
     { id: 'revenue', name: t.pricing('title'), icon: 'dollar-sign' }
   ]
@@ -181,10 +181,10 @@ export default function GrowthDashboard() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.navigation('referral')}</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">推荐</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">{t.navigation('referral')}</span>
+              <span className="text-gray-600">推荐</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-200 rounded-full h-2">
                   <div 
@@ -318,7 +318,7 @@ export default function GrowthDashboard() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.referral('title')}</h3>
           <div className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-gray-600">{t.referral('successfulInvites', { count: '' })}</span>
+              <span className="text-gray-600">成功邀请</span>
               <span className="font-semibold text-gray-900">
                 {metrics?.referral.totalReferrals.toLocaleString()}
               </span>

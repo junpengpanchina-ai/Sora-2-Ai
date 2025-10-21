@@ -34,7 +34,7 @@ const SHARE_PLATFORMS = [
     icon: 'video',
     color: 'bg-black',
     url: (title: string, url: string) => 
-      `https://www.douyin.com/share/video/${videoId}`
+      `https://www.douyin.com/share/video/${url}`
   },
   {
     id: 'xiaohongshu',
@@ -42,7 +42,7 @@ const SHARE_PLATFORMS = [
     icon: 'heart',
     color: 'bg-pink-500',
     url: (title: string, url: string) => 
-      `https://www.xiaohongshu.com/explore/${videoId}`
+      `https://www.xiaohongshu.com/explore/${url}`
   },
   {
     id: 'bilibili',
@@ -50,7 +50,7 @@ const SHARE_PLATFORMS = [
     icon: 'play',
     color: 'bg-blue-500',
     url: (title: string, url: string) => 
-      `https://www.bilibili.com/video/${videoId}`
+      `https://www.bilibili.com/video/${url}`
   },
   {
     id: 'qq',

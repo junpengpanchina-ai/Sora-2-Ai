@@ -223,7 +223,7 @@ export default function ReferralPage() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">
-                        {t.referral('rewards.rewardedOn', { date: new Date(reward.createdAt).toLocaleDateString() })}
+                        奖励于 {new Date(reward.createdAt).toLocaleDateString()}
                       </p>
                       <p className="text-sm text-gray-500">
                         {new Date(reward.createdAt).toLocaleDateString()}

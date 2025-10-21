@@ -80,7 +80,7 @@ export default function PricingPage() {
                 
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-gray-900">
-                    {plan.price === 0 ? t.common('free') : `¥${plan.price}`}
+                    ¥{plan.price}
                   </span>
                   {plan.price > 0 && <span className="text-gray-600">/月</span>}
                 </div>

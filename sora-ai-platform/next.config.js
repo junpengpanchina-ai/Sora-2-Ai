@@ -1,8 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  // 修复工作区根目录问题
-  outputFileTracingRoot: __dirname,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   
   // 图片优化
   images: {
@@ -67,4 +64,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

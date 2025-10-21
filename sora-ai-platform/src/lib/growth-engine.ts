@@ -202,7 +202,8 @@ export class GrowthEngine {
 
   // 病毒式传播系数计算
   calculateViralCoefficient(): number {
-    const { totalReferrals, totalUsers } = this.metrics.referral
+    const { totalReferrals } = this.metrics.referral
+    const totalUsers = this.metrics.acquisition.totalUsers
     return totalUsers > 0 ? totalReferrals / totalUsers : 0
   }
 
@@ -270,7 +271,7 @@ export class GrowthEngine {
       }
     }
 
-    return experiments[experimentId]?.[variant] || experiments[experimentId]?.control
+    return (experiments as any)[experimentId]?.[variant] || (experiments as any)[experimentId]?.control
   }
 
   // 用户生命周期价值预测

@@ -19,13 +19,13 @@ export default function MVPDashboard() {
     referralCount: 0,
     freeVideosLeft: 0,
     userTier: 'bronze',
-    achievements: []
+    achievements: [] as string[]
   })
   const [socialProof, setSocialProof] = useState({
     totalUsers: 0,
     totalVideos: 0,
     totalShares: 0,
-    recentActivity: []
+    recentActivity: [] as Array<{ user: string; action: string; timestamp: Date }>
   })
   const [loading, setLoading] = useState(true)
 

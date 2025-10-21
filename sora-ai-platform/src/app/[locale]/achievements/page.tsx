@@ -31,7 +31,12 @@ export default function AchievementsPage() {
     streakDays: 0,
     freeVideosLeft: 0
   })
-  const [achievements, setAchievements] = useState({
+  const [achievements, setAchievements] = useState<{
+    unlocked: any[]
+    locked: any[]
+    totalPoints: number
+    userTier?: any
+  }>({
     unlocked: [],
     locked: [],
     totalPoints: 0
@@ -96,8 +101,8 @@ export default function AchievementsPage() {
     )
   }
 
-  const unlockedAchievements = achievements.filter(a => a.unlocked)
-  const lockedAchievements = achievements.filter(a => !a.unlocked)
+  const unlockedAchievements = achievements.unlocked
+  const lockedAchievements = achievements.locked
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -169,7 +174,7 @@ export default function AchievementsPage() {
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-green-600 font-medium">
-                          {achievement.rewards.freeVideos ? t.achievements('rewards.freeVideos', { count: achievement.rewards.freeVideos }) : achievement.rewards.badges?.[0] || t.notifications('success')}
+                          {achievement.rewards.freeVideos ? `${achievement.rewards.freeVideos} 免费视频` : achievement.rewards.badges?.[0] || '奖励'}
                         </span>
                         <span className="text-xs text-gray-500">
                           {achievement.unlockedAt?.toLocaleDateString()}
@@ -219,7 +224,7 @@ export default function AchievementsPage() {
 
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">
-                        {achievement.rewards.freeVideos ? t.achievements('rewards.freeVideos', { count: achievement.rewards.freeVideos }) : achievement.rewards.badges?.[0] || t.notifications('success')}
+                        {achievement.rewards.freeVideos ? `${achievement.rewards.freeVideos} 免费视频` : achievement.rewards.badges?.[0] || '奖励'}
                       </span>
                       <span className="text-xs text-gray-400">
                         {achievement.maxProgress - achievement.progress}

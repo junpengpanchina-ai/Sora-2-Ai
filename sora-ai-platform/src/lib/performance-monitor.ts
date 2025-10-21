@@ -2,6 +2,8 @@
  * 性能监控 - 监控应用性能指标
  */
 
+import React from 'react'
+
 interface PerformanceMetrics {
   pageLoadTime: number
   firstContentfulPaint: number
@@ -40,7 +42,8 @@ class PerformanceMonitor {
         const entries = list.getEntries()
         entries.forEach((entry) => {
           if (entry.entryType === 'navigation') {
-            this.metrics.pageLoadTime = entry.loadEventEnd - entry.loadEventStart
+            const navEntry = entry as PerformanceNavigationTiming
+            this.metrics.pageLoadTime = navEntry.loadEventEnd - navEntry.loadEventStart
           }
         })
       })
