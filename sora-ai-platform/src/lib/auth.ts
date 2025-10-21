@@ -43,10 +43,16 @@ export const authOptions: NextAuthOptions = {
         }
       }
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+    // 只有当 Google 凭据配置正确时才启用 Google 提供者
+    ...(process.env.GOOGLE_CLIENT_ID && 
+        process.env.GOOGLE_CLIENT_SECRET && 
+        process.env.GOOGLE_CLIENT_ID !== "your-google-client-id" && 
+        process.env.GOOGLE_CLIENT_SECRET !== "your-google-client-secret" 
+        ? [GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          })]
+        : []),
   ],
   session: {
     strategy: "jwt",

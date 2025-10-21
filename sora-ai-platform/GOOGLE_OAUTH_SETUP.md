@@ -1,142 +1,146 @@
-# Google OAuth 快速注册配置指南
+# Google 快速登录设置指南
 
-## 🎉 Google 快速注册功能已实现！
-
-应用已经支持 Google OAuth 快速注册和登录功能。用户可以通过 Google 账户快速注册和登录，无需手动填写表单。
-
-## 📱 功能特性
-
-### ✅ 已实现的功能
-- **Google 登录按钮** - 在登录和注册页面都有 Google 登录按钮
-- **自动用户创建** - 首次使用 Google 登录会自动创建用户账户
-- **数据库集成** - 使用 Prisma 适配器自动保存用户信息
-- **多语言支持** - 支持中英文界面
-- **智能跳转** - 登录后自动跳转到仪表板
-
-### 🎯 用户体验
-- **一键注册** - 点击 Google 按钮即可完成注册
-- **快速登录** - 已注册用户可直接登录
-- **无缝体验** - 无需记住密码，使用 Google 账户即可
-
-## 🔧 配置步骤
+## 🚀 快速设置步骤
 
 ### 1. 创建 Google OAuth 应用
 
-1. 访问 [Google Cloud Console](https://console.cloud.google.com/)
-2. 创建新项目或选择现有项目
-3. 启用 Google+ API
-4. 创建 OAuth 2.0 客户端 ID
+#### 步骤 1：访问 Google Cloud Console
+1. 打开 [Google Cloud Console](https://console.cloud.google.com/)
+2. 登录你的 Google 账户
 
-### 2. 配置 OAuth 凭据
+#### 步骤 2：创建或选择项目
+1. 点击项目选择器（顶部左侧）
+2. 如果没有项目，点击"新建项目"
+3. 输入项目名称：`Sora AI Platform`
+4. 点击"创建"
 
-在 Google Cloud Console 中：
-- **应用类型**: Web 应用
-- **授权重定向 URI**: `http://localhost:3000/api/auth/callback/google`
-- **生产环境 URI**: `https://yourdomain.com/api/auth/callback/google`
+#### 步骤 3：启用必要的 API
+1. 在左侧菜单中，选择"API 和服务" > "库"
+2. 搜索并启用以下 API：
+   - **Google+ API** 或 **Google Identity API**
+   - **People API**（可选，用于获取用户信息）
 
-### 3. 设置环境变量
+#### 步骤 4：创建 OAuth 2.0 凭据
+1. 转到"API 和服务" > "凭据"
+2. 点击"+ 创建凭据" > "OAuth 2.0 客户端 ID"
+3. 如果提示配置 OAuth 同意屏幕，选择"外部"用户类型
+4. 填写应用信息：
+   - **应用名称**：`Sora AI Platform`
+   - **用户支持电子邮件**：你的邮箱
+   - **开发者联系信息**：你的邮箱
+5. 在"范围"部分，添加以下范围：
+   - `openid`
+   - `email`
+   - `profile`
+6. 在"测试用户"部分，添加你的邮箱（用于测试）
 
-创建 `.env.local` 文件：
+#### 步骤 5：配置 OAuth 客户端
+1. 选择"Web 应用程序"作为应用类型
+2. 输入应用名称：`Sora AI Platform`
+3. 在"已获授权的重定向 URI"中添加：
+   ```
+   http://localhost:3000/api/auth/callback/google
+   ```
+4. 如果部署到生产环境，还要添加：
+   ```
+   https://yourdomain.com/api/auth/callback/google
+   ```
+5. 点击"创建"
+
+#### 步骤 6：获取凭据
+创建完成后，你会看到：
+- **客户端 ID**：类似 `123456789-abcdefg.apps.googleusercontent.com`
+- **客户端密钥**：类似 `GOCSPX-abcdefghijklmnopqrstuvwxyz`
+
+### 2. 配置环境变量
+
+更新你的 `.env.local` 文件：
 
 ```bash
-# NextAuth.js
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-here"
-
-# Google OAuth
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-
-# Database
+# 数据库配置
 DATABASE_URL="file:./dev.db"
+
+# NextAuth.js 配置
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-nextauth-secret-key-here"
+
+# Google OAuth 配置
+GOOGLE_CLIENT_ID="你的实际客户端ID"
+GOOGLE_CLIENT_SECRET="你的实际客户端密钥"
+
+# 其他配置...
 ```
 
-### 4. 获取 Google OAuth 凭据
+### 3. 测试 Google 登录
 
-1. 在 Google Cloud Console 中，转到 "凭据" 页面
-2. 点击 "创建凭据" > "OAuth 2.0 客户端 ID"
-3. 选择 "Web 应用"
-4. 添加授权重定向 URI
-5. 复制客户端 ID 和客户端密钥
+1. **重启开发服务器**：
+   ```bash
+   npm run dev
+   ```
 
-## 🚀 使用方法
+2. **访问登录页面**：
+   - 打开 `http://localhost:3000/en/auth/signin`
+   - 你应该能看到 Google 登录按钮
 
-### 用户端操作
-1. 访问 http://localhost:3000/en/auth/signup
-2. 点击 "使用 Google 注册" 按钮
-3. 选择 Google 账户
-4. 授权应用访问基本信息
-5. 自动完成注册并登录
+3. **测试 Google 登录**：
+   - 点击 Google 登录按钮
+   - 会跳转到 Google 授权页面
+   - 授权后会自动跳转回你的应用
 
-### 开发者测试
-1. 确保环境变量已正确设置
-2. 重启开发服务器：`npm run dev`
-3. 访问登录页面测试 Google 登录功能
+### 4. 常见问题解决
 
-## 📋 技术实现
+#### 问题 1：400 错误
+- **原因**：客户端 ID 或密钥不正确
+- **解决**：检查 `.env.local` 中的配置是否正确
 
-### 认证配置
-```typescript
-// src/lib/auth.ts
-GoogleProvider({
-  clientId: process.env.GOOGLE_CLIENT_ID!,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-})
-```
+#### 问题 2：重定向 URI 不匹配
+- **原因**：重定向 URI 配置不正确
+- **解决**：确保 Google Console 中的重定向 URI 与你的应用 URL 匹配
 
-### 数据库适配器
-```typescript
-// 使用 Prisma 适配器自动处理用户创建
-adapter: PrismaAdapter(prisma)
-```
+#### 问题 3：OAuth 同意屏幕问题
+- **原因**：应用未通过 Google 验证
+- **解决**：在测试阶段，确保将你的邮箱添加到"测试用户"列表中
 
-### 用户界面
-- 登录页面：`/en/auth/signin`
-- 注册页面：`/en/auth/signup`
-- 两个页面都有 Google 登录按钮
+### 5. 生产环境部署
 
-## 🔒 安全特性
+部署到生产环境时，需要：
 
-- **OAuth 2.0 标准** - 使用行业标准的认证协议
-- **HTTPS 重定向** - 生产环境使用安全连接
-- **最小权限原则** - 只请求必要的用户信息
-- **会话管理** - 使用 JWT 进行会话管理
+1. **更新重定向 URI**：
+   - 在 Google Console 中添加生产环境的回调 URL
+   - 例如：`https://yourdomain.com/api/auth/callback/google`
 
-## 🌐 多语言支持
+2. **更新环境变量**：
+   ```bash
+   NEXTAUTH_URL="https://yourdomain.com"
+   GOOGLE_CLIENT_ID="你的生产环境客户端ID"
+   GOOGLE_CLIENT_SECRET="你的生产环境客户端密钥"
+   ```
 
-- **英文**: "Sign in with Google" / "Sign up with Google"
-- **中文**: "使用 Google 登录" / "使用 Google 注册"
+3. **域名验证**：
+   - 确保你的域名已通过 Google 验证
+   - 如果使用自定义域名，需要在 Google Console 中配置
 
-## 📞 故障排除
+### 6. 安全注意事项
 
-### 常见问题
+1. **保护客户端密钥**：
+   - 永远不要将客户端密钥提交到代码仓库
+   - 使用环境变量存储敏感信息
 
-1. **"OAuth 错误"**
-   - 检查 Google 客户端 ID 和密钥是否正确
-   - 确认重定向 URI 配置正确
+2. **限制重定向 URI**：
+   - 只添加必要的重定向 URI
+   - 避免使用通配符
 
-2. **"重定向 URI 不匹配"**
-   - 在 Google Cloud Console 中添加正确的重定向 URI
-   - 确保协议（http/https）和端口号正确
+3. **定期轮换密钥**：
+   - 定期更新客户端密钥
+   - 监控异常登录活动
 
-3. **"用户创建失败"**
-   - 检查数据库连接
-   - 确认 Prisma 适配器配置正确
+## 🎉 完成！
 
-### 调试步骤
+设置完成后，用户就可以使用 Google 账户快速登录你的应用了！
 
-1. 检查环境变量是否正确设置
-2. 查看浏览器控制台错误信息
-3. 检查 Next.js 服务器日志
-4. 验证 Google Cloud Console 配置
-
-## 🎯 下一步
-
-- [ ] 配置生产环境 OAuth 凭据
-- [ ] 添加更多 OAuth 提供商（GitHub、Facebook 等）
-- [ ] 实现用户头像显示
-- [ ] 添加账户关联功能
-
----
-
-**注意**: 请确保在生产环境中使用 HTTPS 和正确的域名配置 OAuth 重定向 URI。
+### 功能特点：
+- ✅ 一键 Google 登录
+- ✅ 自动获取用户信息（姓名、邮箱、头像）
+- ✅ 安全的 OAuth 2.0 流程
+- ✅ 支持多语言界面
+- ✅ 与现有邮箱密码登录并存

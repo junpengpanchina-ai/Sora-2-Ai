@@ -4,11 +4,6 @@ import type { NextConfig } from "next";
 // const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 const nextConfig: NextConfig = {
-  // 性能优化配置
-  experimental: {
-    optimizePackageImports: ['@/components', '@/lib'],
-  },
-  
   // 图片优化
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -19,8 +14,6 @@ const nextConfig: NextConfig = {
   
   // 压缩配置
   compress: true,
-  
-  // 构建优化 (Next.js 15+ 默认启用)
   
   // 输出配置
   output: 'standalone',

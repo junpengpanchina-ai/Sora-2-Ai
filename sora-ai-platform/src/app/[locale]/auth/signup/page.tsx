@@ -21,28 +21,18 @@ export default function SignUpPage() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  // 从URL参数获取邀请码
-  React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const ref = urlParams.get('ref')
-    if (ref) {
-      setReferralCode(ref)
-    }
-  }, [])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
 
     if (password !== confirmPassword) {
-      setError(t.auth('confirmPassword'))
+      setError(t.auth('passwordMismatch'))
       setIsLoading(false)
       return
     }
 
     try {
-      // 这里应该调用注册API
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -52,9 +42,11 @@ export default function SignUpPage() {
           name,
           email,
           password,
-          referralCode,
+          referralCode: referralCode || undefined,
         }),
       })
+
+      const data = await response.json()
 
       if (response.ok) {
         // 注册成功后自动登录
@@ -66,13 +58,14 @@ export default function SignUpPage() {
 
         if (result?.ok) {
           router.push('/dashboard')
+        } else {
+          router.push('/auth/signin')
         }
       } else {
-        const data = await response.json()
-        setError(data.message || t.common('error'))
+        setError(data.message || t.auth('signUpFailed'))
       }
-    } catch (error) {
-      setError(t.notifications('errorOccurred'))
+    } catch (err) {
+      setError(t.auth('signUpFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -88,24 +81,21 @@ export default function SignUpPage() {
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">{t.auth('signUpTitle')}</h2>
           <p className="mt-2 text-sm text-gray-600">
-            {t.auth('alreadyHaveAccount')}{' '}
-            <Link href="/auth/signin" className="font-medium text-primary-600 hover:text-primary-500">
-              {t.auth('signIn')}
-            </Link>
+            {t.auth('hasAccount')} <Link href="/auth/signin" className="font-medium text-primary-600 hover:text-primary-500">{t.auth('signIn')}</Link>
           </p>
         </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <Card className="py-8 px-4 sm:px-10">
+        <Card className="p-6 py-8 px-4 sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signup-name" className="block text-sm font-medium text-gray-700">
                 {t.auth('name')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="name"
+                  id="signup-name"
                   name="name"
                   type="text"
                   autoComplete="name"
@@ -118,12 +108,12 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700">
                 {t.auth('email')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="email"
+                  id="signup-email"
                   name="email"
                   type="email"
                   autoComplete="email"
@@ -136,12 +126,12 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700">
                 {t.auth('password')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="password"
+                  id="signup-password"
                   name="password"
                   type="password"
                   autoComplete="new-password"
@@ -154,12 +144,12 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signup-confirmPassword" className="block text-sm font-medium text-gray-700">
                 {t.auth('confirmPassword')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="confirmPassword"
+                  id="signup-confirmPassword"
                   name="confirmPassword"
                   type="password"
                   autoComplete="new-password"
@@ -172,12 +162,12 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="referralCode" className="block text-sm font-medium text-gray-700">
-                {t.auth('referralCode')} <span className="text-gray-400">(Optional)</span>
+              <label htmlFor="signup-referralCode" className="block text-sm font-medium text-gray-700">
+                {t.auth('referralCode')} <span className="text-gray-400">({t.auth('optional')})</span>
               </label>
               <div className="mt-1">
                 <Input
-                  id="referralCode"
+                  id="signup-referralCode"
                   name="referralCode"
                   type="text"
                   value={referralCode}
@@ -185,11 +175,6 @@ export default function SignUpPage() {
                   placeholder={t.auth('referralCodePlaceholder')}
                 />
               </div>
-              {referralCode && (
-                <p className="mt-1 text-sm text-green-600">
-                  🎉 {t.auth('referralCodeDescription')}
-                </p>
-              )}
             </div>
 
             {error && (
@@ -199,9 +184,8 @@ export default function SignUpPage() {
             <div>
               <Button
                 type="submit"
-                loading={isLoading}
                 className="w-full"
-                size="lg"
+                loading={isLoading}
               >
                 {t.common('signup')}
               </Button>

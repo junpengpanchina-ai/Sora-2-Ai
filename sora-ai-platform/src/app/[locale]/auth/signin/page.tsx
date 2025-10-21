@@ -31,15 +31,12 @@ export default function SignInPage() {
       })
 
       if (result?.error) {
-        setError(t.errors('unauthorized'))
+        setError(t.auth('invalidCredentials'))
       } else {
-        const session = await getSession()
-        if (session) {
-          router.push('/dashboard')
-        }
+        router.push('/dashboard')
       }
     } catch (error) {
-      setError(t.notifications('errorOccurred'))
+      setError(t.auth('signInError'))
     } finally {
       setIsLoading(false)
     }
@@ -53,26 +50,37 @@ export default function SignInPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">{t.auth('signInTitle')}</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            {t.auth('signInTitle')}
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
-            {t.auth('dontHaveAccount')}{' '}
-            <Link href="/auth/signup" className="font-medium text-primary-600 hover:text-primary-500">
-              {t.common('signup')}
+            {t.auth('noAccount')}{' '}
+            <Link
+              href="/auth/signup"
+              className="font-medium text-primary-600 hover:text-primary-500"
+            >
+              {t.auth('signup')}
             </Link>
           </p>
         </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <Card className="py-8 px-4 sm:px-10">
+        <Card className="p-6 py-8 px-4 sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signin-email" className="block text-sm font-medium text-gray-700">
                 {t.auth('email')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="email"
+                  id="signin-email"
                   name="email"
                   type="email"
                   autoComplete="email"
@@ -85,12 +93,12 @@ export default function SignInPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="signin-password" className="block text-sm font-medium text-gray-700">
                 {t.auth('password')}
               </label>
               <div className="mt-1">
                 <Input
-                  id="password"
+                  id="signin-password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
@@ -102,18 +110,13 @@ export default function SignInPage() {
               </div>
             </div>
 
-            {error && (
-              <div className="text-red-600 text-sm text-center">{error}</div>
-            )}
-
             <div>
               <Button
                 type="submit"
-                loading={isLoading}
+                disabled={isLoading}
                 className="w-full"
-                size="lg"
               >
-                {t.common('signin')}
+                {isLoading ? t.auth('signingIn') : t.auth('signin')}
               </Button>
             </div>
           </form>
@@ -124,7 +127,9 @@ export default function SignInPage() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">{t.auth('signInWithGoogle')}</span>
+                <span className="px-2 bg-white text-gray-500">
+                  {t.auth('signInWithGoogle')}
+                </span>
               </div>
             </div>
 
