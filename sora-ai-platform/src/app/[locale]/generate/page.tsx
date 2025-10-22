@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
@@ -10,6 +12,8 @@ import { useTranslations } from '@/hooks/useTranslations';
 
 export default function GeneratePage() {
   const t = useTranslations();
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9' | '1:1'>('16:9');
   const [duration, setDuration] = useState<5 | 10 | 15 | 30>(15);
@@ -21,7 +25,43 @@ export default function GeneratePage() {
   const [result, setResult] = useState<VideoResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [generationId, setGenerationId] = useState<string | null>(null);
+  const [estimatedTime, setEstimatedTime] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // 检查登录状态
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
+
+  // 如果正在检查登录状态，显示加载
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">{t.common('loading')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 如果未登录，显示登录提示
+  if (status === 'unauthenticated') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="p-8 max-w-md w-full text-center">
+          <Icon name="lock" className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">需要登录</h2>
+          <p className="text-gray-600 mb-4">请先登录以使用视频生成功能</p>
+          <Button onClick={() => router.push('/auth/signin')} className="w-full">
+            去登录
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   const promptSuggestions = [
     "一只可爱的小猫在花园里玩耍",
@@ -34,6 +74,26 @@ export default function GeneratePage() {
     "城市街道上的雨夜，灯光反射在湿漉漉的地面上"
   ];
 
+  // 计算预估生成时间
+  const calculateEstimatedTime = (duration: number, size: string): string => {
+    let baseMinutes = 0;
+    
+    // 根据视频长度计算基础时间
+    if (duration <= 5) baseMinutes = 2;
+    else if (duration <= 10) baseMinutes = 4;
+    else if (duration <= 15) baseMinutes = 6;
+    else baseMinutes = 10;
+    
+    // 根据质量调整时间
+    if (size === 'small') baseMinutes = Math.ceil(baseMinutes * 0.8);
+    else if (size === 'large') baseMinutes = Math.ceil(baseMinutes * 1.5);
+    
+    if (baseMinutes <= 2) return "1-2 分钟";
+    else if (baseMinutes <= 5) return "3-5 分钟";
+    else if (baseMinutes <= 10) return "5-10 分钟";
+    else return "10-15 分钟";
+  };
+
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -45,6 +105,10 @@ export default function GeneratePage() {
     setError(null);
     setResult(null);
     setProgress(0);
+    
+    // 计算预估时间
+    const estimatedMinutes = calculateEstimatedTime(duration, size);
+    setEstimatedTime(estimatedMinutes);
 
     try {
       // 调用后端API生成视频
@@ -81,7 +145,7 @@ export default function GeneratePage() {
   };
 
   const pollVideoResult = async (id: string): Promise<VideoResult> => {
-    const maxAttempts = 120; // 最多轮询120次 (4分钟)
+    const maxAttempts = 150; // 最多轮询150次 (5分钟)
     let attempts = 0;
 
     return new Promise((resolve) => {
@@ -247,6 +311,23 @@ export default function GeneratePage() {
                 >
                   {isGenerating ? t.generate('btnGenerating') : t.generate('btnGenerate')}
                 </Button>
+                
+                {/* 生成时间提示 */}
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-start space-x-2">
+                    <Icon name="info" className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-blue-800">
+                      <p className="font-medium mb-1">⏱️ 生成时间说明</p>
+                      <ul className="space-y-1 text-xs">
+                        <li>• 5秒视频：约 1-2 分钟</li>
+                        <li>• 15秒视频：约 3-5 分钟</li>
+                        <li>• 30秒视频：约 5-10 分钟</li>
+                        <li>• 4K质量：时间会增加 50%</li>
+                        <li>• 复杂场景：可能需要更长时间</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </Card>
           </div>
@@ -313,14 +394,28 @@ export default function GeneratePage() {
                     <Icon name="play" className="w-8 h-8 text-blue-600 animate-spin" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.generate('generatingTitle')}</h3>
-                  <p className="text-gray-600 mb-4">{t.generate('generatingTip')}</p>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                  <p className="text-gray-600 mb-2">{t.generate('generatingTip')}</p>
+                  {estimatedTime && (
+                    <p className="text-sm text-blue-600 mb-4">
+                      ⏱️ 预估时间：{estimatedTime}
+                    </p>
+                  )}
+                  <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
                     <div 
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-blue-600 h-3 rounded-full transition-all duration-500"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-sm text-gray-500">{progress}% {t.generate('progressLabel')}</p>
+                  <div className="flex justify-between items-center text-sm text-gray-500">
+                    <span>{progress}% {t.generate('progressLabel')}</span>
+                    <span className="text-xs">
+                      {progress < 20 && "正在初始化..."}
+                      {progress >= 20 && progress < 50 && "正在分析提示词..."}
+                      {progress >= 50 && progress < 80 && "正在生成视频..."}
+                      {progress >= 80 && progress < 100 && "正在渲染最终结果..."}
+                      {progress === 100 && "生成完成！"}
+                    </span>
+                  </div>
                 </div>
               </Card>
             )}

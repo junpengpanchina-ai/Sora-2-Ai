@@ -34,7 +34,7 @@ export interface VideoResultResponse {
 
 export class SoraAPI {
   private baseUrl = 'https://grsai.dakka.com.cn';
-  private apiKey = process.env.NEXT_PUBLIC_SORA_API_KEY || '';
+  private apiKey = process.env.NEXT_PUBLIC_SORA_API_KEY || process.env.SORA_API_KEY || '';
   
   async generateVideo(params: VideoGenerationParams): Promise<VideoGenerationResponse> {
     try {
@@ -118,7 +118,7 @@ export class SoraAPI {
 
   // 轮询获取结果
   async pollResult(id: string, onProgress?: (result: VideoResult) => void): Promise<VideoResult> {
-    const maxAttempts = 60; // 最多轮询60次
+    const maxAttempts = 120; // 最多轮询120次 (4分钟)
     let attempts = 0;
 
     return new Promise((resolve) => {

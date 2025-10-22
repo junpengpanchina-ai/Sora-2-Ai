@@ -6,14 +6,19 @@ import { SoraAPI } from '@/lib/sora-api'
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('🔍 API 调用开始');
     const session = await getServerSession(authOptions)
+    console.log('🔑 会话状态:', session ? '已登录' : '未登录');
     
     if (!session?.user?.id) {
+      console.log('❌ 用户未登录');
       return NextResponse.json(
         { message: '请先登录' },
         { status: 401 }
       )
     }
+    
+    console.log('👤 用户 ID:', session.user.id);
 
     const { 
       prompt, 
