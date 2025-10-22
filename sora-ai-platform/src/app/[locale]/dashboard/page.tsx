@@ -47,6 +47,11 @@ export default function DashboardPage() {
               <span className="text-sm text-gray-700">
                 {t.common('welcome')}{' '}{session?.user?.name || session?.user?.email}
               </span>
+              <Link href="/profile">
+                <Button variant="outline">
+                  个人资料
+                </Button>
+              </Link>
               <Button variant="outline" onClick={handleSignOut}>
                 {t.common('logout')}
               </Button>

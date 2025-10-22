@@ -90,6 +90,8 @@ model Video {
   size        String?  // small, medium, large
   style       String?  // realistic, animated, artistic, cinematic
   motion      String?  // static, slow, medium, fast
+  externalId  String?  // 外部 API 的任务 ID
+  error       String?  // 错误信息
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   

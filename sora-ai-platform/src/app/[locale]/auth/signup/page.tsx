@@ -72,6 +72,11 @@ export default function SignUpPage() {
   }
 
   const handleGoogleSignIn = () => {
+    // 检查 Google 凭据是否配置
+    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) {
+      alert('Google 登录功能暂未配置，请使用邮箱注册')
+      return
+    }
     signIn('google', { callbackUrl: '/dashboard' })
   }
 
@@ -114,7 +119,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-email"
-                  name="email"
+                  name="signup-email"
                   type="email"
                   autoComplete="email"
                   required
@@ -132,7 +137,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-password"
-                  name="password"
+                  name="signup-password"
                   type="password"
                   autoComplete="new-password"
                   required
@@ -150,7 +155,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-confirmPassword"
-                  name="confirmPassword"
+                  name="signup-confirmPassword"
                   type="password"
                   autoComplete="new-password"
                   required
@@ -168,7 +173,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-referralCode"
-                  name="referralCode"
+                  name="signup-referralCode"
                   type="text"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value)}

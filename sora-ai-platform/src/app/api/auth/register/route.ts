@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
         referralCode: userReferralCode,
         referredBy: referrerId,
-        freeVideosLeft: 1, // 注册送1个免费视频
+        freeVideosLeft: 999, // 注册送999个免费视频（测试用）
         subscriptionPlan: 'free'
       }
     })

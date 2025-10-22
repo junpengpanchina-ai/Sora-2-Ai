@@ -37,7 +37,7 @@ export default function GeneratePage() {
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
-      setError(t.t('generate.promptRequired'));
+      setError(t.generate('promptRequired'));
       return;
     }
 
@@ -71,17 +71,17 @@ export default function GeneratePage() {
         const finalResult = await pollVideoResult(data.video.id);
         setResult(finalResult);
       } else {
-        setError(data.message || t.t('generate.generateFailed'));
+        setError(data.message || t.generate('generateFailed'));
       }
     } catch (err) {
-      setError(`${t.t('generate.generateFailed')}: ${err instanceof Error ? err.message : t.common('error')}`);
+      setError(`${t.generate('generateFailed')}: ${err instanceof Error ? err.message : t.common('error')}`);
     } finally {
       setIsGenerating(false);
     }
   };
 
   const pollVideoResult = async (id: string): Promise<VideoResult> => {
-    const maxAttempts = 60; // 最多轮询60次
+    const maxAttempts = 120; // 最多轮询120次 (4分钟)
     let attempts = 0;
 
     return new Promise((resolve) => {
@@ -119,7 +119,7 @@ export default function GeneratePage() {
                 id,
                 progress: 0,
                 status: 'failed',
-                error: t.t('generate.pollTimeout')
+                error: t.generate('pollTimeout')
               });
             }
           } else {
@@ -127,7 +127,7 @@ export default function GeneratePage() {
               id,
               progress: 0,
               status: 'failed',
-              error: data.message || t.t('generate.fetchResultFailed')
+              error: data.message || t.generate('fetchResultFailed')
             });
           }
         } catch (error) {
@@ -135,7 +135,7 @@ export default function GeneratePage() {
             id,
             progress: 0,
             status: 'failed',
-            error: `${t.t('generate.pollFailed')}: ${error instanceof Error ? error.message : t.common('error')}`
+            error: `${t.generate('pollFailed')}: ${error instanceof Error ? error.message : t.common('error')}`
           });
         }
       };
@@ -150,10 +150,10 @@ export default function GeneratePage() {
       <div className="max-w-6xl mx-auto py-8 px-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {t.t('generate.title')}
+            {t.generate('title')}
           </h1>
           <p className="text-lg text-gray-600">
-            {t.t('generate.subtitle')}
+            {t.generate('subtitle')}
           </p>
         </div>
 
@@ -165,7 +165,7 @@ export default function GeneratePage() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      {t.t('generate.promptLabel')}
+                      {t.generate('promptLabel')}
                     </label>
                     <button
                       type="button"
@@ -181,7 +181,7 @@ export default function GeneratePage() {
                     onChange={(e) => setPrompt(e.target.value)}
                     className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                     rows={4}
-                    placeholder={t.t('generate.promptPlaceholder')}
+                    placeholder={t.generate('promptPlaceholder')}
                   />
                   
                   {/* 提示词建议 */}
@@ -209,7 +209,7 @@ export default function GeneratePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t.t('generate.durationLabel')}
+                      {t.generate('durationLabel')}
                     </label>
                     <select 
                       value={duration}
@@ -225,7 +225,7 @@ export default function GeneratePage() {
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t.t('generate.aspectRatioLabel')}
+                      {t.generate('aspectRatioLabel')}
                     </label>
                     <select 
                       value={aspectRatio}
@@ -245,7 +245,7 @@ export default function GeneratePage() {
                   size="lg"
                   className="w-full"
                 >
-                  {isGenerating ? t.t('generate.btnGenerating') : t.t('generate.btnGenerate')}
+                  {isGenerating ? t.generate('btnGenerating') : t.generate('btnGenerate')}
                 </Button>
               </div>
             </Card>
@@ -254,11 +254,11 @@ export default function GeneratePage() {
           {/* 侧边栏 */}
           <div className="lg:col-span-1">
             <Card className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.t('generate.advancedSettings')}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.generate('advancedSettings')}</h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.t('generate.videoQuality')}
+                    {t.generate('videoQuality')}
                   </label>
                   <select 
                     value={size}
@@ -273,7 +273,7 @@ export default function GeneratePage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.t('generate.stylePreset')}
+                    {t.generate('stylePreset')}
                   </label>
                   <select 
                     value={style}
@@ -312,15 +312,15 @@ export default function GeneratePage() {
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon name="play" className="w-8 h-8 text-blue-600 animate-spin" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.t('generate.generatingTitle')}</h3>
-                  <p className="text-gray-600 mb-4">{t.t('generate.generatingTip')}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.generate('generatingTitle')}</h3>
+                  <p className="text-gray-600 mb-4">{t.generate('generatingTip')}</p>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                     <div 
                       className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-sm text-gray-500">{progress}% {t.t('generate.progressLabel')}</p>
+                  <p className="text-sm text-gray-500">{progress}% {t.generate('progressLabel')}</p>
                 </div>
               </Card>
             )}
@@ -330,7 +330,7 @@ export default function GeneratePage() {
               <Card className="p-6 mt-6 border-red-200 bg-red-50">
                 <div className="text-center">
                   <Icon name="close" className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-red-900 mb-2">{t.t('generate.errorTitle')}</h3>
+                  <h3 className="text-lg font-semibold text-red-900 mb-2">{t.generate('errorTitle')}</h3>
                   <p className="text-red-600 mb-4">{error}</p>
                   <Button 
                     size="sm" 
@@ -349,8 +349,8 @@ export default function GeneratePage() {
               <Card className="p-6 mt-6">
                 <div className="text-center mb-4">
                   <Icon name="check" className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.t('generate.successTitle')}</h3>
-                  <p className="text-gray-600 mb-4">{t.t('generate.successTip')}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.generate('successTitle')}</h3>
+                  <p className="text-gray-600 mb-4">{t.generate('successTip')}</p>
                 </div>
                 
                 {/* 视频播放器 */}
@@ -365,11 +365,11 @@ export default function GeneratePage() {
                 <div className="space-y-2">
                   <Button size="sm" className="w-full">
                     <Icon name="download" className="w-4 h-4 mr-2" />
-                    {t.t('generate.downloadVideo')}
+                    {t.generate('downloadVideo')}
                   </Button>
                   <Button size="sm" variant="outline" className="w-full">
                     <Icon name="share" className="w-4 h-4 mr-2" />
-                    {t.t('generate.shareVideo')}
+                    {t.generate('shareVideo')}
                   </Button>
                 </div>
               </Card>
@@ -380,7 +380,7 @@ export default function GeneratePage() {
               <Card className="p-6 mt-6 border-red-200 bg-red-50">
                 <div className="text-center">
                   <Icon name="close" className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-red-900 mb-2">{t.t('generate.failedTitle')}</h3>
+                  <h3 className="text-lg font-semibold text-red-900 mb-2">{t.generate('failedTitle')}</h3>
                   <p className="text-red-600 mb-4">{result.error || '未知错误'}</p>
                   <Button 
                     size="sm" 
@@ -388,7 +388,7 @@ export default function GeneratePage() {
                     onClick={() => setResult(null)}
                     className="w-full"
                   >
-                    {t.t('generate.regenerate')}
+                    {t.generate('regenerate')}
                   </Button>
                 </div>
               </Card>

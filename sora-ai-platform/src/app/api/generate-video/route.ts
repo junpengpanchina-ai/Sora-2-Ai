@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { SoraAPI } from '@/lib/sora-api'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 检查用户剩余视频数
+    // 检查用户是否存在
     const user = await prisma.user.findUnique({
       where: { id: session.user.id }
     })
@@ -42,12 +43,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (user.freeVideosLeft <= 0 && user.subscriptionPlan === 'free') {
-      return NextResponse.json(
-        { message: '免费视频次数已用完，请升级套餐' },
-        { status: 403 }
-      )
-    }
+    // 移除免费视频次数限制 - 允许无限制生成
 
     // 创建视频记录
     const video = await prisma.video.create({
@@ -65,55 +61,85 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // 减少用户免费视频数
-    if (user.subscriptionPlan === 'free') {
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: {
-          freeVideosLeft: { decrement: 1 }
-        }
+    // 移除免费视频次数扣减 - 允许无限制生成
+
+    // 调用真正的 Sora API
+    const soraAPI = new SoraAPI()
+    
+    try {
+      // 调用 Sora API 生成视频
+      const apiResponse = await soraAPI.generateVideo({
+        prompt,
+        aspectRatio: aspectRatio as '9:16' | '16:9',
+        duration: duration as 10 | 15,
+        size: size as 'small' | 'large'
       })
-    }
 
-    // 模拟视频生成过程
-    setTimeout(async () => {
-      try {
-        // 更新进度
-        await prisma.video.update({
-          where: { id: video.id },
-          data: { progress: 25 }
-        })
-
-        // 模拟 API 调用
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        await prisma.video.update({
-          where: { id: video.id },
-          data: { progress: 50 }
-        })
-
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
+      if (apiResponse.code === 0 && apiResponse.data?.id) {
+        // 更新视频记录，保存 API 返回的任务 ID
         await prisma.video.update({
           where: { id: video.id },
           data: { 
-            progress: 100,
-            status: 'completed',
-            url: `https://example.com/videos/${video.id}.mp4`,
-            duration: 15
+            status: 'processing',
+            progress: 10,
+            externalId: apiResponse.data.id // 保存外部 API 的任务 ID
           }
         })
-      } catch (error) {
-        console.error('视频生成错误:', error)
+
+        // 开始轮询结果
+        soraAPI.pollResult(apiResponse.data.id, async (result) => {
+          try {
+            await prisma.video.update({
+              where: { id: video.id },
+              data: {
+                progress: result.progress,
+                status: result.status === 'succeeded' ? 'completed' : 
+                       result.status === 'failed' ? 'failed' : 'processing',
+                url: result.results?.[0]?.url || null,
+                duration: duration
+              }
+            })
+          } catch (error) {
+            console.error('更新视频状态错误:', error)
+          }
+        }).then(async (finalResult) => {
+          try {
+            await prisma.video.update({
+              where: { id: video.id },
+              data: {
+                progress: finalResult.progress,
+                status: finalResult.status === 'succeeded' ? 'completed' : 'failed',
+                url: finalResult.results?.[0]?.url || null,
+                duration: duration,
+                error: finalResult.error || finalResult.failure_reason || null
+              }
+            })
+          } catch (error) {
+            console.error('最终更新视频状态错误:', error)
+          }
+        })
+      } else {
+        // API 调用失败
         await prisma.video.update({
           where: { id: video.id },
           data: { 
             status: 'failed',
-            progress: 0
+            progress: 0,
+            error: apiResponse.msg || 'API 调用失败'
           }
         })
       }
-    }, 1000)
+    } catch (error) {
+      console.error('Sora API 调用错误:', error)
+      await prisma.video.update({
+        where: { id: video.id },
+        data: { 
+          status: 'failed',
+          progress: 0,
+          error: `API 调用失败: ${error instanceof Error ? error.message : '未知错误'}`
+        }
+      })
+    }
 
     return NextResponse.json({
       message: '视频生成已开始',

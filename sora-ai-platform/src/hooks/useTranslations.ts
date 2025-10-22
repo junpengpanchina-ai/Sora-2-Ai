@@ -49,6 +49,8 @@ export function useTranslations() {
       const translations: Record<string, string> = {
         'signin': 'Sign In',
         'signup': 'Sign Up',
+        'signInTitle': 'Sign In to Your Account',
+        'signUpTitle': 'Create Your Account',
         'email': 'Email',
         'password': 'Password',
         'name': 'Name',
@@ -59,10 +61,16 @@ export function useTranslations() {
         'signupWithGoogle': 'Sign up with Google',
         'alreadyHaveAccount': 'Already have an account?',
         'dontHaveAccount': "Don't have an account?",
+        'noAccount': "Don't have an account?",
+        'hasAccount': 'Already have an account?',
         'signinSuccess': 'Sign in successful',
         'signupSuccess': 'Sign up successful',
         'signinFailed': 'Sign in failed',
-        'signupFailed': 'Sign up failed'
+        'signupFailed': 'Sign up failed',
+        'signingIn': 'Signing In...',
+        'signingUp': 'Signing Up...',
+        'invalidCredentials': 'Invalid email or password',
+        'signInError': 'Sign in failed, please try again'
       }
       return translations[key] || key
     },
@@ -104,6 +112,39 @@ export function useTranslations() {
         'customBranding': 'Custom Branding',
         'prioritySupport': 'Priority Support',
         'dedicatedAccountManager': 'Dedicated Account Manager'
+      }
+      return translations[key] || key
+    },
+    
+    // 视频生成翻译
+    generate: (key: string) => {
+      const translations: Record<string, string> = {
+        'title': 'Generate AI Video',
+        'subtitle': 'Describe the video you want, and AI will create it for you.',
+        'promptLabel': 'Video Description',
+        'promptPlaceholder': 'Describe in detail the content you want to generate...',
+        'promptRequired': 'Please enter a video description',
+        'durationLabel': 'Duration',
+        'aspectRatioLabel': 'Aspect Ratio',
+        'advancedSettings': 'Advanced Settings',
+        'videoQuality': 'Video Quality',
+        'stylePreset': 'Style Preset',
+        'btnGenerate': 'Generate Video',
+        'btnGenerating': 'Generating...',
+        'generatingTitle': 'Generating Video',
+        'generatingTip': 'Generating, please wait...',
+        'progressLabel': 'completed',
+        'errorTitle': 'Generation Failed',
+        'successTitle': 'Generation Complete',
+        'successTip': 'Your video is ready.',
+        'downloadVideo': 'Download Video',
+        'shareVideo': 'Share Video',
+        'failedTitle': 'Generation Failed',
+        'regenerate': 'Regenerate',
+        'generateFailed': 'Generation failed',
+        'pollTimeout': 'Polling timeout',
+        'fetchResultFailed': 'Failed to fetch result',
+        'pollFailed': 'Polling failed'
       }
       return translations[key] || key
     },
