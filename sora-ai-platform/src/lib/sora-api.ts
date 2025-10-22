@@ -38,31 +38,51 @@ export class SoraAPI {
   
   async generateVideo(params: VideoGenerationParams): Promise<VideoGenerationResponse> {
     try {
+      console.log('🚀 开始调用Sora API:', {
+        baseUrl: this.baseUrl,
+        hasApiKey: !!this.apiKey,
+        params
+      });
+      
+      const requestBody = {
+        model: 'sora-2',
+        prompt: params.prompt,
+        url: params.url || '',
+        aspectRatio: params.aspectRatio || '9:16',
+        duration: params.duration || 10,
+        size: params.size || 'small',
+        webHook: '-1', // 使用轮询方式
+        shutProgress: false
+      };
+      
+      console.log('📤 请求体:', requestBody);
+      
       const response = await fetch(`${this.baseUrl}/v1/video/sora-video`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : '',
         },
-        body: JSON.stringify({
-          model: 'sora-2',
-          prompt: params.prompt,
-          url: params.url || '',
-          aspectRatio: params.aspectRatio || '9:16',
-          duration: params.duration || 10,
-          size: params.size || 'small',
-          webHook: '-1', // 使用轮询方式
-          shutProgress: false
-        })
+        body: JSON.stringify(requestBody)
       });
 
+      console.log('📡 API响应状态:', response.status, response.statusText);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ API调用失败:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorText
+        });
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      console.log('✅ API调用成功:', result);
+      return result;
     } catch (error) {
-      console.error('Sora2 API调用失败:', error);
+      console.error('❌ Sora2 API调用失败:', error);
       return {
         code: -1,
         msg: `API调用失败: ${error instanceof Error ? error.message : '未知错误'}`,

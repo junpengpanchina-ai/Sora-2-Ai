@@ -72,13 +72,22 @@ export async function POST(request: NextRequest) {
     const soraAPI = new SoraAPI()
     
     try {
+      // 转换参数类型以匹配API要求
+      const apiAspectRatio = aspectRatio === '16:9' ? '16:9' : '9:16'
+      const apiDuration = duration === 15 ? 15 : 10
+      const apiSize = size === 'large' ? 'large' : 'small'
+      
+      console.log('🎬 调用Sora API，参数:', { prompt, apiAspectRatio, apiDuration, apiSize })
+      
       // 调用 Sora API 生成视频
       const apiResponse = await soraAPI.generateVideo({
         prompt,
-        aspectRatio: aspectRatio as '9:16' | '16:9',
-        duration: duration as 10 | 15,
-        size: size as 'small' | 'large'
+        aspectRatio: apiAspectRatio,
+        duration: apiDuration,
+        size: apiSize
       })
+      
+      console.log('📡 Sora API响应:', apiResponse)
 
       if (apiResponse.code === 0 && apiResponse.data?.id) {
         // 更新视频记录，保存 API 返回的任务 ID
@@ -156,9 +165,17 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('视频生成错误:', error)
+    console.error('❌ 视频生成错误:', error)
+    console.error('错误详情:', {
+      message: error instanceof Error ? error.message : '未知错误',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : undefined
+    })
     return NextResponse.json(
-      { message: '视频生成失败' },
+      { 
+        message: '视频生成失败',
+        error: error instanceof Error ? error.message : '未知错误'
+      },
       { status: 500 }
     )
   }
