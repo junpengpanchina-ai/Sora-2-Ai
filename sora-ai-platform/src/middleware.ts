@@ -1,13 +1,10 @@
-import createMiddleware from 'next-intl/middleware'
-import { locales } from './i18n'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default createMiddleware({
-  // 只支持英文，默认语言为英文
-  locales: ['en'],
-  defaultLocale: 'en',
-  // 不显示语言前缀
-  localePrefix: 'never'
-})
+export function middleware(request: NextRequest) {
+  // 简单的中间件，直接传递请求
+  return NextResponse.next()
+}
 
 export const config = {
   // 匹配所有路径，除了API路由、静态文件和_next

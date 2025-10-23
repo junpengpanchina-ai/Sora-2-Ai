@@ -45,6 +45,19 @@ export function useTranslations() {
           'getStarted': 'Get Started',
           'learnMore': 'Learn More',
           'watchDemo': 'Watch Demo',
+          'features.title': 'Why Choose Sora AI?',
+          'features.aiGeneration.title': 'AI-Powered Generation',
+          'features.aiGeneration.description': 'Advanced artificial intelligence creates stunning videos from simple text descriptions.',
+          'features.easyToUse.title': 'Easy to Use',
+          'features.easyToUse.description': 'No technical skills required. Just describe your vision and let AI do the rest.',
+          'features.fastProcessing.title': 'Fast Processing',
+          'features.fastProcessing.description': 'Get your videos in minutes, not hours. Our optimized AI delivers results quickly.',
+          'growthFeatures.title': 'Growth & Rewards System',
+          'growthFeatures.userLevel.title': 'User Level System',
+          'growthFeatures.userLevel.description': 'Level up by creating videos and unlock exclusive features and rewards.',
+          'growthFeatures.invitationReward.title': 'Invitation Rewards',
+          'growthFeatures.invitationReward.description': 'Invite friends and earn free video generation credits and premium features.',
+          'growthFeatures.socialSharing.title': 'Social Sharing',
           'growthFeatures.socialSharing.description': 'Share your creations and grow your audience with built-in social features.'
         }
         return defaults[key] || key
