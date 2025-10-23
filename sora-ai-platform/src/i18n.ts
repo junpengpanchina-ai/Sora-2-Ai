@@ -1,44 +1,73 @@
 import { getRequestConfig } from 'next-intl/server'
-import { notFound } from 'next/navigation'
 
-export const locales = ['en', 'zh'] as const
+export const locales = ['en'] as const
 export type Locale = (typeof locales)[number]
 
-export default getRequestConfig(async ({ locale }) => {
-  // 验证语言参数
-  if (!locales.includes(locale as any)) {
-    notFound()
-  }
-
-  // 提供默认的空翻译对象，避免路径问题
-  const messages = {
-    common: {
-      loading: locale === 'zh' ? '加载中...' : 'Loading...',
-      error: locale === 'zh' ? '错误' : 'Error',
-      success: locale === 'zh' ? '成功' : 'Success',
-      signup: locale === 'zh' ? '注册' : 'Sign Up',
-      signin: locale === 'zh' ? '登录' : 'Sign In'
-    },
-    auth: {
-      signUpTitle: locale === 'zh' ? '创建您的账户' : 'Create your account',
-      hasAccount: locale === 'zh' ? '已有账户？' : 'Already have an account?',
-      signIn: locale === 'zh' ? '登录' : 'Sign in',
-      name: locale === 'zh' ? '姓名' : 'Full Name',
-      email: locale === 'zh' ? '邮箱地址' : 'Email Address',
-      password: locale === 'zh' ? '密码' : 'Password',
-      confirmPassword: locale === 'zh' ? '确认密码' : 'Confirm Password',
-      referralCode: locale === 'zh' ? '推荐码' : 'Referral Code',
-      optional: locale === 'zh' ? '可选' : 'Optional',
-      signUpWithGoogle: locale === 'zh' ? '使用Google注册' : 'Sign up with Google',
-      passwordMismatch: locale === 'zh' ? '密码不匹配' : 'Passwords do not match',
-      signUpFailed: locale === 'zh' ? '注册失败，请重试' : 'Sign up failed. Please try again.'
-    },
-    nav: {},
-    errors: {},
-    validation: {}
+export default getRequestConfig(async () => {
+  // 只支持英文，加载英文翻译文件
+  let messages = {}
+  
+  try {
+    console.log(`Loading English translations`)
+    
+    const common = await import(`../messages/en/common.json`)
+    const auth = await import(`../messages/en/auth.json`)
+    const nav = await import(`../messages/en/nav.json`)
+    const errors = await import(`../messages/en/errors.json`)
+    const validation = await import(`../messages/en/validation.json`)
+    const home = await import(`../messages/en/home.json`)
+    const generate = await import(`../messages/en/generate.json`)
+    const mvp = await import(`../messages/en/mvp.json`)
+    const pricing = await import(`../messages/en/pricing.json`)
+    const referral = await import(`../messages/en/referral.json`)
+    
+    messages = {
+      common: common.default,
+      auth: auth.default,
+      nav: nav.default,
+      errors: errors.default,
+      validation: validation.default,
+      home: home.default,
+      generate: generate.default,
+      mvp: mvp.default,
+      pricing: pricing.default,
+      referral: referral.default
+    }
+    
+    console.log(`Successfully loaded English translations:`, Object.keys(messages))
+  } catch (error) {
+    console.warn(`Failed to load English translations:`, error)
+    // 提供默认的英文翻译
+    messages = {
+      common: {
+        loading: 'Loading...',
+        error: 'Error',
+        success: 'Success',
+        signup: 'Sign Up',
+        signin: 'Sign In'
+      },
+      auth: {
+        signUpTitle: 'Create your account',
+        hasAccount: 'Already have an account?',
+        signIn: 'Sign in',
+        name: 'Full Name',
+        email: 'Email Address',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        referralCode: 'Referral Code',
+        optional: 'Optional',
+        signUpWithGoogle: 'Sign up with Google',
+        passwordMismatch: 'Passwords do not match',
+        signUpFailed: 'Sign up failed. Please try again.'
+      },
+      nav: {},
+      errors: {},
+      validation: {}
+    }
   }
   
   return {
+    locale: 'en',
     messages,
     timeZone: 'UTC',
     now: new Date()
