@@ -8,6 +8,8 @@ import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import Link from 'next/link'
 import { useTranslations } from '@/hooks/useTranslations'
+import { downloadVideo, getVideoFilename } from '@/lib/download'
+import ShareButton from '@/components/social/ShareButton'
 
 interface Video {
   id: string
@@ -29,6 +31,44 @@ export default function VideosPage() {
   const router = useRouter()
   const [videos, setVideos] = useState<Video[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [downloadingIds, setDownloadingIds] = useState<Set<string>>(new Set())
+
+  // 处理视频下载
+  const handleDownload = async (video: Video) => {
+    if (!video.url) return;
+    
+    setDownloadingIds(prev => new Set(prev).add(video.id));
+    try {
+      const filename = getVideoFilename(video.url, video.title || video.prompt);
+      
+      await downloadVideo(video.url, {
+        filename,
+        onComplete: () => {
+          console.log('视频下载完成');
+          setDownloadingIds(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(video.id);
+            return newSet;
+          });
+        },
+        onError: (error) => {
+          console.error('下载失败:', error);
+          setDownloadingIds(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(video.id);
+            return newSet;
+          });
+        }
+      });
+    } catch (error) {
+      console.error('下载视频失败:', error);
+      setDownloadingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(video.id);
+        return newSet;
+      });
+    }
+  };
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -190,15 +230,27 @@ export default function VideosPage() {
 
                   <div className="mt-4 flex space-x-2">
                     {video.url && video.status === 'completed' && (
-                      <Button variant="outline" size="sm" className="flex-1">
-                      <Icon name="download" className="w-4 h-4 mr-1" />
-                      {t.common('download')}
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => handleDownload(video)}
+                        disabled={downloadingIds.has(video.id)}
+                      >
+                        <Icon name={downloadingIds.has(video.id) ? "loader" : "download"} className="w-4 h-4 mr-1" />
+                        {downloadingIds.has(video.id) ? '下载中...' : t.common('download')}
                       </Button>
                     )}
-                    <Button variant="outline" size="sm" className="flex-1">
-                      <Icon name="settings" className="w-4 h-4 mr-1" />
-                      {t.common('settings')}
-                    </Button>
+                    {video.url && video.status === 'completed' && (
+                      <ShareButton
+                        videoId={video.id}
+                        videoTitle={video.title || video.prompt}
+                        videoUrl={video.url}
+                        onShare={(platform) => {
+                          console.log(`分享视频 ${video.id} 到 ${platform}`);
+                        }}
+                      />
+                    )}
                   </div>
                 </Card>
               ))}

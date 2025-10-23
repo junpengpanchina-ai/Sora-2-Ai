@@ -9,6 +9,8 @@ import { Icon } from '@/components/ui/Icon';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { VideoResult } from '@/lib/sora-api';
 import { useTranslations } from '@/hooks/useTranslations';
+import { downloadVideo, getVideoFilename } from '@/lib/download';
+import ShareButton from '@/components/social/ShareButton';
 
 export default function GeneratePage() {
   const t = useTranslations();
@@ -27,6 +29,33 @@ export default function GeneratePage() {
   const [generationId, setGenerationId] = useState<string | null>(null);
   const [estimatedTime, setEstimatedTime] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  // 处理视频下载
+  const handleDownload = async () => {
+    if (!result?.results?.[0]?.url) return;
+    
+    setIsDownloading(true);
+    try {
+      const videoUrl = result.results[0].url;
+      const filename = getVideoFilename(videoUrl, prompt);
+      
+      await downloadVideo(videoUrl, {
+        filename,
+        onComplete: () => {
+          console.log('视频下载完成');
+          setIsDownloading(false);
+        },
+        onError: (error) => {
+          console.error('下载失败:', error);
+          setIsDownloading(false);
+        }
+      });
+    } catch (error) {
+      console.error('下载视频失败:', error);
+      setIsDownloading(false);
+    }
+  };
 
   // 检查登录状态
   useEffect(() => {
@@ -458,14 +487,23 @@ export default function GeneratePage() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Button size="sm" className="w-full">
-                    <Icon name="download" className="w-4 h-4 mr-2" />
-                    {t.generate('downloadVideo')}
+                  <Button 
+                    size="sm" 
+                    className="w-full"
+                    onClick={handleDownload}
+                    disabled={isDownloading}
+                  >
+                    <Icon name={isDownloading ? "loader" : "download"} className="w-4 h-4 mr-2" />
+                    {isDownloading ? '下载中...' : t.generate('downloadVideo')}
                   </Button>
-                  <Button size="sm" variant="outline" className="w-full">
-                    <Icon name="share" className="w-4 h-4 mr-2" />
-                    {t.generate('shareVideo')}
-                  </Button>
+                  <ShareButton
+                    videoId={result.id || 'unknown'}
+                    videoTitle={prompt.substring(0, 50)}
+                    videoUrl={result.results[0].url}
+                    onShare={(platform) => {
+                      console.log(`分享到 ${platform}`);
+                    }}
+                  />
                 </div>
               </Card>
             )}

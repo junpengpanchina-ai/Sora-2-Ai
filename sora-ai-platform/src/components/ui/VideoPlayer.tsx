@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Icon } from './Icon'
 
 interface VideoPlayerProps {
@@ -10,12 +10,44 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ url, title, className = '' }: VideoPlayerProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showPlayButton, setShowPlayButton] = useState(true)
+
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play()
+      setIsPlaying(true)
+      setShowPlayButton(false)
+    }
+  }
+
+  const handlePause = () => {
+    if (videoRef.current) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+      setShowPlayButton(true)
+    }
+  }
+
+  const handleVideoClick = () => {
+    if (isPlaying) {
+      handlePause()
+    } else {
+      handlePlay()
+    }
+  }
+
   return (
     <div className={`relative bg-black rounded-lg overflow-hidden ${className}`}>
       <video
+        ref={videoRef}
         controls
         className="w-full h-full"
         poster="/api/placeholder/800/450"
+        onClick={handleVideoClick}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       >
         <source src={url} type="video/mp4" />
         您的浏览器不支持视频播放。
@@ -29,11 +61,16 @@ export function VideoPlayer({ url, title, className = '' }: VideoPlayerProps) {
       )}
       
       {/* 播放按钮覆盖层 */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-          <Icon name="play" className="w-8 h-8 text-white ml-1" />
+      {showPlayButton && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center cursor-pointer"
+          onClick={handlePlay}
+        >
+          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200">
+            <Icon name="play" className="w-8 h-8 text-white ml-1" />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
