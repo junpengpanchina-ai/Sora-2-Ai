@@ -1,10 +1,15 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { useTranslations } from '@/lib/i18n/TranslationProvider'
-import { SUPPORTED_LANGUAGES } from '@/lib/i18n/core'
+import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+
+// 简化的语言配置
+const SUPPORTED_LANGUAGES = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' }
+]
 
 interface LanguageSwitcherProps {
   variant?: 'dropdown' | 'buttons' | 'minimal'

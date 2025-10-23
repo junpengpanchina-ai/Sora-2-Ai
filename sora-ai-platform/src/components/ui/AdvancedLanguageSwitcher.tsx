@@ -65,7 +65,7 @@ export default function AdvancedLanguageSwitcher({
     return (
       <div className={`relative ${className}`}>
         <div className="flex items-center space-x-1">
-          {languageOptions.map((language) => (
+          {SUPPORTED_LANGUAGES.map((language) => (
             <button
               key={language.code}
               onClick={() => handleLanguageSelect(language.code)}
@@ -127,7 +127,7 @@ export default function AdvancedLanguageSwitcher({
           <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-20 animate-in slide-in-from-top-2 duration-200">
             <div className="p-2">
               <div className="text-xs font-medium text-gray-500 mb-2 px-2">Select Language</div>
-              {languageOptions.map((language) => (
+              {SUPPORTED_LANGUAGES.map((language) => (
                 <button
                   key={language.code}
                   onClick={() => handleLanguageSelect(language.code)}

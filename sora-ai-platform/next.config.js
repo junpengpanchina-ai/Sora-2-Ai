@@ -1,3 +1,8 @@
+const withNextIntl = require('next-intl/plugin')(
+  // 指定i18n配置文件路径
+  './src/i18n.ts'
+)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   
@@ -64,4 +69,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

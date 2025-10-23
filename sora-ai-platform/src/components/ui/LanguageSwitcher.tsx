@@ -92,7 +92,7 @@ export default function LanguageSwitcher({ currentLocale, className = '' }: Lang
           
           {/* 语言选项 - 带滑入动画 */}
           <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20 animate-in slide-in-from-top-2 duration-200">
-            {currentLanguage.languageOptions?.map((language) => (
+            {SUPPORTED_LANGUAGES.map((language) => (
               <button
                 key={language.code}
                 onClick={() => handleLanguageChange(language.code)}

@@ -1,6 +1,8 @@
 import Header from '@/components/layout/Header'
 import ErrorBoundary from '@/components/ui/ErrorBoundary'
 import NotificationContainer from '@/components/ui/NotificationContainer'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 
 interface LocaleLayoutProps {
   children: React.ReactNode
@@ -12,14 +14,17 @@ export default async function LocaleLayout({
   params
 }: LocaleLayoutProps) {
   const { locale } = await params
+  const messages = await getMessages()
 
   return (
-    <ErrorBoundary>
-      <Header />
-      <main>
-        {children}
-      </main>
-      <NotificationContainer />
-    </ErrorBoundary>
+    <NextIntlClientProvider messages={messages}>
+      <ErrorBoundary>
+        <Header />
+        <main>
+          {children}
+        </main>
+        <NotificationContainer />
+      </ErrorBoundary>
+    </NextIntlClientProvider>
   )
 }

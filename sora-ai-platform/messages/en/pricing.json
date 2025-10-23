@@ -1,0 +1,20 @@
+{
+  "title": "Pricing",
+  "subtitle": "Choose the plan that fits your needs",
+  "free": "Free",
+  "pro": "Pro",
+  "enterprise": "Enterprise",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "save": "Save 20%",
+  "features": {
+    "videosPerMonth": "Videos per month",
+    "resolution": "Resolution",
+    "exportFormats": "Export formats",
+    "prioritySupport": "Priority support",
+    "customBranding": "Custom branding",
+    "apiAccess": "API access"
+  },
+  "getStarted": "Get Started",
+  "contactSales": "Contact Sales"
+}

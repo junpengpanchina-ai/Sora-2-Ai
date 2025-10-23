@@ -38,7 +38,19 @@ export function useTranslations() {
   // 首页翻译
   const home = (key: string) => {
     try {
-      return t('home.' + key) || key
+      const result = t('home.' + key)
+      if (result === 'home.' + key) {
+        // 如果翻译键没有找到，返回默认值
+        const defaults: Record<string, string> = {
+          'title': 'Create Unlimited Possibilities with AI',
+          'subtitle': 'Generate professional-grade video content with just one sentence. From idea to finished product in minutes.',
+          'getStarted': 'Get Started',
+          'learnMore': 'Learn More',
+          'watchDemo': 'Watch Demo'
+        }
+        return defaults[key] || key
+      }
+      return result
     } catch {
       return key
     }
@@ -71,6 +83,78 @@ export function useTranslations() {
     }
   }
 
+  // 定价翻译
+  const pricing = (key: string) => {
+    try {
+      return t('pricing.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 支付翻译
+  const payments = (key: string) => {
+    try {
+      return t('payments.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 推荐翻译
+  const referral = (key: string) => {
+    try {
+      return t('referral.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 错误翻译
+  const errors = (key: string) => {
+    try {
+      return t('errors.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 通知翻译
+  const notifications = (key: string) => {
+    try {
+      return t('notifications.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 成就翻译
+  const achievements = (key: string) => {
+    try {
+      return t('achievements.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 性能翻译
+  const performance = (key: string) => {
+    try {
+      return t('performance.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
+  // 通用翻译函数
+  const tFunction = (key: string) => {
+    try {
+      return t('t.' + key) || key
+    } catch {
+      return key
+    }
+  }
+
   return {
     common,
     nav,
@@ -78,6 +162,14 @@ export function useTranslations() {
     home,
     generate,
     dashboard,
-    mvp
+    mvp,
+    pricing,
+    payments,
+    referral,
+    errors,
+    notifications,
+    achievements,
+    performance,
+    t: tFunction
   }
 }

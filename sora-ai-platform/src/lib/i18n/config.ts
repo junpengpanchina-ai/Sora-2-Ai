@@ -100,32 +100,44 @@ export default getRequestConfig(async ({ locale }) => {
     notFound()
   }
 
-  // 加载翻译
-  const messages = await loadTranslations(locale)
+  // 简化翻译加载 - 使用静态导入
+  let messages = {}
+  
+  try {
+    // 尝试加载模块化翻译
+    console.log(`Loading translations for locale: ${locale}`)
+    
+    const common = await import(`../../messages/${locale}/common.json`)
+    const auth = await import(`../../messages/${locale}/auth.json`)
+    const nav = await import(`../../messages/${locale}/nav.json`)
+    const errors = await import(`../../messages/${locale}/errors.json`)
+    const validation = await import(`../../messages/${locale}/validation.json`)
+    
+    messages = {
+      common: common.default,
+      auth: auth.default,
+      nav: nav.default,
+      errors: errors.default,
+      validation: validation.default
+    }
+    
+    console.log(`Successfully loaded translations for ${locale}:`, Object.keys(messages))
+  } catch (error) {
+    console.warn(`Failed to load translations for ${locale}:`, error)
+    
+    // 回退到传统翻译
+    try {
+      const legacy = await import(`../../messages/${locale}.json`)
+      messages = legacy.default
+    } catch (legacyError) {
+      console.error(`Failed to load legacy translations:`, legacyError)
+      messages = {}
+    }
+  }
   
   return {
     messages,
     timeZone: 'UTC',
-    now: new Date(),
-    formats: {
-      dateTime: {
-        short: {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric'
-        }
-      },
-      number: {
-        precise: {
-          maximumFractionDigits: 5
-        }
-      },
-      list: {
-        enumeration: {
-          style: 'long',
-          type: 'conjunction'
-        }
-      }
-    }
+    now: new Date()
   }
 })

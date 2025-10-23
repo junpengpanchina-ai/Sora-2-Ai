@@ -1,101 +1,100 @@
 'use client'
 
-import { useTranslations, useNamespaceTranslations } from '@/lib/i18n/TranslationProvider'
-import { TranslationNamespace } from '@/lib/i18n/core'
+import { useTranslations as useNextIntlTranslations } from 'next-intl'
+import { useRouter, usePathname } from 'next/navigation'
+import { useState, useCallback } from 'react'
 
 /**
- * 现代化翻译Hook
- * 基于《React i18n Best Practices》设计
+ * 简化的翻译Hook
+ * 直接使用next-intl
  */
 
 // 通用翻译Hook
 export function useCommonTranslations() {
-  return useNamespaceTranslations('common')
+  const t = useNextIntlTranslations('common')
+  return { t }
 }
 
 // 认证翻译Hook
 export function useAuthTranslations() {
-  return useNamespaceTranslations('auth')
+  const t = useNextIntlTranslations('auth')
+  return { t }
 }
 
 // 导航翻译Hook
 export function useNavTranslations() {
-  return useNamespaceTranslations('nav')
+  const t = useNextIntlTranslations('nav')
+  return { t }
 }
 
 // 首页翻译Hook
 export function useHomeTranslations() {
-  return useNamespaceTranslations('home')
+  const t = useNextIntlTranslations('home')
+  return { t }
 }
 
 // 生成页面翻译Hook
 export function useGenerateTranslations() {
-  return useNamespaceTranslations('generate')
+  const t = useNextIntlTranslations('generate')
+  return { t }
 }
 
 // 仪表板翻译Hook
 export function useDashboardTranslations() {
-  return useNamespaceTranslations('dashboard')
+  const t = useNextIntlTranslations('dashboard')
+  return { t }
 }
 
 // MVP翻译Hook
 export function useMVPTranslations() {
-  return useNamespaceTranslations('mvp')
+  const t = useNextIntlTranslations('mvp')
+  return { t }
 }
 
 // 错误翻译Hook
 export function useErrorTranslations() {
-  return useNamespaceTranslations('errors')
+  const t = useNextIntlTranslations('errors')
+  return { t }
 }
 
 // 验证翻译Hook
 export function useValidationTranslations() {
-  return useNamespaceTranslations('validation')
-}
-
-// 高级翻译Hook - 支持多个命名空间
-export function useMultiNamespaceTranslations(namespaces: TranslationNamespace[]) {
-  const { state, actions } = useTranslations()
-  
-  const getTranslations = (namespace: TranslationNamespace) => {
-    return (key: string, params?: Record<string, any>) => {
-      return actions.getTranslation(namespace, key, params)
-    }
-  }
-  
-  const translations = namespaces.reduce((acc, namespace) => {
-    acc[namespace] = getTranslations(namespace)
-    return acc
-  }, {} as Record<TranslationNamespace, (key: string, params?: Record<string, any>) => string>)
-  
-  return {
-    ...translations,
-    ...state,
-    actions
-  }
-}
-
-// 格式化Hook
-export function useFormatters() {
-  const { actions } = useTranslations()
-  
-  return {
-    formatDate: actions.formatDate,
-    formatNumber: actions.formatNumber,
-    formatCurrency: actions.formatCurrency
-  }
+  const t = useNextIntlTranslations('validation')
+  return { t }
 }
 
 // 语言切换Hook
 export function useLanguageSwitcher() {
-  const { state, actions } = useTranslations()
+  const router = useRouter()
+  const pathname = usePathname()
+  const [isChanging, setIsChanging] = useState(false)
+  
+  // 从路径中提取当前语言
+  const currentLocale = pathname.split('/')[1] || 'en'
+  
+  const changeLanguage = useCallback(async (locale: string) => {
+    if (locale === currentLocale || isChanging) return
+    
+    setIsChanging(true)
+    
+    try {
+      // 构建新的路径
+      const segments = pathname.split('/')
+      segments[1] = locale
+      const newPath = segments.join('/')
+      
+      // 使用 router.push 进行导航
+      await router.push(newPath)
+    } catch (error) {
+      console.error('Language change failed:', error)
+    } finally {
+      setIsChanging(false)
+    }
+  }, [router, pathname, currentLocale, isChanging])
   
   return {
-    currentLocale: state.locale,
-    isChanging: state.isChanging,
-    isLoading: state.isLoading,
-    error: state.error,
-    changeLanguage: actions.changeLanguage,
-    preloadTranslations: actions.preloadTranslations
+    currentLocale,
+    isChanging,
+    changeLanguage
   }
 }
