@@ -117,7 +117,7 @@ export default function SignInPage() {
               <div className="mt-1">
                 <Input
                   id="signin-email"
-                  name="signin-email"
+                  name="email"
                   type="email"
                   autoComplete="email"
                   required
@@ -135,7 +135,7 @@ export default function SignInPage() {
               <div className="mt-1">
                 <Input
                   id="signin-password"
-                  name="signin-password"
+                  name="password"
                   type="password"
                   autoComplete="current-password"
                   required

@@ -119,7 +119,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-email"
-                  name="signup-email"
+                  name="email"
                   type="email"
                   autoComplete="email"
                   required
@@ -137,7 +137,7 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-password"
-                  name="signup-password"
+                  name="password"
                   type="password"
                   autoComplete="new-password"
                   required
@@ -155,9 +155,9 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-confirmPassword"
-                  name="signup-confirmPassword"
+                  name="confirmPassword"
                   type="password"
-                  autoComplete="new-password"
+                  autoComplete="off"
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -173,8 +173,9 @@ export default function SignUpPage() {
               <div className="mt-1">
                 <Input
                   id="signup-referralCode"
-                  name="signup-referralCode"
+                  name="referralCode"
                   type="text"
+                  autoComplete="off"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value)}
                   placeholder={t.auth('referralCodePlaceholder')}
