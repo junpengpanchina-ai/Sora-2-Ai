@@ -4,11 +4,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { useLanguageSwitcher } from '@/hooks/useModernTranslations'
 
 // 简化的语言配置
 const SUPPORTED_LANGUAGES = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' }
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', nativeName: '中文', flag: '🇨🇳' }
 ]
 
 interface LanguageSwitcherProps {
@@ -26,18 +27,18 @@ export default function LanguageSwitcher({
   showNativeNames = true,
   className = ''
 }: LanguageSwitcherProps) {
-  const { state, actions } = useTranslations()
+  const { currentLocale, isChanging, changeLanguage } = useLanguageSwitcher()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const currentLanguage = SUPPORTED_LANGUAGES.find(lang => lang.code === state.locale) || SUPPORTED_LANGUAGES[0]
+  const currentLanguage = SUPPORTED_LANGUAGES.find(lang => lang.code === currentLocale) || SUPPORTED_LANGUAGES[0]
 
   // 处理语言切换
   const handleLanguageChange = async (locale: string) => {
-    if (locale === state.locale || state.isChanging) return
+    if (locale === currentLocale || isChanging) return
     
     setIsOpen(false)
-    await actions.changeLanguage(locale)
+    await changeLanguage(locale)
   }
 
   // 点击外部关闭
@@ -69,15 +70,15 @@ export default function LanguageSwitcher({
           <button
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
-            disabled={state.isChanging}
+            disabled={isChanging}
             className={`
               ${getSizeClasses()}
               rounded-lg transition-all duration-200
-              ${state.locale === language.code
+              ${currentLocale === language.code
                 ? 'bg-primary-100 text-primary-600 shadow-sm'
                 : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
               }
-              ${state.isChanging ? 'opacity-50 pointer-events-none' : ''}
+              ${isChanging ? 'opacity-50 pointer-events-none' : ''}
             `}
           >
             {showFlags && <span className="text-lg mr-1">{language.flag}</span>}
@@ -96,14 +97,14 @@ export default function LanguageSwitcher({
           <button
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
-            disabled={state.isChanging}
+            disabled={isChanging}
             className={`
               p-1 rounded transition-all duration-200
-              ${state.locale === language.code
+              ${currentLocale === language.code
                 ? 'bg-primary-100 text-primary-600'
                 : 'hover:bg-gray-100 text-gray-600'
               }
-              ${state.isChanging ? 'opacity-50 pointer-events-none' : ''}
+              ${isChanging ? 'opacity-50 pointer-events-none' : ''}
             `}
             title={showNativeNames ? language.nativeName : language.name}
           >
@@ -123,17 +124,17 @@ export default function LanguageSwitcher({
         size={size}
         className={`
           flex items-center space-x-2 transition-all duration-200
-          ${state.isChanging ? 'opacity-50 pointer-events-none' : ''}
+          ${isChanging ? 'opacity-50 pointer-events-none' : ''}
         `}
-        disabled={state.isChanging}
+        disabled={isChanging}
       >
         {showFlags && (
           <span className="text-lg transition-transform duration-200">
-            {state.isChanging ? '🔄' : currentLanguage.flag}
+            {isChanging ? '🔄' : currentLanguage.flag}
           </span>
         )}
         <span className="transition-opacity duration-200">
-          {state.isChanging ? 'Switching...' : currentLanguage.name}
+          {isChanging ? 'Switching...' : currentLanguage.name}
         </span>
         {showNativeNames && currentLanguage.nativeName !== currentLanguage.name && (
           <span className="text-xs text-gray-500 hidden sm:inline">
@@ -169,12 +170,12 @@ export default function LanguageSwitcher({
                   className={`
                     w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-gray-50 
                     transition-all duration-200 rounded-md group
-                    ${state.locale === language.code 
+                    ${currentLocale === language.code 
                       ? 'bg-primary-50 text-primary-600' 
                       : 'text-gray-700 hover:text-gray-900'
                     }
                   `}
-                  disabled={state.isChanging}
+                  disabled={isChanging}
                 >
                   {showFlags && (
                     <span className="text-lg transition-transform duration-200 group-hover:scale-110">
@@ -187,13 +188,13 @@ export default function LanguageSwitcher({
                       <div className="text-xs text-gray-500">{language.nativeName}</div>
                     )}
                   </div>
-                  {state.locale === language.code && (
+                  {currentLocale === language.code && (
                     <Icon 
                       name="check" 
                       className="h-4 w-4 text-primary-600 animate-in zoom-in duration-200" 
                     />
                   )}
-                  {state.isChanging && state.locale === language.code && (
+                  {isChanging && currentLocale === language.code && (
                     <div className="h-4 w-4 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
                   )}
                 </button>

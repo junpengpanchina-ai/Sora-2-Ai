@@ -59,7 +59,7 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <LanguageSwitcher currentLocale={currentLocale} />
+            <LanguageSwitcher />
             {session ? (
               <>
                 <span className="text-sm text-gray-700">
