@@ -1,29 +1,10 @@
-import createMiddleware from 'next-intl/middleware'
-import { locales } from './i18n'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default createMiddleware({
-  // 支持的语言列表
-  locales,
-  
-  // 默认语言
-  defaultLocale: 'en',
-  
-  // 语言检测策略
-  localeDetection: true,
-  
-  // 路径前缀策略
-  pathnames: {
-    '/': '/',
-    '/auth/signin': {
-      en: '/auth/signin',
-      zh: '/auth/signin'
-    },
-    '/auth/signup': {
-      en: '/auth/signup', 
-      zh: '/auth/signup'
-    }
-  }
-})
+export function middleware(request: NextRequest) {
+  // 移除语言路由，直接返回
+  return NextResponse.next()
+}
 
 export const config = {
   // 匹配所有路径，除了API路由、静态文件和_next

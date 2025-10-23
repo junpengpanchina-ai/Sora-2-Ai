@@ -6,7 +6,7 @@
 import { getRequestConfig } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
-export const locales = ['en', 'zh'] as const
+export const locales = ['en'] as const
 export type Locale = (typeof locales)[number]
 
 // 翻译命名空间
@@ -95,28 +95,24 @@ async function loadTranslations(locale: string) {
 }
 
 export default getRequestConfig(async ({ locale }) => {
-  // 验证语言参数
-  if (!locales.includes(locale as any)) {
-    notFound()
-  }
-
-  // 简化翻译加载 - 使用静态导入
+  // 只支持英文，忽略语言参数
+  const defaultLocale = 'en'
+  
   let messages = {}
   
   try {
-    // 尝试加载模块化翻译
-    console.log(`Loading translations for locale: ${locale}`)
+    console.log(`Loading English translations`)
     
-    const common = await import(`../../messages/${locale}/common.json`)
-    const auth = await import(`../../messages/${locale}/auth.json`)
-    const nav = await import(`../../messages/${locale}/nav.json`)
-    const errors = await import(`../../messages/${locale}/errors.json`)
-    const validation = await import(`../../messages/${locale}/validation.json`)
-    const home = await import(`../../messages/${locale}/home.json`)
-    const generate = await import(`../../messages/${locale}/generate.json`)
-    const mvp = await import(`../../messages/${locale}/mvp.json`)
-    const pricing = await import(`../../messages/${locale}/pricing.json`)
-    const referral = await import(`../../messages/${locale}/referral.json`)
+    const common = await import(`../../messages/en/common.json`)
+    const auth = await import(`../../messages/en/auth.json`)
+    const nav = await import(`../../messages/en/nav.json`)
+    const errors = await import(`../../messages/en/errors.json`)
+    const validation = await import(`../../messages/en/validation.json`)
+    const home = await import(`../../messages/en/home.json`)
+    const generate = await import(`../../messages/en/generate.json`)
+    const mvp = await import(`../../messages/en/mvp.json`)
+    const pricing = await import(`../../messages/en/pricing.json`)
+    const referral = await import(`../../messages/en/referral.json`)
     
     messages = {
       common: common.default,
@@ -131,18 +127,10 @@ export default getRequestConfig(async ({ locale }) => {
       referral: referral.default
     }
     
-    console.log(`Successfully loaded translations for ${locale}:`, Object.keys(messages))
+    console.log(`Successfully loaded English translations:`, Object.keys(messages))
   } catch (error) {
-    console.warn(`Failed to load translations for ${locale}:`, error)
-    
-    // 回退到传统翻译
-    try {
-      const legacy = await import(`../../messages/${locale}.json`)
-      messages = legacy.default
-    } catch (legacyError) {
-      console.error(`Failed to load legacy translations:`, legacyError)
-      messages = {}
-    }
+    console.warn(`Failed to load English translations:`, error)
+    messages = {}
   }
   
   return {

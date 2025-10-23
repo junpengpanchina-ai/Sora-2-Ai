@@ -1,8 +1,6 @@
 'use client'
 
-// 临时兼容性Hook - 保持现有代码工作
-// 基于现代化翻译系统
-
+// 简化的翻译Hook - 只支持英文
 import { useTranslations as useNextIntlTranslations } from 'next-intl'
 
 export function useTranslations() {

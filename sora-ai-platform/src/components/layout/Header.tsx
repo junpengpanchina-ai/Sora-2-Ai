@@ -7,7 +7,6 @@ import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import MobileMenu from './MobileMenu';
-import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import { useTranslations } from '@/hooks/useTranslations';
 
 const Header: React.FC = () => {
@@ -59,7 +58,6 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <LanguageSwitcher />
             {session ? (
               <>
                 <span className="text-sm text-gray-700">

@@ -1,29 +1,30 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { SessionProvider } from '@/components/providers/SessionProvider';
-import './globals.css';
+import Header from '@/components/layout/Header'
+import ErrorBoundary from '@/components/ui/ErrorBoundary'
+import NotificationContainer from '@/components/ui/NotificationContainer'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 
-const inter = Inter({ subsets: ['latin'] });
+interface LocaleLayoutProps {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}
 
-export const metadata: Metadata = {
-  title: 'Sora AI - Create Unlimited Possibilities with AI',
-  description: 'Generate professional-grade video content with just one sentence. From idea to finished product in minutes.',
-  keywords: ['AI video generation', 'Sora', 'video creation', 'artificial intelligence'],
-  authors: [{ name: 'Sora AI Team' }],
-};
-
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  params
+}: LocaleLayoutProps) {
+  const { locale } = await params
+  const messages = await getMessages()
+
   return (
-    <html>
-      <body className={inter.className}>
-        <SessionProvider>
+    <NextIntlClientProvider messages={messages}>
+      <ErrorBoundary>
+        <Header />
+        <main>
           {children}
-        </SessionProvider>
-      </body>
-    </html>
-  );
+        </main>
+        <NotificationContainer />
+      </ErrorBoundary>
+    </NextIntlClientProvider>
+  )
 }

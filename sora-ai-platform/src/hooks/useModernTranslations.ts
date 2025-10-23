@@ -63,38 +63,13 @@ export function useValidationTranslations() {
   return { t }
 }
 
-// 语言切换Hook
+// 语言切换Hook - 已禁用，只支持英文
 export function useLanguageSwitcher() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [isChanging, setIsChanging] = useState(false)
-  
-  // 从路径中提取当前语言
-  const currentLocale = pathname.split('/')[1] || 'en'
-  
-  const changeLanguage = useCallback(async (locale: string) => {
-    if (locale === currentLocale || isChanging) return
-    
-    setIsChanging(true)
-    
-    try {
-      // 构建新的路径
-      const segments = pathname.split('/')
-      segments[1] = locale
-      const newPath = segments.join('/')
-      
-      // 使用 router.push 进行导航
-      await router.push(newPath)
-    } catch (error) {
-      console.error('Language change failed:', error)
-    } finally {
-      setIsChanging(false)
-    }
-  }, [router, pathname, currentLocale, isChanging])
-  
   return {
-    currentLocale,
-    isChanging,
-    changeLanguage
+    currentLocale: 'en',
+    isChanging: false,
+    changeLanguage: async () => {
+      console.log('Language switching is disabled - English only')
+    }
   }
 }
