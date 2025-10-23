@@ -112,13 +112,23 @@ export default getRequestConfig(async ({ locale }) => {
     const nav = await import(`../../messages/${locale}/nav.json`)
     const errors = await import(`../../messages/${locale}/errors.json`)
     const validation = await import(`../../messages/${locale}/validation.json`)
+    const home = await import(`../../messages/${locale}/home.json`)
+    const generate = await import(`../../messages/${locale}/generate.json`)
+    const mvp = await import(`../../messages/${locale}/mvp.json`)
+    const pricing = await import(`../../messages/${locale}/pricing.json`)
+    const referral = await import(`../../messages/${locale}/referral.json`)
     
     messages = {
       common: common.default,
       auth: auth.default,
       nav: nav.default,
       errors: errors.default,
-      validation: validation.default
+      validation: validation.default,
+      home: home.default,
+      generate: generate.default,
+      mvp: mvp.default,
+      pricing: pricing.default,
+      referral: referral.default
     }
     
     console.log(`Successfully loaded translations for ${locale}:`, Object.keys(messages))

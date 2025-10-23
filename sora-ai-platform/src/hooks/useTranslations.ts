@@ -46,7 +46,8 @@ export function useTranslations() {
           'subtitle': 'Generate professional-grade video content with just one sentence. From idea to finished product in minutes.',
           'getStarted': 'Get Started',
           'learnMore': 'Learn More',
-          'watchDemo': 'Watch Demo'
+          'watchDemo': 'Watch Demo',
+          'growthFeatures.socialSharing.description': 'Share your creations and grow your audience with built-in social features.'
         }
         return defaults[key] || key
       }
@@ -59,7 +60,27 @@ export function useTranslations() {
   // 生成翻译
   const generate = (key: string) => {
     try {
-      return t('generate.' + key) || key
+      const result = t('generate.' + key)
+      if (result === 'generate.' + key) {
+        // 如果翻译键没有找到，返回默认值
+        const defaults: Record<string, string> = {
+          'title': 'Generate Video',
+          'subtitle': 'Create amazing videos with AI',
+          'prompt': 'Video Description',
+          'promptPlaceholder': 'Describe the video you want to create...',
+          'aspectRatio': 'Aspect Ratio',
+          'duration': 'Duration',
+          'quality': 'Quality',
+          'advancedSettings': 'Advanced Settings',
+          'videoQuality': 'Video Quality',
+          'stylePreset': 'Style Preset',
+          'motionIntensity': 'Motion Intensity',
+          'generateButton': 'Generate Video',
+          'generating': 'Generating...'
+        }
+        return defaults[key] || key
+      }
+      return result
     } catch {
       return key
     }
