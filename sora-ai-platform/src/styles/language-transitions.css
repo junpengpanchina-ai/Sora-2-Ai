@@ -1,0 +1,117 @@
+/* 语言切换动画样式 */
+
+/* 页面切换动画 */
+.language-transition {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.language-transition.fade-out {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.language-transition.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 文本切换动画 */
+.text-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+.text-transition.changing {
+  opacity: 0.5;
+  transform: translateY(-2px);
+}
+
+/* 语言切换器动画 */
+.language-switcher {
+  transition: all 0.2s ease-in-out;
+}
+
+.language-switcher:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 下拉菜单动画 */
+.language-dropdown {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 语言选项悬停效果 */
+.language-option {
+  transition: all 0.15s ease-in-out;
+}
+
+.language-option:hover {
+  transform: translateX(4px);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* 加载状态动画 */
+.language-loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 成功状态动画 */
+.language-success {
+  animation: successBounce 0.6s ease-out;
+}
+
+@keyframes successBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 响应式动画 */
+@media (prefers-reduced-motion: reduce) {
+  .language-transition,
+  .text-transition,
+  .language-switcher,
+  .language-dropdown,
+  .language-option {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .language-dropdown {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+  
+  .language-option:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+}

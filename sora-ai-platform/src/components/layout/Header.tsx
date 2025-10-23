@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -13,6 +14,10 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session, status } = useSession();
   const t = useTranslations();
+  const pathname = usePathname();
+  
+  // 从路径中提取当前语言
+  const currentLocale = pathname.split('/')[1] || 'en';
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
@@ -54,7 +59,7 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <LanguageSwitcher currentLocale="en" />
+            <LanguageSwitcher currentLocale={currentLocale} />
             {session ? (
               <>
                 <span className="text-sm text-gray-700">
