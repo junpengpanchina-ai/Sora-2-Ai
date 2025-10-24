@@ -21,30 +21,40 @@ Vercel 部署失败的原因是项目结构问题：
    - 触发新的部署
    - Vercel 会自动使用正确的根目录
 
-### 方法 2: 使用 vercel.json 配置
+### 方法 2: 使用根目录 package.json 和 vercel.json 配置
 
-创建了 `vercel.json` 配置文件：
+1. **更新了根目录 `package.json`**：
+   ```json
+   {
+     "name": "sora-2-ai",
+     "version": "1.0.0",
+     "description": "Sora2视频生成AI应用",
+     "private": true,
+     "scripts": {
+       "dev": "cd sora-ai-platform && npm run dev",
+       "build": "cd sora-ai-platform && npm run build",
+       "start": "cd sora-ai-platform && npm run start",
+       "lint": "cd sora-ai-platform && npm run lint"
+     },
+     "workspaces": [
+       "sora-ai-platform"
+     ],
+     "engines": {
+       "node": ">=18.0.0"
+     }
+   }
+   ```
 
-```json
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "sora-ai-platform/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "distDir": ".next"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "sora-ai-platform/$1"
-    }
-  ]
-}
-```
+2. **创建了 `vercel.json` 配置文件**：
+   ```json
+   {
+     "buildCommand": "npm run build",
+     "outputDirectory": "sora-ai-platform/.next",
+     "installCommand": "npm install",
+     "devCommand": "npm run dev",
+     "framework": "nextjs"
+   }
+   ```
 
 ### 3. 环境变量配置
 
