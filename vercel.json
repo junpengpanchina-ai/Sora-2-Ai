@@ -1,7 +1,19 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "sora-ai-platform/.next",
-  "installCommand": "npm install",
+  "installCommand": "npm install --production=false",
   "devCommand": "npm run dev",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "functions": {
+    "sora-ai-platform/src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"],
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
 }
