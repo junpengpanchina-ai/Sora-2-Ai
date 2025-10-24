@@ -2,18 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "sora-ai-platform/package.json",
       "use": "@vercel/next"
     }
   ],
   "routes": [
     {
-      "src": "/sora-ai-platform/(.*)",
-      "dest": "/sora-ai-platform/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "sora-ai-platform/$1"
     }
   ]
 }
