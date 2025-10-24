@@ -1,19 +1,24 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "sora-ai-platform/.next",
-  "installCommand": "npm install --production=false",
-  "devCommand": "npm run dev",
-  "framework": "nextjs",
+  "version": 2,
+  "builds": [
+    {
+      "src": "sora-ai-platform/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "distDir": ".next"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "sora-ai-platform/$1"
+    }
+  ],
   "functions": {
     "sora-ai-platform/src/app/api/**/*.ts": {
       "runtime": "nodejs18.x",
       "maxDuration": 30
-    }
-  },
-  "regions": ["iad1"],
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
     }
   }
 }
