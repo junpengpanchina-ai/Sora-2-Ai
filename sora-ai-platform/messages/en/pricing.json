@@ -16,5 +16,39 @@
     "apiAccess": "API access"
   },
   "getStarted": "Get Started",
-  "contactSales": "Contact Sales"
+  "contactSales": "Contact Sales",
+  "cta": {
+    "loginToSubscribe": "Login to Subscribe"
+  },
+  "pro": {
+    "popular": "Most Popular"
+  },
+  "invitationReward": {
+    "title": "Invitation Rewards",
+    "description": "Invite friends and earn rewards",
+    "newUserReward": "New User Reward",
+    "referralRewards": [
+      "10s video generation",
+      "15s video generation"
+    ]
+  },
+  "faqTitle": "Frequently Asked Questions",
+  "faq": {
+    "cancelAnytime": {
+      "q": "Can I cancel anytime?",
+      "a": "Yes, you can cancel your subscription at any time. No questions asked."
+    },
+    "paymentMethods": {
+      "q": "What payment methods do you accept?",
+      "a": "We accept all major credit cards, PayPal, and bank transfers."
+    },
+    "generationTime": {
+      "q": "How long does video generation take?",
+      "a": "Most videos are generated within 2-5 minutes, depending on complexity."
+    },
+    "apiAvailability": {
+      "q": "Is there an API available?",
+      "a": "Yes, we provide REST API access for Enterprise plans."
+    }
+  }
 }

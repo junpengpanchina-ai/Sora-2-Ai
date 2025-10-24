@@ -12,5 +12,8 @@
     "videosGenerated": "Videos Generated",
     "timeSaved": "Time Saved",
     "creativityScore": "Creativity Score"
+  },
+  "communityActivity": {
+    "recentActivity": "Recent Activity"
   }
 }
