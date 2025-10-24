@@ -27,7 +27,7 @@ export default function LanguageSwitcher({ currentLocale, className = '' }: Lang
     setIsOpen(false)
 
     try {
-      await changeLanguage(locale)
+      await changeLanguage()
     } catch (error) {
       console.error('Language change failed:', error)
     } finally {

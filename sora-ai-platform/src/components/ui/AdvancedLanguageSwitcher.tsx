@@ -42,7 +42,7 @@ export default function AdvancedLanguageSwitcher({
     if (locale === currentLocale || isChanging) return
 
     setIsOpen(false)
-    await changeLanguage(locale)
+    await changeLanguage()
   }
 
   const getSizeClasses = () => {
