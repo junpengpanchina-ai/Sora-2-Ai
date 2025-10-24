@@ -1,21 +1,43 @@
 {
-  "name": "sora-2-ai",
-  "version": "1.0.0",
-  "description": "Sora2视频生成AI应用",
+  "name": "sora-ai-platform",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cd sora-ai-platform && npm run dev",
-    "build": "cd sora-ai-platform && npm run build",
-    "start": "cd sora-ai-platform && npm run start",
-    "lint": "cd sora-ai-platform && npm run lint"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
-  "workspaces": [
-    "sora-ai-platform"
-  ],
   "dependencies": {
-    "next": "^14.2.33"
+    "@auth/prisma-adapter": "^2.0.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@prisma/client": "^6.18.0",
+    "@stripe/stripe-js": "^2.0.0",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.263.0",
+    "multer": "^2.0.2",
+    "next": "^14.2.33",
+    "next-auth": "^4.24.0",
+    "next-intl": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "stripe": "^14.0.0",
+    "tailwind-merge": "^2.0.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "14.2.5",
+    "postcss": "^8.4.0",
+    "prisma": "^6.18.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.0.0"
   }
 }

@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?   // 密码字段
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Subscription fields
+  subscriptionId String?
+  subscriptionStatus String? // active, canceled, past_due, etc.
+  subscriptionPlan String? // free, basic, pro, enterprise
+  subscriptionEndsAt DateTime?
+  
+  // Referral system
+  referralCode    String?   @unique // 用户专属邀请码
+  referredBy      String?   // 邀请人ID
+  referralCount   Int       @default(0) // 邀请人数
+  freeVideosLeft  Int       @default(1) // 剩余免费视频数
+  phoneVerified   Boolean   @default(false) // 手机号验证状态
+  
+  accounts Account[]
+  sessions Session[]
+  videos   Video[]
+  payments Payment[]
+  referrals User[] @relation("UserReferrals")
+  referrer User?   @relation("UserReferrals", fields: [referredBy], references: [id])
+  referralRewardsGiven ReferralReward[] @relation("ReferrerRewards")
+  referralRewardsReceived ReferralReward[] @relation("RefereeRewards")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  title       String?
+  prompt       String
+  url         String?
+  status      String   @default("pending") // pending, processing, completed, failed
+  progress    Int      @default(0)
+  duration    Int?     // in seconds
+  aspectRatio String?  // 16:9, 9:16, 1:1
+  size        String?  // small, medium, large
+  style       String?  // realistic, animated, artistic, cinematic
+  motion      String?  // static, slow, medium, fast
+  externalId  String?  // 外部 API 的任务 ID
+  error       String?  // 错误信息
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id                String   @id @default(cuid())
+  stripePaymentId   String   @unique // Stripe payment intent ID
+  stripeSessionId   String?  // Stripe checkout session ID
+  stripeSubscriptionId String? // Stripe subscription ID
+  amount            Int      // 金额（分）
+  currency          String   @default("cny") // 货币
+  status            String   // pending, succeeded, failed, canceled, refunded
+  paymentMethod     String?  // card, alipay, wechat
+  description       String?  // 支付描述
+  
+  // 退款相关
+  refundedAmount    Int      @default(0) // 已退款金额（分）
+  refundedAt        DateTime? // 退款时间
+  refundReason      String?  // 退款原因
+  
+  // 关联信息
+  plan              String?  // basic, pro, enterprise
+  billingPeriod     String?  // monthly, yearly
+  
+  // 时间戳
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  paidAt            DateTime? // 支付成功时间
+  
+  // 关联用户
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([stripePaymentId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ReferralReward {
+  id          String   @id @default(cuid())
+  referrerId  String   // 邀请人ID
+  refereeId   String   // 被邀请人ID
+  rewardType  String   // video_10s, video_15s, subscription_trial
+  rewardCount Int      @default(1) // 奖励数量
+  claimed     Boolean  @default(false) // 是否已领取
+  createdAt   DateTime @default(now())
+  claimedAt   DateTime?
+  
+  referrer    User     @relation("ReferrerRewards", fields: [referrerId], references: [id], onDelete: Cascade)
+  referee     User     @relation("RefereeRewards", fields: [refereeId], references: [id], onDelete: Cascade)
+  
+  @@unique([referrerId, refereeId])
+  @@index([referrerId])
+  @@index([claimed])
+}

@@ -1,0 +1,11 @@
+{
+  "networkError": "Network connection error. Please check your internet connection.",
+  "serverError": "Server error. Please try again later.",
+  "validationError": "Please check your input and try again.",
+  "authenticationError": "Authentication failed. Please log in again.",
+  "authorizationError": "You don't have permission to perform this action.",
+  "unauthorized": "You are not authorized to access this resource.",
+  "notFound": "The requested resource was not found.",
+  "timeout": "Request timeout. Please try again.",
+  "unknownError": "An unexpected error occurred. Please try again."
+}
