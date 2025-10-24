@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -12,6 +12,8 @@ import { useTranslations } from '@/hooks/useTranslations'
 
 export default function SignUpPage() {
   const t = useTranslations()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,12 +21,27 @@ export default function SignUpPage() {
   const [referralCode, setReferralCode] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const router = useRouter()
+  const [isFreePlan, setIsFreePlan] = useState(false)
+
+  // 检查是否是免费版注册
+  useEffect(() => {
+    const plan = searchParams.get('plan')
+    if (plan === 'free') {
+      setIsFreePlan(true)
+    }
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
+
+    // 免费版需要邀请码
+    if (isFreePlan && !referralCode.trim()) {
+      setError('免费版需要邀请码才能注册')
+      setIsLoading(false)
+      return
+    }
 
     if (password !== confirmPassword) {
       setError(t.auth('passwordMismatch'))
@@ -84,7 +101,17 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">{t.auth('signUpTitle')}</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            {isFreePlan ? '免费版注册' : t.auth('signUpTitle')}
+          </h2>
+          {isFreePlan && (
+            <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <Icon name="info" className="inline w-4 h-4 mr-1" />
+                免费版需要邀请码才能激活，请确保您有有效的邀请码
+              </p>
+            </div>
+          )}
           <p className="mt-2 text-sm text-gray-600">
             {t.auth('hasAccount')} <Link href="/auth/signin" className="font-medium text-primary-600 hover:text-primary-500">{t.auth('signIn')}</Link>
           </p>
@@ -168,7 +195,12 @@ export default function SignUpPage() {
 
             <div>
               <label htmlFor="signup-referralCode" className="block text-sm font-medium text-gray-700">
-                {t.auth('referralCode')} <span className="text-gray-400">({t.auth('optional')})</span>
+                {t.auth('referralCode')} 
+                {isFreePlan ? (
+                  <span className="text-red-500"> (必填)</span>
+                ) : (
+                  <span className="text-gray-400"> ({t.auth('optional')})</span>
+                )}
               </label>
               <div className="mt-1">
                 <Input
@@ -176,11 +208,17 @@ export default function SignUpPage() {
                   name="referralCode"
                   type="text"
                   autoComplete="off"
+                  required={isFreePlan}
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value)}
-                  placeholder={t.auth('referralCodePlaceholder')}
+                  placeholder={isFreePlan ? "请输入邀请码" : t.auth('referralCodePlaceholder')}
                 />
               </div>
+              {isFreePlan && (
+                <p className="mt-1 text-sm text-gray-500">
+                  免费版需要有效的邀请码才能注册
+                </p>
+              )}
             </div>
 
             {error && (

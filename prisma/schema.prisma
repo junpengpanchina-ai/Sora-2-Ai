@@ -68,6 +68,8 @@ model User {
   referrer User?   @relation("UserReferrals", fields: [referredBy], references: [id])
   referralRewardsGiven ReferralReward[] @relation("ReferrerRewards")
   referralRewardsReceived ReferralReward[] @relation("RefereeRewards")
+  inviteCodesCreated InviteCode[] @relation("InviteCodeCreator")
+  inviteCodesUsed InviteCode[] @relation("InviteCodeUser")
 }
 
 model VerificationToken {
@@ -150,4 +152,24 @@ model ReferralReward {
   @@unique([referrerId, refereeId])
   @@index([referrerId])
   @@index([claimed])
+}
+
+model InviteCode {
+  id        String    @id @default(cuid())
+  code      String    @unique // 邀请码
+  createdBy String    // 创建者ID
+  usedBy    String?   // 使用者ID
+  usedAt    DateTime? // 使用时间
+  expiresAt DateTime  // 过期时间
+  isActive  Boolean   @default(true) // 是否激活
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  creator   User      @relation("InviteCodeCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  user      User?     @relation("InviteCodeUser", fields: [usedBy], references: [id], onDelete: SetNull)
+  
+  @@index([code])
+  @@index([createdBy])
+  @@index([usedBy])
+  @@index([expiresAt])
 }

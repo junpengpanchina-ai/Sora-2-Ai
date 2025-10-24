@@ -18,8 +18,12 @@ const Header: React.FC = () => {
   // 从路径中提取当前语言
   const currentLocale = pathname.split('/')[1] || 'en';
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    try {
+      await signOut({ callbackUrl: '/' });
+    } catch (error) {
+      console.error('退出登录失败:', error);
+    }
   };
 
   return (

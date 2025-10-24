@@ -21,6 +21,12 @@ export default function PricingPage() {
       return
     }
 
+    // 免费版需要邀请码，跳转到注册页面
+    if (plan === 'free') {
+      window.location.href = '/auth/signup?plan=free'
+      return
+    }
+
     try {
       const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
@@ -107,9 +113,9 @@ export default function PricingPage() {
                   size="lg"
                 >
                   {key === 'free' 
-                    ? t.pricing('basic.button')
+                    ? '免费开始'
                     : session 
-                      ? (key === 'pro' ? t.pricing('pro.button') : t.pricing('enterprise.button'))
+                      ? (key === 'pro' ? '选择专业版' : key === 'basic' ? '选择基础版' : '联系销售')
                       : t.pricing('cta.loginToSubscribe')}
                 </Button>
               </div>

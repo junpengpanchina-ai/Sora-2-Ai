@@ -14,11 +14,30 @@ export const getStripe = () => {
 
 // 订阅方案配置
 export const SUBSCRIPTION_PLANS = {
+  free: {
+    name: '免费版',
+    description: '需要邀请码激活',
+    price: 0,
+    priceId: '', // 免费版不需要价格ID
+    features: [
+      '需要邀请码激活',
+      '每月3个免费视频',
+      '5秒视频长度',
+      '720p视频质量',
+      '社区支持',
+      '基础模板'
+    ],
+    limits: {
+      videosPerMonth: 3,
+      maxDuration: 5, // 秒
+      maxResolution: '720p'
+    }
+  },
   basic: {
     name: '基础版',
     description: '适合个人用户',
-    price: 49,
-    priceId: 'price_1SJe367EnbQTQa8yPMxoe1dB', // 基础版价格ID
+    price: 29,
+    priceId: 'price_basic_monthly', // 基础版价格ID
     features: [
       '每月15个视频',
       '10秒视频长度',
@@ -35,8 +54,8 @@ export const SUBSCRIPTION_PLANS = {
   pro: {
     name: '专业版',
     description: '适合内容创作者',
-    price: 199,
-    priceId: 'price_1SJe377EnbQTQa8y90ZshYnJ', // 专业版价格ID
+    price: 99,
+    priceId: 'price_pro_monthly', // 专业版价格ID
     features: [
       '每月40个视频',
       '15秒视频长度',
@@ -54,11 +73,11 @@ export const SUBSCRIPTION_PLANS = {
   enterprise: {
     name: '企业版',
     description: '适合团队和企业',
-    price: 599,
-    priceId: 'price_1SJe387EnbQTQa8y46MdIgP0', // 企业版价格ID
+    price: 299,
+    priceId: 'price_enterprise_monthly', // 企业版价格ID
     features: [
       '每月120个视频',
-      '15秒视频长度',
+      '30秒视频长度',
       '4K视频质量',
       '专属客服',
       'API访问',
@@ -67,7 +86,7 @@ export const SUBSCRIPTION_PLANS = {
     ],
     limits: {
       videosPerMonth: 120,
-      maxDuration: 15,
+      maxDuration: 30,
       maxResolution: '4K'
     }
   }
