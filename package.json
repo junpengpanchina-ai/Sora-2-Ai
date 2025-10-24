@@ -12,6 +12,9 @@
   "workspaces": [
     "sora-ai-platform"
   ],
+  "dependencies": {
+    "next": "^14.2.33"
+  },
   "engines": {
     "node": ">=18.0.0"
   }
