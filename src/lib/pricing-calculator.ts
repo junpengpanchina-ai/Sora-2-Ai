@@ -54,12 +54,12 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: '企业版',
     monthlyVideos: 120,
-    maxDuration: 30,
+    maxDuration: 15,
     pricePerVideo: 2.5,
     monthlyPrice: 299,
     features: [
       '每月120个视频',
-      '30秒视频长度',
+      '15秒视频长度',
       '4K视频质量',
       '专属客服',
       'API访问',

@@ -77,7 +77,7 @@ export const SUBSCRIPTION_PLANS = {
     priceId: 'price_enterprise_monthly', // 企业版价格ID
     features: [
       '每月120个视频',
-      '30秒视频长度',
+      '15秒视频长度',
       '4K视频质量',
       '专属客服',
       'API访问',
@@ -86,7 +86,7 @@ export const SUBSCRIPTION_PLANS = {
     ],
     limits: {
       videosPerMonth: 120,
-      maxDuration: 30,
+      maxDuration: 15,
       maxResolution: '4K'
     }
   }

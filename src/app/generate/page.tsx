@@ -18,7 +18,7 @@ export default function GeneratePage() {
   const router = useRouter();
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9' | '1:1'>('16:9');
-  const [duration, setDuration] = useState<5 | 10 | 15 | 30>(15);
+  const [duration, setDuration] = useState<5 | 10 | 15>(15);
   const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [style, setStyle] = useState<'realistic' | 'animated' | 'artistic' | 'cinematic'>('realistic');
   const [motion, setMotion] = useState<'static' | 'slow' | 'medium' | 'fast'>('medium');
@@ -306,13 +306,12 @@ export default function GeneratePage() {
                     </label>
                     <select 
                       value={duration}
-                      onChange={(e) => setDuration(Number(e.target.value) as 5 | 10 | 15 | 30)}
+                      onChange={(e) => setDuration(Number(e.target.value) as 5 | 10 | 15)}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="5">5s</option>
                       <option value="10">10s</option>
                       <option value="15">15s</option>
-                      <option value="30">30s</option>
                     </select>
                   </div>
                   
@@ -349,8 +348,8 @@ export default function GeneratePage() {
                       <p className="font-medium mb-1">⏱️ 生成时间说明</p>
                       <ul className="space-y-1 text-xs">
                         <li>• 5秒视频：约 1-2 分钟</li>
+                        <li>• 10秒视频：约 2-3 分钟</li>
                         <li>• 15秒视频：约 3-5 分钟</li>
-                        <li>• 30秒视频：约 5-10 分钟</li>
                         <li>• 4K质量：时间会增加 50%</li>
                         <li>• 复杂场景：可能需要更长时间</li>
                       </ul>

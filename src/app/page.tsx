@@ -214,7 +214,7 @@ export default function HomePage() {
                 <div className="text-3xl font-bold text-gray-900 mb-4">¥299<span className="text-lg text-gray-500">/月</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6">
                   <li>• 每月120个视频</li>
-                  <li>• 30秒视频长度</li>
+                  <li>• 15秒视频长度</li>
                   <li>• 4K超高清质量</li>
                   <li>• 专属客户经理</li>
                   <li>• API接口访问</li>
