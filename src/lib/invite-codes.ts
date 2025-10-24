@@ -78,7 +78,7 @@ export async function useInviteCode(code: string, userId: string): Promise<{ suc
 }
 
 // 获取用户的邀请码
-export async function getUserInviteCodes(userId: string): Promise<InviteCode[]> {
+export async function getUserInviteCodes(userId: string) {
   return await prisma.inviteCode.findMany({
     where: { createdBy: userId },
     orderBy: { createdAt: 'desc' }
@@ -99,15 +99,16 @@ function generateRandomCode(): string {
 export async function canGenerateInviteCode(userId: string): Promise<boolean> {
   // 检查用户是否有付费订阅
   const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: { subscriptions: true }
+    where: { id: userId }
   })
 
   if (!user) return false
 
-  // 有付费订阅的用户可以生成邀请码
-  const hasActiveSubscription = user.subscriptions.some(sub => 
-    sub.status === 'active' && new Date(sub.currentPeriodEnd) > new Date()
+  // 检查用户是否有付费订阅（基于subscriptionPlan字段）
+  const hasActiveSubscription = Boolean(
+    user.subscriptionPlan && 
+    user.subscriptionPlan !== 'free' && 
+    user.subscriptionStatus === 'active'
   )
 
   return hasActiveSubscription
