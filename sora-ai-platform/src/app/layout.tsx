@@ -4,6 +4,7 @@ import NotificationContainer from '@/components/ui/NotificationContainer'
 import { SessionProvider } from '@/components/providers/SessionProvider'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+import './globals.css'
 
 interface RootLayoutProps {
   children: React.ReactNode
