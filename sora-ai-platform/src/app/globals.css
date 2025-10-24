@@ -1,6 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* 导入语言切换动画样式 */
-@import '../styles/language-transitions.css';
