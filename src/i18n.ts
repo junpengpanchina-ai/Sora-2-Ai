@@ -3,7 +3,17 @@ import { getRequestConfig } from 'next-intl/server'
 export const locales = ['en'] as const
 export type Locale = (typeof locales)[number]
 
+// 缓存翻译消息
+let cachedMessages: any = null
+
 export default getRequestConfig(async () => {
+  // 如果已经有缓存，直接返回
+  if (cachedMessages) {
+    return {
+      messages: cachedMessages,
+    }
+  }
+  
   // 只支持英文，加载英文翻译文件
   let messages = {}
   
@@ -37,6 +47,9 @@ export default getRequestConfig(async () => {
     }
     
     console.log(`Successfully loaded English translations:`, Object.keys(messages))
+    
+    // 缓存翻译消息
+    cachedMessages = messages
   } catch (error) {
     console.warn(`Failed to load English translations:`, error)
     // 提供默认的英文翻译

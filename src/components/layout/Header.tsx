@@ -9,6 +9,7 @@ import { Icon } from '@/components/ui/Icon';
 import MobileMenu from './MobileMenu';
 import { ThemeSelector } from '@/components/theme/ThemeSelector';
 import { useTranslations } from '@/hooks/useTranslations';
+import AuthButton from '@/components/auth/AuthButton';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -86,23 +87,18 @@ const Header: React.FC = () => {
                 <Link href="/dashboard">
                   <Button variant="outline">{t.nav('dashboard')}</Button>
                 </Link>
-                <Button 
-                  variant="outline" 
-                  onClick={handleSignOut}
-                  className="cursor-pointer"
-                >
-                  {t.common('logout')}
-                </Button>
+                <AuthButton 
+                  variant="outline"
+                  onLogout={handleSignOut}
+                />
               </>
             ) : (
-              <>
-                <Link href="/auth/signin">
-                  <Button variant="outline">{t.common('login')}</Button>
-                </Link>
+              <div className="flex items-center space-x-3">
+                <AuthButton variant="outline" />
                 <Link href="/auth/signup">
                   <Button>{t.common('register')}</Button>
                 </Link>
-              </>
+              </div>
             )}
           </div>
 

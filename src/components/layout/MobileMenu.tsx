@@ -6,6 +6,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import AuthButton from '@/components/auth/AuthButton'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -145,21 +146,21 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className="mt-8 pt-6 border-t border-gray-200">
             {session ? (
               <div className="space-y-3">
-                <Button 
-                  onClick={handleSignOut}
+                <AuthButton 
                   variant="outline"
                   className="w-full"
-                >
-                  {t.common('logout')}
-                </Button>
+                  onLogout={() => {
+                    handleSignOut()
+                    onClose()
+                  }}
+                />
               </div>
             ) : (
               <div className="space-y-3">
-                <Link href="/auth/signin" onClick={onClose}>
-                  <Button variant="outline" className="w-full">
-                    {t.common('login')}
-                  </Button>
-                </Link>
+                <AuthButton 
+                  variant="outline"
+                  className="w-full"
+                />
                 <Link href="/auth/signup" onClick={onClose}>
                   <Button className="w-full">
                     {t.common('register')}
