@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -7,80 +8,89 @@ import { Card } from '@/components/ui/Card'
 export default function TestLogoutPage() {
   const { data: session, status } = useSession()
 
-  const handleLogout = async () => {
+  const handleTestLogout = async () => {
+    console.log('🧪 测试退出开始...')
+    console.log('当前会话状态:', session)
+    
     try {
-      console.log('开始退出登录...')
-      await signOut({ 
-        callbackUrl: '/',
-        redirect: true 
-      })
-      console.log('退出登录成功')
+      const result = await signOut({ redirect: false })
+      console.log('退出结果:', result)
+      
+      // 强制刷新页面
+      if (typeof window !== 'undefined') {
+        window.location.reload()
+      }
     } catch (error) {
-      console.error('退出登录失败:', error)
-      alert('退出登录失败: ' + error)
+      console.error('退出失败:', error)
     }
   }
 
-  const handleLogoutNoRedirect = async () => {
+  const handleForceLogout = async () => {
+    console.log('🚀 强制退出开始...')
+    
     try {
-      console.log('开始退出登录（不重定向）...')
-      await signOut({ 
-        redirect: false 
-      })
-      console.log('退出登录成功（不重定向）')
-      alert('退出登录成功！请刷新页面查看状态')
+      // 清除所有可能的session数据
+      if (typeof window !== 'undefined') {
+        // 清除localStorage
+        localStorage.clear()
+        // 清除sessionStorage
+        sessionStorage.clear()
+        // 跳转到首页
+        window.location.href = '/'
+      }
     } catch (error) {
-      console.error('退出登录失败:', error)
-      alert('退出登录失败: ' + error)
+      console.error('强制退出失败:', error)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
-      <Card className="p-8 max-w-md w-full">
-        <h1 className="text-2xl font-bold text-center mb-6">退出登录测试</h1>
-        
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">当前状态:</h2>
-          <p><strong>状态:</strong> {status}</p>
-          {session ? (
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        <Card className="p-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">退出功能测试</h1>
+          
+          <div className="space-y-6">
             <div>
-              <p><strong>用户:</strong> {session.user?.name || session.user?.email}</p>
-              <p><strong>ID:</strong> {session.user?.id}</p>
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">当前状态</h2>
+              <p className="text-gray-600">
+                登录状态: {status === 'loading' ? '加载中...' : status === 'authenticated' ? '已登录' : '未登录'}
+              </p>
+              {session && (
+                <p className="text-gray-600">
+                  用户: {session.user?.name || session.user?.email}
+                </p>
+              )}
             </div>
-          ) : (
-            <p>未登录</p>
-          )}
-        </div>
 
-        {session ? (
-          <div className="space-y-4">
-            <Button onClick={handleLogout} className="w-full">
-              退出登录（重定向到首页）
-            </Button>
-            <Button onClick={handleLogoutNoRedirect} variant="outline" className="w-full">
-              退出登录（不重定向）
-            </Button>
-            <Button onClick={() => window.location.reload()} variant="outline" className="w-full">
-              刷新页面
-            </Button>
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-gray-900">测试退出</h2>
+              
+              <Button 
+                onClick={handleTestLogout}
+                className="w-full"
+                variant="outline"
+              >
+                测试 NextAuth 退出
+              </Button>
+              
+              <Button 
+                onClick={handleForceLogout}
+                className="w-full"
+                variant="outline"
+              >
+                强制退出（清除所有数据）
+              </Button>
+            </div>
+
+            <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+              <h3 className="font-semibold text-blue-900 mb-2">调试信息</h3>
+              <p className="text-sm text-blue-700">
+                请打开浏览器开发者工具查看控制台输出，了解退出过程的详细信息。
+              </p>
+            </div>
           </div>
-        ) : (
-          <div className="text-center">
-            <p className="text-gray-600 mb-4">您已经退出登录</p>
-            <Button onClick={() => window.location.href = '/auth/signin'} className="w-full">
-              重新登录
-            </Button>
-          </div>
-        )}
-        
-        <div className="mt-6 text-sm text-gray-600">
-          <p><strong>测试说明:</strong></p>
-          <p>1. 点击"退出登录"按钮</p>
-          <p>2. 检查控制台日志</p>
-          <p>3. 观察页面状态变化</p>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   )
 }

@@ -19,11 +19,22 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const handleSignOut = async () => {
     try {
       console.log('🔐 移动端开始登出...');
-      await signOut({ callbackUrl: '/' });
-      console.log('✅ 移动端登出成功');
+      // 使用redirect: false来避免自动跳转，然后手动处理
+      const result = await signOut({ redirect: false });
+      console.log('✅ 移动端登出结果:', result);
       onClose();
+      
+      // 手动刷新页面或跳转到首页
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     } catch (error) {
       console.error('❌ 移动端登出失败:', error);
+      onClose();
+      // 即使出错也尝试跳转到首页
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     }
   }
 

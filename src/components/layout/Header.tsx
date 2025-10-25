@@ -22,10 +22,20 @@ const Header: React.FC = () => {
   const handleSignOut = async () => {
     try {
       console.log('🔐 开始登出...');
-      await signOut({ callbackUrl: '/' });
-      console.log('✅ 登出成功');
+      // 使用redirect: false来避免自动跳转，然后手动处理
+      const result = await signOut({ redirect: false });
+      console.log('✅ 登出结果:', result);
+      
+      // 手动刷新页面或跳转到首页
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     } catch (error) {
       console.error('❌ 退出登录失败:', error);
+      // 即使出错也尝试跳转到首页
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     }
   };
 
@@ -76,7 +86,11 @@ const Header: React.FC = () => {
                 <Link href="/dashboard">
                   <Button variant="outline">{t.nav('dashboard')}</Button>
                 </Link>
-                <Button variant="outline" onClick={handleSignOut}>
+                <Button 
+                  variant="outline" 
+                  onClick={handleSignOut}
+                  className="cursor-pointer"
+                >
                   {t.common('logout')}
                 </Button>
               </>
