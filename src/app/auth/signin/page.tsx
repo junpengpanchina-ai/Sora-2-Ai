@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import ProgressiveSignIn from '@/components/auth/ProgressiveSignIn'
 
 export default function SignInPage() {
   const t = useTranslations()
@@ -103,83 +104,7 @@ export default function SignInPage() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card className="p-6 py-8 px-4 sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <label htmlFor="signin-email" className="block text-sm font-medium text-gray-700">
-                {t.auth('email')}
-              </label>
-              <div className="mt-1">
-                <Input
-                  id="signin-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t.auth('email')}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="signin-password" className="block text-sm font-medium text-gray-700">
-                {t.auth('password')}
-              </label>
-              <div className="mt-1">
-                <Input
-                  id="signin-password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t.auth('password')}
-                />
-              </div>
-            </div>
-
-            <div>
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full"
-              >
-                {isLoading ? t.auth('signingIn') : t.auth('signin')}
-              </Button>
-            </div>
-          </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  {t.auth('signInWithGoogle')}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <Button
-                variant="outline"
-                onClick={handleGoogleSignIn}
-                className="w-full"
-              >
-                <Icon name="google" className="w-5 h-5 mr-2" />
-                {t.auth('signInWithGoogle')}
-              </Button>
-            </div>
-          </div>
+          <ProgressiveSignIn onSuccess={() => router.push('/dashboard')} />
         </Card>
       </div>
     </div>

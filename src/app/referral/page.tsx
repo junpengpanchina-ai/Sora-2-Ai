@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import SocialInvitation from '@/components/invitation/SocialInvitation'
 
 interface ReferralData {
   user: {
@@ -252,6 +253,12 @@ export default function ReferralPage() {
               ))}
             </div>
           )}
+        </Card>
+
+        {/* 社交化邀请系统 */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">智能邀请系统</h3>
+          <SocialInvitation />
         </Card>
       </div>
     </div>

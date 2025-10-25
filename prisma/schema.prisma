@@ -60,6 +60,8 @@ model User {
   referralCount   Int       @default(0) // 邀请人数
   freeVideosLeft  Int       @default(1) // 剩余免费视频数
   phoneVerified   Boolean   @default(false) // 手机号验证状态
+  phone           String?   // 手机号码
+  defaultPaymentMethodId String? // 默认支付方式ID
   
   accounts Account[]
   sessions Session[]
@@ -71,6 +73,8 @@ model User {
   referralRewardsReceived ReferralReward[] @relation("RefereeRewards")
   inviteCodesCreated InviteCode[] @relation("InviteCodeCreator")
   inviteCodesUsed InviteCode[] @relation("InviteCodeUser")
+  trustedDevices TrustedDevice[]
+  activities UserActivity[]
 }
 
 model VerificationToken {
@@ -173,4 +177,61 @@ model InviteCode {
   @@index([createdBy])
   @@index([usedBy])
   @@index([expiresAt])
+}
+
+// 渐进式认证相关模型
+model TrustedDevice {
+  id                String   @id @default(cuid())
+  userId            String
+  deviceFingerprint String
+  deviceName        String
+  lastUsed          DateTime @default(now())
+  trustLevel        Int      @default(1)
+  createdAt         DateTime @default(now())
+  
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, deviceFingerprint])
+  @@index([userId])
+  @@index([deviceFingerprint])
+}
+
+model MagicLink {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([email])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model SmsCode {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([phone])
+  @@index([code])
+  @@index([expiresAt])
+}
+
+model UserActivity {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  details   String   // JSON string
+  ipAddress String
+  userAgent String
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
 }
