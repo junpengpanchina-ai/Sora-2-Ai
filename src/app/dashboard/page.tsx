@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -30,38 +30,12 @@ export default function DashboardPage() {
     return null
   }
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' })
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">仪表板</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">
-                {t.common('welcome')}{' '}{session?.user?.name || session?.user?.email}
-              </span>
-              <Link href="/profile">
-                <Button variant="outline">
-                  个人资料
-                </Button>
-              </Link>
-              <Button variant="outline" onClick={handleSignOut}>
-                {t.common('logout')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {/* 页面标题 */}
         <div className="px-4 py-6 sm:px-0">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">仪表板</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* 快速操作卡片 */}
             <Card className="p-6">

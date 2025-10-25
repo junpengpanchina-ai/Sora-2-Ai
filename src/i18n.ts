@@ -3,13 +3,14 @@ import { getRequestConfig } from 'next-intl/server'
 export const locales = ['en'] as const
 export type Locale = (typeof locales)[number]
 
-// 缓存翻译消息
+// 简单的模块级缓存
 let cachedMessages: any = null
 
 export default getRequestConfig(async () => {
   // 如果已经有缓存，直接返回
   if (cachedMessages) {
     return {
+      locale: 'en',
       messages: cachedMessages,
     }
   }
