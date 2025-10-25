@@ -2,12 +2,84 @@
 
 // 简化的翻译Hook - 只支持英文
 import { useTranslations as useNextIntlTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
 
 export function useTranslations() {
+  const [isClient, setIsClient] = useState(false)
+  
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+  
   const t = useNextIntlTranslations()
 
   // 通用翻译
   const common = (key: string) => {
+    if (!isClient) {
+      // 服务器端渲染时返回默认值
+      const defaults: Record<string, string> = {
+        'loading': 'Loading...',
+        'error': 'Error',
+        'success': 'Success',
+        'cancel': 'Cancel',
+        'confirm': 'Confirm',
+        'save': 'Save',
+        'edit': 'Edit',
+        'delete': 'Delete',
+        'create': 'Create',
+        'update': 'Update',
+        'search': 'Search',
+        'filter': 'Filter',
+        'sort': 'Sort',
+        'refresh': 'Refresh',
+        'back': 'Back',
+        'next': 'Next',
+        'previous': 'Previous',
+        'close': 'Close',
+        'open': 'Open',
+        'view': 'View',
+        'download': 'Download',
+        'upload': 'Upload',
+        'share': 'Share',
+        'copy': 'Copy',
+        'paste': 'Paste',
+        'cut': 'Cut',
+        'undo': 'Undo',
+        'redo': 'Redo',
+        'select': 'Select',
+        'all': 'All',
+        'none': 'None',
+        'yes': 'Yes',
+        'no': 'No',
+        'ok': 'OK',
+        'apply': 'Apply',
+        'reset': 'Reset',
+        'clear': 'Clear',
+        'submit': 'Submit',
+        'login': 'Login',
+        'logout': 'Logout',
+        'welcome': 'Welcome,',
+        'free': 'Free',
+        'register': 'Register',
+        'signup': 'Sign Up',
+        'signin': 'Sign In',
+        'profile': 'Profile',
+        'settings': 'Settings',
+        'help': 'Help',
+        'about': 'About',
+        'contact': 'Contact',
+        'privacy': 'Privacy',
+        'terms': 'Terms',
+        'language': 'Language',
+        'theme': 'Theme',
+        'notifications': 'Notifications',
+        'account': 'Account',
+        'security': 'Security',
+        'preferences': 'Preferences'
+      }
+      return defaults[key] || key
+    }
+    
     try {
       return t('common.' + key) || key
     } catch {
@@ -35,30 +107,58 @@ export function useTranslations() {
 
   // 首页翻译
   const home = (key: string) => {
+    if (!isClient) {
+      // 服务器端渲染时返回默认值
+      const defaults: Record<string, string> = {
+        'title': 'Create Unlimited Possibilities with AI',
+        'subtitle': 'Transform your ideas into professional video content with cutting-edge AI technology. From concept to creation in minutes.',
+        'getStarted': 'Start Creating',
+        'learnMore': 'Learn More',
+        'watchDemo': 'Watch Demo',
+        'features.title': 'Why Choose Our AI Video Platform?',
+        'features.subtitle': 'Advanced AI video generation technology that makes creativity limitless',
+        'features.aiGeneration.title': 'Next-Gen AI Technology',
+        'features.aiGeneration.description': 'State-of-the-art artificial intelligence that transforms your text into cinematic-quality videos.',
+        'features.easyToUse.title': 'Intuitive Interface',
+        'features.easyToUse.description': 'Professional results without the complexity. Simply describe your vision and watch AI bring it to life.',
+        'features.fastProcessing.title': 'Lightning Fast',
+        'features.fastProcessing.description': 'Get your videos in minutes, not hours. Our optimized AI engine delivers results at unprecedented speed.',
+        'growthFeatures.title': 'Growth & Rewards Program',
+        'growthFeatures.userLevel.title': 'Progressive Rewards',
+        'growthFeatures.userLevel.description': 'Unlock exclusive features and premium content as you create more videos and grow your skills.',
+        'growthFeatures.invitationReward.title': 'Referral Program',
+        'growthFeatures.invitationReward.description': 'Invite friends and earn credits, premium features, and exclusive access to new tools.',
+        'growthFeatures.socialSharing.title': 'Built-in Social Tools',
+        'growthFeatures.socialSharing.description': 'Share your creations seamlessly and build your audience with integrated social media features.'
+      }
+      return defaults[key] || key
+    }
+    
     try {
       const result = t('home.' + key)
       if (result === 'home.' + key) {
         // 如果翻译键没有找到，返回默认值
         const defaults: Record<string, string> = {
           'title': 'Create Unlimited Possibilities with AI',
-          'subtitle': 'Generate professional-grade video content with just one sentence. From idea to finished product in minutes.',
-          'getStarted': 'Get Started',
+          'subtitle': 'Transform your ideas into professional video content with cutting-edge AI technology. From concept to creation in minutes.',
+          'getStarted': 'Start Creating',
           'learnMore': 'Learn More',
           'watchDemo': 'Watch Demo',
-          'features.title': 'Why Choose Sora AI?',
-          'features.aiGeneration.title': 'AI-Powered Generation',
-          'features.aiGeneration.description': 'Advanced artificial intelligence creates stunning videos from simple text descriptions.',
-          'features.easyToUse.title': 'Easy to Use',
-          'features.easyToUse.description': 'No technical skills required. Just describe your vision and let AI do the rest.',
-          'features.fastProcessing.title': 'Fast Processing',
-          'features.fastProcessing.description': 'Get your videos in minutes, not hours. Our optimized AI delivers results quickly.',
-          'growthFeatures.title': 'Growth & Rewards System',
-          'growthFeatures.userLevel.title': 'User Level System',
-          'growthFeatures.userLevel.description': 'Level up by creating videos and unlock exclusive features and rewards.',
-          'growthFeatures.invitationReward.title': 'Invitation Rewards',
-          'growthFeatures.invitationReward.description': 'Invite friends and earn free video generation credits and premium features.',
-          'growthFeatures.socialSharing.title': 'Social Sharing',
-          'growthFeatures.socialSharing.description': 'Share your creations and grow your audience with built-in social features.'
+          'features.title': 'Why Choose Our AI Video Platform?',
+          'features.subtitle': 'Advanced AI video generation technology that makes creativity limitless',
+          'features.aiGeneration.title': 'Next-Gen AI Technology',
+          'features.aiGeneration.description': 'State-of-the-art artificial intelligence that transforms your text into cinematic-quality videos.',
+          'features.easyToUse.title': 'Intuitive Interface',
+          'features.easyToUse.description': 'Professional results without the complexity. Simply describe your vision and watch AI bring it to life.',
+          'features.fastProcessing.title': 'Lightning Fast',
+          'features.fastProcessing.description': 'Get your videos in minutes, not hours. Our optimized AI engine delivers results at unprecedented speed.',
+          'growthFeatures.title': 'Growth & Rewards Program',
+          'growthFeatures.userLevel.title': 'Progressive Rewards',
+          'growthFeatures.userLevel.description': 'Unlock exclusive features and premium content as you create more videos and grow your skills.',
+          'growthFeatures.invitationReward.title': 'Referral Program',
+          'growthFeatures.invitationReward.description': 'Invite friends and earn credits, premium features, and exclusive access to new tools.',
+          'growthFeatures.socialSharing.title': 'Built-in Social Tools',
+          'growthFeatures.socialSharing.description': 'Share your creations seamlessly and build your audience with integrated social media features.'
         }
         return defaults[key] || key
       }
@@ -117,6 +217,24 @@ export function useTranslations() {
 
   // 定价翻译
   const pricing = (key: string) => {
+    if (!isClient) {
+      // 服务器端渲染时返回默认值
+      const defaults: Record<string, string> = {
+        'title': 'Simple, Transparent Pricing',
+        'subtitle': 'Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.',
+        'free': 'Starter',
+        'pro': 'Professional',
+        'enterprise': 'Enterprise',
+        'monthly': 'Monthly',
+        'yearly': 'Annual',
+        'save': 'Save 20%',
+        'getStarted': 'Start Free Trial',
+        'contactSales': 'Contact Sales',
+        'pro.popular': 'Most Popular'
+      }
+      return defaults[key] || key
+    }
+    
     try {
       return t('pricing.' + key) || key
     } catch {
