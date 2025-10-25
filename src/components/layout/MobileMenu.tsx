@@ -16,9 +16,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: session } = useSession()
   const t = useTranslations()
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' })
-    onClose()
+  const handleSignOut = async () => {
+    try {
+      console.log('🔐 移动端开始登出...');
+      await signOut({ callbackUrl: '/' });
+      console.log('✅ 移动端登出成功');
+      onClose();
+    } catch (error) {
+      console.error('❌ 移动端登出失败:', error);
+    }
   }
 
   if (!isOpen) return null

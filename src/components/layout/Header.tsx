@@ -20,9 +20,11 @@ const Header: React.FC = () => {
 
   const handleSignOut = async () => {
     try {
+      console.log('🔐 开始登出...');
       await signOut({ callbackUrl: '/' });
+      console.log('✅ 登出成功');
     } catch (error) {
-      console.error('退出登录失败:', error);
+      console.error('❌ 退出登录失败:', error);
     }
   };
 
