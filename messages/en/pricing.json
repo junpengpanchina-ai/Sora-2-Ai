@@ -1,54 +1,54 @@
 {
-  "title": "Pricing",
-  "subtitle": "Choose the plan that fits your needs",
-  "free": "Free",
-  "pro": "Pro",
+  "title": "Simple, Transparent Pricing",
+  "subtitle": "Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.",
+  "free": "Starter",
+  "pro": "Professional",
   "enterprise": "Enterprise",
   "monthly": "Monthly",
-  "yearly": "Yearly",
+  "yearly": "Annual",
   "save": "Save 20%",
   "features": {
     "videosPerMonth": "Videos per month",
-    "resolution": "Resolution",
-    "exportFormats": "Export formats",
+    "resolution": "Video quality",
+    "exportFormats": "Export options",
     "prioritySupport": "Priority support",
     "customBranding": "Custom branding",
     "apiAccess": "API access"
   },
-  "getStarted": "Get Started",
+  "getStarted": "Start Free Trial",
   "contactSales": "Contact Sales",
   "cta": {
-    "loginToSubscribe": "Login to Subscribe"
+    "loginToSubscribe": "Sign In to Subscribe"
   },
   "pro": {
     "popular": "Most Popular"
   },
   "invitationReward": {
-    "title": "Invitation Rewards",
-    "description": "Invite friends and earn rewards",
-    "newUserReward": "New User Reward",
+    "title": "Referral Rewards",
+    "description": "Invite friends and earn exclusive benefits",
+    "newUserReward": "New User Bonus",
     "referralRewards": [
-      "10s video generation",
-      "15s video generation"
+      "10-second video generation",
+      "15-second video generation"
     ]
   },
   "faqTitle": "Frequently Asked Questions",
   "faq": {
     "cancelAnytime": {
-      "q": "Can I cancel anytime?",
-      "a": "Yes, you can cancel your subscription at any time. No questions asked."
+      "q": "Can I cancel my subscription anytime?",
+      "a": "Absolutely! You can cancel your subscription at any time with no cancellation fees or penalties."
     },
     "paymentMethods": {
       "q": "What payment methods do you accept?",
-      "a": "We accept all major credit cards, PayPal, and bank transfers."
+      "a": "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers for Enterprise customers."
     },
     "generationTime": {
       "q": "How long does video generation take?",
-      "a": "Most videos are generated within 2-5 minutes, depending on complexity."
+      "a": "Most videos are generated within 2-5 minutes. Complex scenes or 4K quality may take up to 10 minutes."
     },
     "apiAvailability": {
-      "q": "Is there an API available?",
-      "a": "Yes, we provide REST API access for Enterprise plans."
+      "q": "Do you offer API access?",
+      "a": "Yes! Enterprise customers get full REST API access with comprehensive documentation and dedicated support."
     }
   }
 }

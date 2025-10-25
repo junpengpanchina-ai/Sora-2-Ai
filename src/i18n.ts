@@ -20,6 +20,7 @@ export default getRequestConfig(async () => {
     const mvp = await import(`../messages/en/mvp.json`)
     const pricing = await import(`../messages/en/pricing.json`)
     const referral = await import(`../messages/en/referral.json`)
+    const achievements = await import(`../messages/en/achievements.json`)
     
     messages = {
       common: common.default,
@@ -31,7 +32,8 @@ export default getRequestConfig(async () => {
       generate: generate.default,
       mvp: mvp.default,
       pricing: pricing.default,
-      referral: referral.default
+      referral: referral.default,
+      achievements: achievements.default
     }
     
     console.log(`Successfully loaded English translations:`, Object.keys(messages))

@@ -1,0 +1,54 @@
+{
+  "title": "定价",
+  "subtitle": "选择适合您需求的计划",
+  "free": "免费",
+  "pro": "专业版",
+  "enterprise": "企业版",
+  "monthly": "月付",
+  "yearly": "年付",
+  "save": "节省20%",
+  "features": {
+    "videosPerMonth": "每月视频数",
+    "resolution": "分辨率",
+    "exportFormats": "导出格式",
+    "prioritySupport": "优先支持",
+    "customBranding": "自定义品牌",
+    "apiAccess": "API访问"
+  },
+  "getStarted": "开始使用",
+  "contactSales": "联系销售",
+  "cta": {
+    "loginToSubscribe": "登录订阅"
+  },
+  "pro": {
+    "popular": "最受欢迎"
+  },
+  "invitationReward": {
+    "title": "邀请奖励",
+    "description": "邀请朋友并获得奖励",
+    "newUserReward": "新用户奖励",
+    "referralRewards": [
+      "10秒视频生成",
+      "15秒视频生成"
+    ]
+  },
+  "faqTitle": "常见问题",
+  "faq": {
+    "cancelAnytime": {
+      "q": "我可以随时取消吗？",
+      "a": "是的，您可以随时取消订阅，无需任何问题。"
+    },
+    "paymentMethods": {
+      "q": "您接受哪些支付方式？",
+      "a": "我们接受所有主要信用卡、PayPal和银行转账。"
+    },
+    "generationTime": {
+      "q": "视频生成需要多长时间？",
+      "a": "大多数视频在2-5分钟内生成，具体取决于复杂度。"
+    },
+    "apiAvailability": {
+      "q": "是否有API可用？",
+      "a": "是的，我们为企业计划提供REST API访问。"
+    }
+  }
+}

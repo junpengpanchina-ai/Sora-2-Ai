@@ -1,37 +1,37 @@
 {
   "title": "Create Unlimited Possibilities with AI",
-  "subtitle": "Generate professional-grade video content with just one sentence. From idea to finished product in minutes.",
-  "getStarted": "Get Started",
+  "subtitle": "Transform your ideas into professional video content with cutting-edge AI technology. From concept to creation in minutes.",
+  "getStarted": "Start Creating",
   "learnMore": "Learn More",
   "watchDemo": "Watch Demo",
   "features": {
-    "title": "Why Choose Sora AI?",
+    "title": "Why Choose Our AI Video Platform?",
     "aiGeneration": {
-      "title": "AI-Powered Generation",
-      "description": "Advanced artificial intelligence creates stunning videos from simple text descriptions."
+      "title": "Next-Gen AI Technology",
+      "description": "State-of-the-art artificial intelligence that transforms your text into cinematic-quality videos."
     },
     "easyToUse": {
-      "title": "Easy to Use",
-      "description": "No technical skills required. Just describe your vision and let AI do the rest."
+      "title": "Intuitive Interface",
+      "description": "Professional results without the complexity. Simply describe your vision and watch AI bring it to life."
     },
     "fastProcessing": {
-      "title": "Fast Processing",
-      "description": "Get your videos in minutes, not hours. Our optimized AI delivers results quickly."
+      "title": "Lightning Fast",
+      "description": "Get your videos in minutes, not hours. Our optimized AI engine delivers results at unprecedented speed."
     }
   },
   "growthFeatures": {
-    "title": "Growth & Rewards System",
+    "title": "Growth & Rewards Program",
     "userLevel": {
-      "title": "User Level System",
-      "description": "Level up by creating videos and unlock exclusive features and rewards."
+      "title": "Progressive Rewards",
+      "description": "Unlock exclusive features and premium content as you create more videos and grow your skills."
     },
     "invitationReward": {
-      "title": "Invitation Rewards",
-      "description": "Invite friends and earn free video generation credits and premium features."
+      "title": "Referral Program",
+      "description": "Invite friends and earn credits, premium features, and exclusive access to new tools."
     },
     "socialSharing": {
-      "title": "Social Sharing",
-      "description": "Share your creations and grow your audience with built-in social features."
+      "title": "Built-in Social Tools",
+      "description": "Share your creations seamlessly and build your audience with integrated social media features."
     }
   }
 }

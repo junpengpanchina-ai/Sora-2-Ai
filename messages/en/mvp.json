@@ -1,15 +1,15 @@
 {
-  "title": "MVP Dashboard",
-  "subtitle": "Your personalized AI video creation hub",
+  "title": "Creative Studio",
+  "subtitle": "Your personalized AI video creation workspace",
   "quickActions": {
     "title": "Quick Actions",
-    "generateVideo": "Generate Video",
-    "upgradeSubscription": "Upgrade Subscription",
-    "viewHistory": "View History"
+    "generateVideo": "Create New Video",
+    "upgradeSubscription": "Upgrade Plan",
+    "viewHistory": "View Gallery"
   },
-  "personalizedRecommendations": "Get personalized recommendations based on your usage patterns and preferences.",
+  "personalizedRecommendations": "Get personalized recommendations based on your creative patterns and preferences.",
   "stats": {
-    "videosGenerated": "Videos Generated",
+    "videosGenerated": "Videos Created",
     "timeSaved": "Time Saved",
     "creativityScore": "Creativity Score"
   },

@@ -1,0 +1,19 @@
+{
+  "title": "MVP仪表板",
+  "subtitle": "您的个性化AI视频创作中心",
+  "quickActions": {
+    "title": "快速操作",
+    "generateVideo": "生成视频",
+    "upgradeSubscription": "升级订阅",
+    "viewHistory": "查看历史"
+  },
+  "personalizedRecommendations": "根据您的使用模式和偏好获得个性化推荐。",
+  "stats": {
+    "videosGenerated": "已生成视频",
+    "timeSaved": "节省时间",
+    "creativityScore": "创造力评分"
+  },
+  "communityActivity": {
+    "recentActivity": "最近活动"
+  }
+}

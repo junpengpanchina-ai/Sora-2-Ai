@@ -1,0 +1,16 @@
+{
+  "title": "性能监控",
+  "subtitle": "监控和优化您的应用性能",
+  "performanceScore": "性能评分",
+  "pageLoadTime": "页面加载时间",
+  "firstContentfulPaint": "首次内容绘制",
+  "memoryUsage": "内存使用",
+  "coreMetrics": "核心指标",
+  "cacheStats": "缓存统计",
+  "optimizationRecommendations": "优化建议",
+  "refreshData": "刷新数据",
+  "clearCache": "清除缓存",
+  "excellent": "优秀",
+  "good": "良好",
+  "needsOptimization": "需要优化"
+}

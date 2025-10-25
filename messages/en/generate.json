@@ -1,8 +1,8 @@
 {
-  "title": "Generate Video",
-  "subtitle": "Create amazing videos with AI",
+  "title": "AI Video Generator",
+  "subtitle": "Transform your ideas into stunning videos with cutting-edge AI technology",
   "prompt": "Video Description",
-  "promptPlaceholder": "Describe the video you want to create...",
+  "promptPlaceholder": "Describe your video idea in detail... (e.g., 'A serene sunset over mountains with birds flying')",
   "aspectRatio": "Aspect Ratio",
   "duration": "Duration",
   "quality": "Quality",
@@ -11,10 +11,10 @@
   "stylePreset": "Style Preset",
   "motionIntensity": "Motion Intensity",
   "generateButton": "Generate Video",
-  "generating": "Generating...",
+  "generating": "Creating your video...",
   "aspectRatios": {
-    "9:16": "9:16 (Portrait)",
-    "16:9": "16:9 (Landscape)",
+    "9:16": "9:16 (Mobile/Stories)",
+    "16:9": "16:9 (Widescreen)",
     "1:1": "1:1 (Square)"
   },
   "durations": {
@@ -28,23 +28,23 @@
     "large": "Ultra HD (4K)"
   },
   "styles": {
-    "realistic": "Realistic",
+    "realistic": "Photorealistic",
     "animated": "Animated",
     "artistic": "Artistic",
     "cinematic": "Cinematic"
   },
   "motionLevels": {
     "static": "Static",
-    "slow": "Slow",
-    "medium": "Medium",
-    "fast": "Fast"
+    "slow": "Gentle",
+    "medium": "Moderate",
+    "fast": "Dynamic"
   },
   "generationTime": {
-    "title": "⏱️ Generation Time",
-    "5seconds": "• 5-second video: ~1-2 minutes",
-    "15seconds": "• 15-second video: ~3-5 minutes",
-    "30seconds": "• 30-second video: ~5-10 minutes",
-    "4k": "• 4K quality: +50% time",
-    "complex": "• Complex scenes: may take longer"
+    "title": "⏱️ Expected Generation Time",
+    "5seconds": "• 5-second video: 1-2 minutes",
+    "15seconds": "• 15-second video: 3-5 minutes",
+    "30seconds": "• 30-second video: 5-10 minutes",
+    "4k": "• 4K quality: +50% processing time",
+    "complex": "• Complex scenes: may require additional time"
   }
 }

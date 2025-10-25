@@ -1,0 +1,38 @@
+{
+  "title": "成就系统",
+  "subtitle": "追踪您的进度并解锁新的里程碑",
+  "unlocked": "已解锁",
+  "locked": "已锁定",
+  "progress": "进度",
+  "totalAchievements": "总成就数",
+  "completed": "已完成",
+  "inProgress": "进行中",
+  "categories": {
+    "video": "视频创作",
+    "social": "社交分享",
+    "referral": "推荐邀请",
+    "premium": "高级功能"
+  },
+  "achievements": {
+    "firstVideo": {
+      "title": "首次创作",
+      "description": "创建您的第一个视频",
+      "reward": "解锁基础模板"
+    },
+    "videoCreator": {
+      "title": "视频创作者",
+      "description": "创建10个视频",
+      "reward": "解锁高级模板"
+    },
+    "socialSharer": {
+      "title": "社交分享者",
+      "description": "在社交媒体上分享5个视频",
+      "reward": "获得自定义品牌"
+    },
+    "referralMaster": {
+      "title": "推荐大师",
+      "description": "推荐5位朋友",
+      "reward": "免费获得高级功能"
+    }
+  }
+}

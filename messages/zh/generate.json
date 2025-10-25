@@ -1,0 +1,50 @@
+{
+  "title": "生成视频",
+  "subtitle": "使用AI创建精彩视频",
+  "prompt": "视频描述",
+  "promptPlaceholder": "描述您想要创建的视频...",
+  "aspectRatio": "宽高比",
+  "duration": "时长",
+  "quality": "质量",
+  "advancedSettings": "高级设置",
+  "videoQuality": "视频质量",
+  "stylePreset": "风格预设",
+  "motionIntensity": "运动强度",
+  "generateButton": "生成视频",
+  "generating": "生成中...",
+  "aspectRatios": {
+    "9:16": "9:16 (竖屏)",
+    "16:9": "16:9 (横屏)",
+    "1:1": "1:1 (正方形)"
+  },
+  "durations": {
+    "5": "5秒",
+    "15": "15秒",
+    "30": "30秒"
+  },
+  "qualities": {
+    "small": "标准 (720p)",
+    "medium": "高清 (1080p)",
+    "large": "超高清 (4K)"
+  },
+  "styles": {
+    "realistic": "写实",
+    "animated": "动画",
+    "artistic": "艺术",
+    "cinematic": "电影"
+  },
+  "motionLevels": {
+    "static": "静态",
+    "slow": "缓慢",
+    "medium": "中等",
+    "fast": "快速"
+  },
+  "generationTime": {
+    "title": "⏱️ 生成时间",
+    "5seconds": "• 5秒视频：约1-2分钟",
+    "15seconds": "• 15秒视频：约3-5分钟",
+    "30seconds": "• 30秒视频：约5-10分钟",
+    "4k": "• 4K质量：+50%时间",
+    "complex": "• 复杂场景：可能需要更长时间"
+  }
+}
