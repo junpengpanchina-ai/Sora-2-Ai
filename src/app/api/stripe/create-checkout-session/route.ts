@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     } else {
       customer = await stripe.customers.create({
         email: session.user.email,
-        name: user?.name || session.user.name,
+        name: user?.name || session.user.name || undefined,
         metadata: {
           userId: user?.id || '',
         },

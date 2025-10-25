@@ -30,8 +30,10 @@ class PerformanceMonitor {
   private observers: PerformanceObserver[] = []
 
   constructor() {
-    this.initializeObservers()
-    this.measurePageLoad()
+    if (typeof window !== 'undefined') {
+      this.initializeObservers()
+      this.measurePageLoad()
+    }
   }
 
   // 初始化性能观察器

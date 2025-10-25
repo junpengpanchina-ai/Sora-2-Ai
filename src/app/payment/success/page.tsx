@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
 import { useTranslations } from '@/hooks/useTranslations'
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const t = useTranslations()
   const searchParams = useSearchParams()
   const [sessionData, setSessionData] = useState<any>(null)
@@ -83,5 +83,20 @@ export default function PaymentSuccessPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">正在验证支付信息...</p>
+        </div>
+      </div>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
   )
 }
