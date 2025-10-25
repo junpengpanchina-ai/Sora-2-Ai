@@ -158,25 +158,31 @@ export default function ProfilePage() {
                 {isEditing ? (
                   <form onSubmit={handleUpdateProfile} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="profile-name" className="block text-sm font-medium text-gray-700 mb-2">
                         姓名
                       </label>
                       <Input
+                        id="profile-name"
+                        name="name"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="请输入姓名"
+                        autoComplete="name"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="profile-email" className="block text-sm font-medium text-gray-700 mb-2">
                         邮箱
                       </label>
                       <Input
+                        id="profile-email"
+                        name="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder="请输入邮箱"
+                        autoComplete="email"
                         required
                       />
                     </div>
@@ -245,6 +251,8 @@ export default function ProfilePage() {
                     </label>
                     <div className="flex items-center space-x-2">
                       <Input
+                        id="profile-referralCode"
+                        name="referralCode"
                         value={profile?.referralCode || ''}
                         readOnly
                         className="bg-gray-50"

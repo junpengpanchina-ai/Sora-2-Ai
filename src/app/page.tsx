@@ -5,9 +5,28 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const t = useTranslations()
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  
+  // 处理Try Free按钮点击
+  const handleTryFree = () => {
+    if (status === 'loading') {
+      return // 等待session加载
+    }
+    
+    if (session) {
+      // 用户已登录，直接跳转到生成页面
+      router.push('/generate')
+    } else {
+      // 用户未登录，跳转到登录页面
+      router.push('/auth/signin')
+    }
+  }
   
   return (
     <div className="min-h-screen bg-white">
@@ -28,12 +47,15 @@ export default function HomePage() {
                   {t.home('getStarted')}
                 </Button>
               </Link>
-              <Link href="/generate">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  <Icon name="video" className="w-5 h-5 mr-2" />
-                  {t.home('watchDemo')}
-                </Button>
-              </Link>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full sm:w-auto"
+                onClick={handleTryFree}
+              >
+                <Icon name="video" className="w-5 h-5 mr-2" />
+                {t.home('watchDemo')}
+              </Button>
             </div>
           </div>
         </div>
@@ -249,12 +271,15 @@ export default function HomePage() {
                 {t.common('signup')}
               </Button>
             </Link>
-            <Link href="/generate">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto bg-transparent border-white text-white hover:bg-white hover:text-blue-600">
-                <Icon name="play" className="w-5 h-5 mr-2" />
-                Try Free
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="w-full sm:w-auto bg-transparent border-white text-white hover:bg-white hover:text-blue-600"
+              onClick={handleTryFree}
+            >
+              <Icon name="play" className="w-5 h-5 mr-2" />
+              Try Free
+            </Button>
           </div>
         </div>
       </div>

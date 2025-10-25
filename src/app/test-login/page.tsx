@@ -60,26 +60,32 @@ export default function TestLoginPage() {
         {!session ? (
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="test-email" className="block text-sm font-medium text-gray-700 mb-1">
                 邮箱
               </label>
               <Input
+                id="test-email"
+                name="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="test@example.com"
+                autoComplete="email"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="test-password" className="block text-sm font-medium text-gray-700 mb-1">
                 密码
               </label>
               <Input
+                id="test-password"
+                name="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="123456"
+                autoComplete="current-password"
               />
             </div>
             

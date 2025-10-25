@@ -163,10 +163,12 @@ export default function TestAPIPage() {
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="test-prompt" className="block text-sm font-medium text-gray-700 mb-2">
                   提示词
                 </label>
                 <Input
+                  id="test-prompt"
+                  name="prompt"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="输入视频描述"
