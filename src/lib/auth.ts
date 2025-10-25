@@ -15,7 +15,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('🔐 认证开始:', { email: credentials?.email, hasPassword: !!credentials?.password })
+        
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ 缺少凭据')
           return null
         }
 
@@ -24,17 +27,24 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email }
         })
 
+        console.log('👤 用户查找结果:', user ? '找到用户' : '未找到用户')
+
         if (!user || !user.password) {
+          console.log('❌ 用户不存在或没有密码')
           return null
         }
 
         // 验证密码
         const isValidPassword = await bcrypt.compare(credentials.password, user.password)
         
+        console.log('🔑 密码验证结果:', isValidPassword ? '成功' : '失败')
+        
         if (!isValidPassword) {
+          console.log('❌ 密码验证失败')
           return null
         }
 
+        console.log('✅ 认证成功:', user.email)
         return {
           id: user.id,
           email: user.email,
