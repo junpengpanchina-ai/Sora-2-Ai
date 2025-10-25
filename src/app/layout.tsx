@@ -2,6 +2,7 @@ import Header from '@/components/layout/Header'
 import ErrorBoundary from '@/components/ui/ErrorBoundary'
 import NotificationContainer from '@/components/ui/NotificationContainer'
 import { SessionProvider } from '@/components/providers/SessionProvider'
+import { AIThemeProvider } from '@/components/theme/AIThemeProvider'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -20,16 +21,18 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <SessionProvider>
-          <NextIntlClientProvider messages={messages}>
-            <ErrorBoundary>
-              <Header />
-              <main>
-                {children}
-              </main>
-              <NotificationContainer />
-              <SpeedInsights />
-            </ErrorBoundary>
-          </NextIntlClientProvider>
+          <AIThemeProvider>
+            <NextIntlClientProvider messages={messages}>
+              <ErrorBoundary>
+                <Header />
+                <main>
+                  {children}
+                </main>
+                <NotificationContainer />
+                <SpeedInsights />
+              </ErrorBoundary>
+            </NextIntlClientProvider>
+          </AIThemeProvider>
         </SessionProvider>
       </body>
     </html>

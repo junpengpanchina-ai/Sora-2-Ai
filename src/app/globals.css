@@ -4,3 +4,163 @@
 
 /* 导入语言切换动画样式 */
 @import '../styles/language-transitions.css';
+
+/* AI主题系统样式 */
+:root {
+  --theme-primary: #2563eb;
+  --theme-secondary: #64748b;
+  --theme-accent: #0ea5e9;
+  --theme-background: #ffffff;
+  --theme-surface: #f8fafc;
+  --theme-text: #1e293b;
+  --theme-text-secondary: #64748b;
+  --theme-font-family: Inter, system-ui, sans-serif;
+  --theme-transition-duration: 300ms;
+  --theme-transition-easing: ease-in-out;
+}
+
+/* 主题过渡动画 */
+.theme-transitioning * {
+  transition: 
+    background-color var(--theme-transition-duration) var(--theme-transition-easing),
+    border-color var(--theme-transition-duration) var(--theme-transition-easing),
+    color var(--theme-transition-duration) var(--theme-transition-easing),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+/* 实时状态指示器样式 */
+.realtime-status {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 聊天界面样式 */
+.chat-interface {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 安全状态指示器样式 */
+.security-status {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 威胁闪烁效果 */
+.threat-blink {
+  animation: threatBlink 1s infinite;
+}
+
+@keyframes threatBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+/* 消息打字效果 */
+.typing-indicator {
+  animation: typingPulse 1.5s infinite;
+}
+
+@keyframes typingPulse {
+  0%, 60%, 100% {
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+/* 安全警告横幅 */
+.security-alert {
+  animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .realtime-status,
+  .security-status {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    margin: 1rem;
+  }
+  
+  .chat-interface {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: none;
+    height: 100vh;
+  }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-background: #0a0a0a;
+    --theme-surface: #1a1a1a;
+    --theme-text: #ffffff;
+    --theme-text-secondary: #a1a1aa;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .theme-transitioning *,
+  .realtime-status,
+  .chat-interface,
+  .security-status,
+  .security-alert {
+    animation: none;
+    transition: none;
+  }
+}
