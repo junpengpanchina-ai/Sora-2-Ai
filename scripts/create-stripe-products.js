@@ -16,6 +16,7 @@ async function createProducts() {
     const basicProduct = await stripe.products.create({
       name: 'Sora AI 基础版',
       description: '适合个人用户的AI视频生成服务',
+      tax_code: 'txcd_10000000', // 电子服务税码
       metadata: {
         plan: 'basic',
         videosPerMonth: '15',
@@ -26,8 +27,8 @@ async function createProducts() {
 
     const basicPrice = await stripe.prices.create({
       product: basicProduct.id,
-      unit_amount: 4900, // ¥49.00 (以分为单位)
-      currency: 'cny',
+      unit_amount: 499, // $4.99 (以分为单位)
+      currency: 'usd',
       recurring: {
         interval: 'month'
       },
@@ -44,6 +45,7 @@ async function createProducts() {
     const proProduct = await stripe.products.create({
       name: 'Sora AI 专业版',
       description: '适合内容创作者的高级AI视频生成服务',
+      tax_code: 'txcd_10000000', // 电子服务税码
       metadata: {
         plan: 'pro',
         videosPerMonth: '40',
@@ -54,8 +56,8 @@ async function createProducts() {
 
     const proPrice = await stripe.prices.create({
       product: proProduct.id,
-      unit_amount: 19900, // ¥199.00 (以分为单位)
-      currency: 'cny',
+      unit_amount: 1999, // $19.99 (以分为单位)
+      currency: 'usd',
       recurring: {
         interval: 'month'
       },
@@ -72,6 +74,7 @@ async function createProducts() {
     const enterpriseProduct = await stripe.products.create({
       name: 'Sora AI 企业版',
       description: '适合团队和企业的企业级AI视频生成服务',
+      tax_code: 'txcd_10000000', // 电子服务税码
       metadata: {
         plan: 'enterprise',
         videosPerMonth: '120',
@@ -82,8 +85,8 @@ async function createProducts() {
 
     const enterprisePrice = await stripe.prices.create({
       product: enterpriseProduct.id,
-      unit_amount: 59900, // ¥599.00 (以分为单位)
-      currency: 'cny',
+      unit_amount: 5999, // $59.99 (以分为单位)
+      currency: 'usd',
       recurring: {
         interval: 'month'
       },

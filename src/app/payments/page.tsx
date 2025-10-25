@@ -133,19 +133,19 @@ export default function PaymentsPage() {
             <Card className="p-6">
               <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.totalAmount')}</div>
               <div className="text-2xl font-bold text-gray-900">
-                {formatAmount(stats.totalAmount, 'cny')}
+                {formatAmount(stats.totalAmount, 'usd')}
               </div>
             </Card>
             <Card className="p-6">
               <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.totalRefunded')}</div>
               <div className="text-2xl font-bold text-orange-600">
-                {formatAmount(stats.totalRefunded, 'cny')}
+                {formatAmount(stats.totalRefunded, 'usd')}
               </div>
             </Card>
             <Card className="p-6">
               <div className="text-sm font-medium text-gray-500">{t.t('payments.stats.netAmount')}</div>
               <div className="text-2xl font-bold text-green-600">
-                {formatAmount(stats.netAmount, 'cny')}
+                {formatAmount(stats.netAmount, 'usd')}
               </div>
             </Card>
             <Card className="p-6">

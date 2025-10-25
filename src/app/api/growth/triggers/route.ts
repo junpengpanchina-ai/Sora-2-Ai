@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       case 'scarcity_alert':
         if (action === 'upgrade') {
           result.message = '升级成功！您已享受7折优惠'
-          result.reward = '节省¥60'
+          result.reward = '节省$12'
         }
         break
       case 'fear_missing':

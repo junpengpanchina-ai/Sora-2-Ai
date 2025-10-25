@@ -173,7 +173,7 @@
     },
     "basic": {
       "name": "基础版",
-      "price": "¥49",
+      "price": "$4.99",
       "period": "/月",
       "description": "适合个人创作者",
       "features": [
@@ -187,7 +187,7 @@
     },
     "pro": {
       "name": "专业版",
-      "price": "¥199",
+      "price": "$19.99",
       "period": "/月",
       "description": "适合专业创作者",
       "features": [
@@ -203,7 +203,7 @@
     },
     "enterprise": {
       "name": "企业版",
-      "price": "¥599",
+      "price": "$59.99",
       "period": "/月",
       "description": "适合团队和企业",
       "features": [

@@ -133,7 +133,7 @@ export default function GrowthDashboard() {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">{t.pricing('title')}</p>
               <p className="text-2xl font-bold text-gray-900">
-                ¥{metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
+                ${metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
               </p>
             </div>
           </div>
@@ -296,13 +296,13 @@ export default function GrowthDashboard() {
             <div className="flex justify-between">
               <span className="text-gray-600">{t.pricing('pro.period')}</span>
               <span className="font-semibold text-gray-900">
-                ¥{metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
+                ${metrics?.revenue.monthlyRecurringRevenue.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">ARPU</span>
               <span className="font-semibold text-gray-900">
-                ¥{metrics?.revenue.averageRevenuePerUser.toFixed(2)}
+                ${metrics?.revenue.averageRevenuePerUser.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">

@@ -52,6 +52,7 @@ model User {
   subscriptionStatus String? // active, canceled, past_due, etc.
   subscriptionPlan String? // free, basic, pro, enterprise
   subscriptionEndsAt DateTime?
+  stripeCustomerId String? // Stripe客户ID
   
   // Referral system
   referralCode    String?   @unique // 用户专属邀请码
@@ -107,7 +108,7 @@ model Payment {
   stripeSessionId   String?  // Stripe checkout session ID
   stripeSubscriptionId String? // Stripe subscription ID
   amount            Int      // 金额（分）
-  currency          String   @default("cny") // 货币
+  currency          String   @default("usd") // 货币
   status            String   // pending, succeeded, failed, canceled, refunded
   paymentMethod     String?  // card, alipay, wechat
   description       String?  // 支付描述

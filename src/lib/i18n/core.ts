@@ -34,7 +34,7 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
     direction: 'ltr',
     dateFormat: 'yyyy-MM-dd',
     numberFormat: { style: 'decimal' },
-    currency: 'CNY'
+    currency: 'USD'
   }
 ]
 

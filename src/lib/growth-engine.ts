@@ -126,7 +126,7 @@ export const VIRAL_TRIGGERS: ViralTrigger[] = [
     title: '⏰ 限时优惠即将结束',
     description: '专业版7折优惠仅剩2小时！',
     action: '立即升级',
-    reward: '节省¥60',
+    reward: '节省$12',
     cooldown: 2
   },
   {

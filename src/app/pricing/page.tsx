@@ -36,6 +36,7 @@ export default function PricingPage() {
         body: JSON.stringify({
           priceId: SUBSCRIPTION_PLANS[plan].priceId,
           plan: plan,
+          locale: 'zh', // 支持本地化
         }),
       })
 
@@ -45,6 +46,32 @@ export default function PricingPage() {
       }
     } catch (error) {
       console.error('订阅失败:', error)
+    }
+  }
+
+  const handleManageSubscription = async () => {
+    if (!session) {
+      window.location.href = '/auth/signin'
+      return
+    }
+
+    try {
+      const response = await fetch('/api/stripe/create-portal-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          returnUrl: window.location.href,
+        }),
+      })
+
+      const { url } = await response.json()
+      if (url) {
+        window.location.href = url
+      }
+    } catch (error) {
+      console.error('打开客户门户失败:', error)
     }
   }
 
@@ -58,6 +85,18 @@ export default function PricingPage() {
           <p className="text-xl text-gray-600 mb-8">
             {t.pricing('subtitle')}
           </p>
+          {session && (
+            <div className="mb-8">
+              <Button 
+                variant="outline" 
+                onClick={handleManageSubscription}
+                className="inline-flex items-center"
+              >
+                <Icon name="settings" className="h-4 w-4 mr-2" />
+                管理我的订阅
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -86,7 +125,7 @@ export default function PricingPage() {
                 
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-gray-900">
-                    ¥{plan.price}
+                    ${plan.price}
                   </span>
                   {plan.price > 0 && <span className="text-gray-600">/月</span>}
                 </div>

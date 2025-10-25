@@ -36,7 +36,7 @@ export const SUBSCRIPTION_PLANS = {
   basic: {
     name: '基础版',
     description: '适合个人用户',
-    price: 29,
+    price: 4.99,
     priceId: 'price_basic_monthly', // 基础版价格ID
     features: [
       '每月15个视频',
@@ -54,7 +54,7 @@ export const SUBSCRIPTION_PLANS = {
   pro: {
     name: '专业版',
     description: '适合内容创作者',
-    price: 99,
+    price: 19.99,
     priceId: 'price_pro_monthly', // 专业版价格ID
     features: [
       '每月40个视频',
@@ -73,7 +73,7 @@ export const SUBSCRIPTION_PLANS = {
   enterprise: {
     name: '企业版',
     description: '适合团队和企业',
-    price: 299,
+    price: 59.99,
     priceId: 'price_enterprise_monthly', // 企业版价格ID
     features: [
       '每月120个视频',

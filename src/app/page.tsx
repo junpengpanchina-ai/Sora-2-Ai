@@ -172,7 +172,7 @@ export default function HomePage() {
             <Card className="p-6">
               <div className="text-center">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">免费版</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">¥0</div>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$0</div>
                 <ul className="space-y-2 text-gray-600 mb-6">
                   <li>• 需要邀请码激活</li>
                   <li>• 每月3个免费视频</li>
@@ -194,7 +194,7 @@ export default function HomePage() {
               </div>
               <div className="text-center">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">专业版</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">¥99<span className="text-lg text-gray-500">/月</span></div>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$19.99<span className="text-lg text-gray-500">/月</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6">
                   <li>• 每月40个视频</li>
                   <li>• 15秒视频长度</li>
@@ -211,7 +211,7 @@ export default function HomePage() {
             <Card className="p-6">
               <div className="text-center">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">企业版</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">¥299<span className="text-lg text-gray-500">/月</span></div>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$59.99<span className="text-lg text-gray-500">/月</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6">
                   <li>• 每月120个视频</li>
                   <li>• 15秒视频长度</li>

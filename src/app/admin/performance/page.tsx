@@ -11,12 +11,13 @@ import { useTranslations } from '@/hooks/useTranslations'
 export default function PerformancePage() {
   const t = useTranslations()
   const { metrics, score, recommendations } = usePerformanceMonitor()
-  const [cacheStats, setCacheStats] = useState(() => {
+  const [cacheStats, setCacheStats] = useState({ size: 0, maxSize: 100, hitRate: 0 })
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      return apiCache.getStats()
+      setCacheStats(apiCache.getStats())
     }
-    return { size: 0, maxSize: 100, hitRate: 0 }
-  })
+  }, [])
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const refreshMetrics = async () => {

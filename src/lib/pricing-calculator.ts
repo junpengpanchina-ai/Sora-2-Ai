@@ -26,8 +26,8 @@ export const PRICING_TIERS: PricingTier[] = [
     name: '基础版',
     monthlyVideos: 15,
     maxDuration: 10,
-    pricePerVideo: 2,
-    monthlyPrice: 29,
+    pricePerVideo: 0.33,
+    monthlyPrice: 4.99,
     features: [
       '每月15个视频',
       '10秒视频长度',
@@ -40,8 +40,8 @@ export const PRICING_TIERS: PricingTier[] = [
     name: '专业版',
     monthlyVideos: 40,
     maxDuration: 15,
-    pricePerVideo: 2.5,
-    monthlyPrice: 99,
+    pricePerVideo: 0.5,
+    monthlyPrice: 19.99,
     features: [
       '每月40个视频',
       '15秒视频长度',
@@ -55,8 +55,8 @@ export const PRICING_TIERS: PricingTier[] = [
     name: '企业版',
     monthlyVideos: 120,
     maxDuration: 15,
-    pricePerVideo: 2.5,
-    monthlyPrice: 299,
+    pricePerVideo: 0.5,
+    monthlyPrice: 59.99,
     features: [
       '每月120个视频',
       '15秒视频长度',

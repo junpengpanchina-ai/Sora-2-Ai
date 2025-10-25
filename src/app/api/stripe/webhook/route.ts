@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
                 stripeSessionId: session.id,
                 stripeSubscriptionId: subscription.id,
                 amount: session.amount_total || 0,
-                currency: session.currency || 'cny',
+                currency: session.currency || 'usd',
                 status: 'succeeded',
                 paymentMethod: 'card',
                 description: `订阅 ${session.metadata?.plan || 'basic'} 计划`,
@@ -87,24 +87,38 @@ export async function POST(request: NextRequest) {
         await prisma.user.updateMany({
           where: { subscriptionId: subscription.id },
           data: {
-            subscriptionId: null,
             subscriptionStatus: 'canceled',
-            subscriptionPlan: null,
-            subscriptionEndsAt: null,
+            subscriptionEndsAt: new Date((subscription as any).current_period_end * 1000),
           },
         })
+        break
+      }
+
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object as Stripe.Invoice
+        
+        if (invoice.subscription) {
+          await prisma.user.updateMany({
+            where: { subscriptionId: invoice.subscription as string },
+            data: {
+              subscriptionStatus: 'active',
+            },
+          })
+        }
         break
       }
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
         
-        await prisma.user.updateMany({
-          where: { subscriptionId: (invoice as any).subscription as string },
-          data: {
-            subscriptionStatus: 'past_due',
-          },
-        })
+        if (invoice.subscription) {
+          await prisma.user.updateMany({
+            where: { subscriptionId: invoice.subscription as string },
+            data: {
+              subscriptionStatus: 'past_due',
+            },
+          })
+        }
         break
       }
 

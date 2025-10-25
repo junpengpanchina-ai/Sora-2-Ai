@@ -1,34 +1,38 @@
 {
   "title": "Achievements",
-  "subtitle": "Track your progress and unlock rewards",
+  "subtitle": "Track your progress and unlock new milestones",
   "unlocked": "Unlocked",
   "locked": "Locked",
   "progress": "Progress",
+  "totalAchievements": "Total Achievements",
+  "completed": "Completed",
+  "inProgress": "In Progress",
   "categories": {
-    "creator": "Creator",
-    "social": "Social",
-    "premium": "Premium"
+    "video": "Video Creation",
+    "social": "Social Sharing",
+    "referral": "Referrals",
+    "premium": "Premium Features"
   },
   "achievements": {
     "firstVideo": {
-      "title": "First Steps",
-      "description": "Generate your first video",
-      "reward": "10s video generation"
+      "title": "First Video",
+      "description": "Create your first video",
+      "reward": "Unlock basic templates"
     },
-    "videoMaster": {
-      "title": "Video Master",
-      "description": "Generate 10 videos",
-      "reward": "15s video generation"
+    "videoCreator": {
+      "title": "Video Creator",
+      "description": "Create 10 videos",
+      "reward": "Unlock advanced templates"
     },
-    "socialButterfly": {
-      "title": "Social Butterfly",
-      "description": "Share 5 videos",
-      "reward": "Premium template access"
+    "socialSharer": {
+      "title": "Social Sharer",
+      "description": "Share 5 videos on social media",
+      "reward": "Get custom branding"
     },
-    "premiumUser": {
-      "title": "Premium User",
-      "description": "Upgrade to premium plan",
-      "reward": "Unlimited generations"
+    "referralMaster": {
+      "title": "Referral Master",
+      "description": "Refer 5 friends",
+      "reward": "Get premium features for free"
     }
   }
 }
