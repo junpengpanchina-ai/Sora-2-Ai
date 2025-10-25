@@ -20,8 +20,10 @@
   "cta": {
     "loginToSubscribe": "登录订阅"
   },
-  "pro": {
-    "popular": "最受欢迎"
+  "plans": {
+    "pro": {
+      "popular": "最受欢迎"
+    }
   },
   "invitationReward": {
     "title": "邀请奖励",

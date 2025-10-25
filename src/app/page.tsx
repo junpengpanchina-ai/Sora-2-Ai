@@ -203,7 +203,7 @@ export default function HomePage() {
             <Card className="p-6 border-2 border-blue-500 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  {t.pricing('pro.popular')}
+                  {t.pricing('plans.pro.popular')}
                 </span>
               </div>
               <div className="text-center">

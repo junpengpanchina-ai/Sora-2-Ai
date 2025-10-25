@@ -20,8 +20,10 @@
   "cta": {
     "loginToSubscribe": "Sign In to Subscribe"
   },
-  "pro": {
-    "popular": "Most Popular"
+  "plans": {
+    "pro": {
+      "popular": "Most Popular"
+    }
   },
   "invitationReward": {
     "title": "Referral Rewards",
