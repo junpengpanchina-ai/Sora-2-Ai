@@ -4,6 +4,7 @@ import NotificationContainer from '@/components/ui/NotificationContainer'
 import { SessionProvider } from '@/components/providers/SessionProvider'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 
 interface RootLayoutProps {
@@ -26,6 +27,7 @@ export default async function RootLayout({
                 {children}
               </main>
               <NotificationContainer />
+              <SpeedInsights />
             </ErrorBoundary>
           </NextIntlClientProvider>
         </SessionProvider>
