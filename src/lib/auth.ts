@@ -6,7 +6,11 @@ import { prisma } from "./prisma"
 import bcrypt from 'bcryptjs'
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma), // 启用数据库适配器
+  // 移除数据库适配器以提高性能，使用JWT session
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30天
+  },
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -66,17 +70,24 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30天
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.email = user.email
+        token.name = user.name
+        token.image = user.image
       }
       return token
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string
+        session.user.email = token.email as string
+        session.user.name = token.name as string
+        session.user.image = token.image as string
       }
       return session
     },

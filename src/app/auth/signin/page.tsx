@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
-import ProgressiveSignIn from '@/components/auth/ProgressiveSignIn'
+// import ProgressiveSignIn from '@/components/auth/ProgressiveSignIn'
 
 export default function SignInPage() {
   const t = useTranslations()
@@ -20,22 +20,30 @@ export default function SignInPage() {
   const [isCheckingSession, setIsCheckingSession] = useState(true)
   const router = useRouter()
 
-  // 检查用户是否已经登录
+  // 检查用户是否已经登录 - 优化性能
   useEffect(() => {
+    let mounted = true
+    
     const checkSession = async () => {
       try {
         const session = await getSession()
-        if (session) {
+        if (mounted && session) {
           router.push('/dashboard')
         }
       } catch (error) {
         console.error('Session check error:', error)
       } finally {
-        setIsCheckingSession(false)
+        if (mounted) {
+          setIsCheckingSession(false)
+        }
       }
     }
-
+    
     checkSession()
+    
+    return () => {
+      mounted = false
+    }
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,14 +56,17 @@ export default function SignInPage() {
         email,
         password,
         redirect: false,
+        callbackUrl: '/dashboard'
       })
 
       if (result?.error) {
         setError(t.auth('invalidCredentials'))
-      } else {
-        router.push('/dashboard')
+      } else if (result?.ok) {
+        // 登录成功，直接跳转
+        window.location.href = '/dashboard'
       }
     } catch (error) {
+      console.error('Login error:', error)
       setError(t.auth('signInError'))
     } finally {
       setIsLoading(false)
