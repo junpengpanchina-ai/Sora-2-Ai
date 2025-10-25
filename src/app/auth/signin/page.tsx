@@ -48,10 +48,12 @@ export default function SignInPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('🔐 登录表单提交:', { email, password: '***' })
     setIsLoading(true)
     setError('')
 
     try {
+      console.log('🚀 开始调用 signIn...')
       const result = await signIn('credentials', {
         email,
         password,
@@ -59,14 +61,20 @@ export default function SignInPage() {
         callbackUrl: '/dashboard'
       })
 
+      console.log('📡 signIn 结果:', result)
+
       if (result?.error) {
+        console.log('❌ 登录失败:', result.error)
         setError(t.auth('invalidCredentials'))
       } else if (result?.ok) {
+        console.log('✅ 登录成功，准备跳转...')
         // 登录成功，直接跳转
         window.location.href = '/dashboard'
+      } else {
+        console.log('⚠️ 未知的登录结果:', result)
       }
     } catch (error) {
-      console.error('Login error:', error)
+      console.error('❌ 登录错误:', error)
       setError(t.auth('signInError'))
     } finally {
       setIsLoading(false)
