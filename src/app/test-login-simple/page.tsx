@@ -29,7 +29,7 @@ export default function TestLoginPage() {
         setResult(`未知结果: ${JSON.stringify(result)}`)
       }
     } catch (error) {
-      setResult(`错误: ${error.message}`)
+      setResult(`错误: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 

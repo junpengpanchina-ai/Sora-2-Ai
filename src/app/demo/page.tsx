@@ -9,13 +9,17 @@ import { RealtimeStatus, RealtimeDataIndicator, RealtimeActivityIndicator } from
 import { ChatInterface, ChatButton, QuickReplies } from '@/components/chat/ChatInterface'
 import { SecurityStatus, SecurityDashboard, SecurityAlertBanner } from '@/components/security/SecurityStatus'
 import { useAITheme } from '@/components/theme/AIThemeProvider'
-import { useEffect, useState } from 'react'
 
 export default function DemoPage() {
   const { currentTheme } = useAITheme()
   const [realtimeStatus, setRealtimeStatus] = useState<'connected' | 'connecting' | 'disconnected' | 'error'>('connected')
   const [isChatOpen, setIsChatOpen] = useState(false)
-  const [chatMessages, setChatMessages] = useState([
+  const [chatMessages, setChatMessages] = useState<Array<{
+    id: string;
+    type: 'ai' | 'user';
+    content: string;
+    timestamp: Date;
+  }>>([
     {
       id: '1',
       type: 'ai' as const,
@@ -163,7 +167,7 @@ export default function DemoPage() {
   }
 
   // 安全指标
-  const securityMetrics = {
+  const currentSecurityMetrics = {
     totalThreats: threats.length,
     resolvedThreats: threats.filter(t => t.resolved).length,
     activeThreats: threats.filter(t => !t.resolved).length,
@@ -406,7 +410,7 @@ export default function DemoPage() {
 
         {/* 安全仪表板 */}
         <SecurityDashboard
-          metrics={securityMetrics || securityMetrics}
+          metrics={currentSecurityMetrics}
           recentActivity={recentActivity}
         />
       </div>

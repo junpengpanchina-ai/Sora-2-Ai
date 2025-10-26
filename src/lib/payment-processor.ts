@@ -131,14 +131,15 @@ export class PaymentProcessor {
 
   // 获取升级优惠
   private async getUpgradeDiscounts(fromPlan: SubscriptionPlan, toPlan: SubscriptionPlan) {
-    const upgradeDiscounts = {
+    const upgradeDiscounts: Record<string, { coupon: string }> = {
       'free': { coupon: 'FIRST_UPGRADE_50' }, // 首次升级50%优惠
       'bronze': { coupon: 'BRONZE_TO_SILVER_30' }, // 青铜升白银30%优惠
       'silver': { coupon: 'SILVER_TO_GOLD_20' }, // 白银升黄金20%优惠
       'gold': { coupon: 'GOLD_TO_DIAMOND_15' }, // 黄金升钻石15%优惠
     }
 
-    return upgradeDiscounts[fromPlan] ? [upgradeDiscounts[fromPlan]] : []
+    const discount = upgradeDiscounts[fromPlan]
+    return discount ? [discount] : []
   }
 
   // 获取邀请奖励
@@ -222,7 +223,7 @@ export class PriceCalculator {
   // 计算升级优惠
   static calculateUpgradeDiscount(fromPlan: SubscriptionPlan, toPlan: SubscriptionPlan): number {
     const upgradePrice = this.calculateUpgradePrice(fromPlan, toPlan)
-    const discountRates = {
+    const discountRates: Record<string, number> = {
       'free': 0.5, // 50%优惠
       'bronze': 0.3, // 30%优惠
       'silver': 0.2, // 20%优惠

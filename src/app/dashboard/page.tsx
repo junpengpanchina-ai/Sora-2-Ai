@@ -11,7 +11,7 @@ import { useTranslations } from '@/hooks/useTranslations'
 
 export default function DashboardPage() {
   const t = useTranslations()
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 

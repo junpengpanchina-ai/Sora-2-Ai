@@ -10,7 +10,7 @@ export default function TestAuthPage() {
   const [password, setPassword] = useState('123456')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState('')
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState<any>(null)
 
   const testLogin = async () => {
     setLoading(true)
@@ -34,7 +34,7 @@ export default function TestAuthPage() {
       
     } catch (error) {
       console.error('登录错误:', error)
-      setResult(`错误: ${error.message}`)
+      setResult(`错误: ${error instanceof Error ? error.message : String(error)}`)
     } finally {
       setLoading(false)
     }
@@ -46,7 +46,7 @@ export default function TestAuthPage() {
       setSession(currentSession)
       setResult(`会话检查: ${currentSession ? '已登录' : '未登录'}`)
     } catch (error) {
-      setResult(`会话检查错误: ${error.message}`)
+      setResult(`会话检查错误: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
