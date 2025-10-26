@@ -5,13 +5,16 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
-import { useSession } from 'next-auth/react'
+import { useSimpleAuth } from '@/hooks/useSimpleAuth'
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const t = useTranslations()
-  const { data: session, status } = useSession()
+  const { user, loading } = useSimpleAuth()
   const router = useRouter()
+  
+  // 如果用户已登录，显示欢迎信息
+  const showWelcomeMessage = user && !loading
   
   
   return (
@@ -20,6 +23,21 @@ export default function HomePage() {
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
+            {/* 登录成功状态显示 */}
+            {showWelcomeMessage && (
+              <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg max-w-md mx-auto">
+                <div className="flex items-center justify-center">
+                  <Icon name="checkCircle" className="w-6 h-6 text-green-600 mr-2" />
+                  <span className="text-green-800 font-medium">
+                    Welcome back, {user.name || user.email}! 🎉
+                  </span>
+                </div>
+                <p className="text-green-600 text-sm mt-1">
+                  You are successfully logged in
+                </p>
+              </div>
+            )}
+            
             <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl">
               {t.home('title')}
             </h1>
@@ -27,22 +45,45 @@ export default function HomePage() {
               {t.home('subtitle')}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/signup">
-                <Button size="lg" className="w-full sm:w-auto">
-                  <Icon name="play" className="w-5 h-5 mr-2" />
-                  {t.home('getStarted')}
-                </Button>
-              </Link>
-              <Link href="/generate">
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full sm:w-auto"
-                >
-                  <Icon name="video" className="w-5 h-5 mr-2" />
-                  {t.home('watchDemo')}
-                </Button>
-              </Link>
+              {showWelcomeMessage ? (
+                <>
+                  <Link href="/generate">
+                    <Button size="lg" className="w-full sm:w-auto">
+                      <Icon name="video" className="w-5 h-5 mr-2" />
+                      Start Creating Videos
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard">
+                    <Button 
+                      variant="outline" 
+                      size="lg" 
+                      className="w-full sm:w-auto"
+                    >
+                      <Icon name="user" className="w-5 h-5 mr-2" />
+                      Go to Dashboard
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/signup">
+                    <Button size="lg" className="w-full sm:w-auto">
+                      <Icon name="play" className="w-5 h-5 mr-2" />
+                      {t.home('getStarted')}
+                    </Button>
+                  </Link>
+                  <Link href="/generate">
+                    <Button 
+                      variant="outline" 
+                      size="lg" 
+                      className="w-full sm:w-auto"
+                    >
+                      <Icon name="video" className="w-5 h-5 mr-2" />
+                      {t.home('watchDemo')}
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

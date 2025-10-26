@@ -57,9 +57,9 @@ export default function SignInPage() {
         console.log('❌ 登录失败:', result.error)
         setError(t.auth('invalidCredentials'))
       } else if (result?.ok) {
-        console.log('✅ 登录成功，准备跳转...')
-        // 登录成功，直接跳转
-        window.location.href = '/dashboard'
+        console.log('✅ 登录成功，准备跳转到首页...')
+        // 登录成功，跳转到首页显示登录状态
+        window.location.href = '/'
       } else {
         console.log('⚠️ 未知的登录结果:', result)
       }
@@ -77,7 +77,7 @@ export default function SignInPage() {
       alert('Google 登录功能暂未配置，请使用邮箱登录')
       return
     }
-    signIn('google', { callbackUrl: '/dashboard' })
+    signIn('google', { callbackUrl: '/' })
   }
 
 
