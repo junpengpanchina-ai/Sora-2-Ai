@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { useTranslations } from '@/hooks/useTranslations'
+import { useSimpleAuth } from '@/hooks/useSimpleAuth'
 
 interface AuthButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
@@ -21,16 +21,16 @@ export default function AuthButton({
   showUserInfo = false,
   onLogout
 }: AuthButtonProps) {
-  const { data: session, status } = useSession()
+  const { user, loading, logout } = useSimpleAuth()
   const router = useRouter()
   const t = useTranslations()
 
   const handleAuthAction = async () => {
-    if (session) {
+    if (user) {
       // 用户已登录，执行退出操作
       try {
         console.log('🔐 智能按钮开始登出...')
-        const result = await signOut({ redirect: false })
+        const result = await logout()
         console.log('✅ 智能按钮登出结果:', result)
         
         // 执行自定义退出回调
@@ -52,11 +52,11 @@ export default function AuthButton({
   }
 
   const getButtonText = () => {
-    if (status === 'loading') {
-      return t.common('loading') || 'Loading...'
+    if (loading) {
+      return 'Loading...'
     }
     
-    if (session) {
+    if (user) {
       return t.common('logout') || 'Logout'
     }
     
@@ -64,7 +64,7 @@ export default function AuthButton({
   }
 
   const getButtonVariant = () => {
-    if (session) {
+    if (user) {
       return 'outline' // 退出按钮使用outline样式
     }
     return variant // 登录按钮使用传入的样式
@@ -72,9 +72,9 @@ export default function AuthButton({
 
   return (
     <div className="flex items-center space-x-2">
-      {showUserInfo && session && (
+      {showUserInfo && user && (
         <span className="text-sm text-gray-700">
-          {session.user?.name || session.user?.email}
+          {user.name || user.email}
         </span>
       )}
       <Button
@@ -82,7 +82,7 @@ export default function AuthButton({
         size={size}
         onClick={handleAuthAction}
         className={className}
-        disabled={status === 'loading'}
+        disabled={loading}
       >
         {getButtonText()}
       </Button>

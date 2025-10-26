@@ -94,7 +94,7 @@ export default function SignInPage() {
               href="/auth/signup"
               className="font-medium text-primary-600 hover:text-primary-500"
             >
-              {t.auth('signup')}
+              {t.auth('signUp')}
             </Link>
           </p>
         </div>

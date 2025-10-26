@@ -1,15 +1,18 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "./prisma"
 import bcrypt from 'bcryptjs'
 
 export const authOptions: NextAuthOptions = {
-  // 移除数据库适配器以提高性能，使用JWT session
+  debug: true,
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30天
+  },
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/",
   },
   providers: [
     CredentialsProvider({
@@ -26,34 +29,41 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        // 从数据库查找用户
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        })
+        try {
+          // 从数据库查找用户
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email }
+          })
 
-        console.log('👤 用户查找结果:', user ? '找到用户' : '未找到用户')
+          console.log('👤 用户查找结果:', user ? '找到用户' : '未找到用户')
 
-        if (!user || !user.password) {
-          console.log('❌ 用户不存在或没有密码')
+          if (!user || !user.password) {
+            console.log('❌ 用户不存在或没有密码')
+            return null
+          }
+
+          // 验证密码
+          const isValidPassword = await bcrypt.compare(credentials.password, user.password)
+          
+          console.log('🔑 密码验证结果:', isValidPassword ? '成功' : '失败')
+          
+          if (!isValidPassword) {
+            console.log('❌ 密码验证失败')
+            return null
+          }
+
+          console.log('✅ 认证成功:', user.email)
+          
+          // 返回用户对象，确保包含所有必要字段
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || user.email,
+            image: user.image || null,
+          }
+        } catch (error) {
+          console.error('❌ 认证过程出错:', error)
           return null
-        }
-
-        // 验证密码
-        const isValidPassword = await bcrypt.compare(credentials.password, user.password)
-        
-        console.log('🔑 密码验证结果:', isValidPassword ? '成功' : '失败')
-        
-        if (!isValidPassword) {
-          console.log('❌ 密码验证失败')
-          return null
-        }
-
-        console.log('✅ 认证成功:', user.email)
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
         }
       }
     }),
@@ -68,10 +78,6 @@ export const authOptions: NextAuthOptions = {
           })]
         : []),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30天
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -91,9 +97,5 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
-  },
-  pages: {
-    signIn: "/auth/signin",
-    signOut: "/",
   },
 }
