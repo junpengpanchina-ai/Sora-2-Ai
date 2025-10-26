@@ -2,17 +2,12 @@
 
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { Button } from '@/components/ui/Button'
-import { Card } from '@/components/ui/Card'
-import { Icon } from '@/components/ui/Icon'
 import { SUBSCRIPTION_PLANS, SubscriptionPlan } from '@/lib/stripe'
 import Link from 'next/link'
-import { useTranslations } from '@/hooks/useTranslations'
 
 export default function PricingPage() {
-  const t = useTranslations()
   const { data: session } = useSession()
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('pro')
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('gold')
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
     if (!session) {
@@ -78,170 +73,219 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {t.pricing('title')}
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            {t.pricing('subtitle')}
+        {/* 标题和说明 */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            简单透明的定价
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            为您的创作需求选择完美方案。所有方案都包含我们的核心AI视频生成技术。
           </p>
           {session && (
-            <div className="mb-8">
-              <Button 
-                variant="outline" 
+            <div className="mt-8">
+              <button 
                 onClick={handleManageSubscription}
-                className="inline-flex items-center"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                <Icon name="settings" className="h-4 w-4 mr-2" />
                 管理我的订阅
-              </Button>
+              </button>
             </div>
           )}
         </div>
 
+        {/* 定价方案 - 5个会员体系 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
           {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
-            <Card 
-              key={key} 
-              className={`p-6 relative ${
+            <div 
+              key={key}
+              className={`bg-white rounded-2xl border shadow-sm p-6 relative ${
                 key === 'gold' 
-                  ? 'ring-2 ring-primary-500 shadow-lg scale-105' 
-                  : ''
+                  ? 'border-2 border-yellow-500' 
+                  : 'border-gray-200'
               }`}
             >
               {key === 'gold' && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-yellow-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                     推荐方案
                   </span>
                 </div>
               )}
               
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {plan.name}
                 </h3>
-                <p className="text-gray-600 mb-6">{plan.description}</p>
                 
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-gray-900">
-                    ${plan.price}
-                  </span>
-                  {plan.price > 0 && <span className="text-gray-600">/月</span>}
+                <div className="text-3xl font-bold text-gray-900 mb-4">
+                  {plan.price === 0 ? '$0' : `$${plan.price}`}
+                  {plan.price > 0 && <span className="text-lg text-gray-500">/月</span>}
                 </div>
 
-                <ul className="space-y-3 mb-8 text-left">
+                <ul className="space-y-2 text-gray-600 mb-6 text-sm">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <Icon name="check" className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
+                    <li key={index} className="flex items-start">
+                      <span className="text-gray-400 mr-2">•</span>
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Button
+                <button
                   onClick={() => handleSubscribe(key as SubscriptionPlan)}
-                  className={`w-full ${
+                  className={`inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 text-base w-full ${
                     key === 'gold' 
-                      ? 'bg-yellow-600 hover:bg-yellow-700 text-white' 
+                      ? 'bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500 shadow-sm hover:shadow-md' 
                       : key === 'free'
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : ''
+                      ? 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 shadow-sm hover:shadow-md'
+                      : 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500'
                   }`}
-                  variant={key === 'gold' ? 'primary' : key === 'free' ? 'primary' : 'outline'}
-                  size="lg"
                 >
                   {key === 'free' 
-                    ? '免费开始'
+                    ? '获取邀请码'
                     : session 
-                      ? (key === 'gold' ? '选择黄金会员' : key === 'bronze' ? '选择青铜会员' : key === 'silver' ? '选择白银会员' : key === 'diamond' ? '选择钻石会员' : '联系销售')
-                      : t.pricing('cta.loginToSubscribe')}
-                </Button>
+                      ? (key === 'gold' ? '选择黄金会员' : 
+                         key === 'bronze' ? '选择青铜会员' : 
+                         key === 'silver' ? '选择白银会员' : 
+                         key === 'diamond' ? '选择钻石会员' : '联系销售')
+                      : '登录订阅'}
+                </button>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
 
-        {/* 邀请奖励说明 */}
-        <div className="mt-12 text-center">
-          <Card className="p-6 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-4">
-              <Icon name="gift" className="h-8 w-8 text-green-500 mr-2" />
-              <h3 className="text-xl font-semibold text-gray-900">{t.pricing('invitationReward.title')}</h3>
-            </div>
-            <p className="text-gray-600 mb-6">
-              {t.pricing('invitationReward.description')}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="text-center">
-                <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-bold text-green-600">1</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">{t.pricing('invitationReward.title')}</h4>
-                <p className="text-sm text-gray-600">{t.pricing('invitationReward.newUserReward')}</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-bold text-blue-600">1</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">{t.pricing('invitationReward.title')}</h4>
-                <p className="text-sm text-gray-600">{t.pricing('invitationReward.referralRewards.0')}</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-bold text-purple-600">3</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">{t.pricing('invitationReward.title')}</h4>
-                <p className="text-sm text-gray-600">{t.pricing('invitationReward.referralRewards.1')}</p>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/signup">
-                <Button size="lg">{t.common('signup')}</Button>
-              </Link>
-              <Link href="/generate">
-                <Button variant="outline" size="lg">{t.home('watchDemo')}</Button>
-              </Link>
-            </div>
-          </Card>
+        {/* 会员对比表 */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
+            会员功能对比
+          </h3>
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    功能
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    体验版
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    青铜会员
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    白银会员
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    黄金会员
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    钻石会员
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    月视频数量
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10个</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">30个</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">60个</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">120个</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">200个</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    视频时长
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5秒</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5秒</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10秒</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15秒</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15秒</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    视频质量
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">1080p</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">4K</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">4K</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    客服支持
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">社区</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">优先</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">专属</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">专属</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">客户经理</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    API访问
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">企业API</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    积分奖励
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* FAQ */}
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            {t.pricing('faqTitle')}
+            常见问题
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t.pricing('faq.cancelAnytime.q')}
+                可以随时取消订阅吗？
               </h3>
               <p className="text-gray-600">
-                {t.pricing('faq.cancelAnytime.a')}
+                是的，您可以随时取消订阅。取消后，您仍可使用到当前计费周期结束。
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t.pricing('faq.paymentMethods.q')}
+                支持哪些支付方式？
               </h3>
               <p className="text-gray-600">
-                {t.pricing('faq.paymentMethods.a')}
+                我们支持所有主要信用卡、借记卡和数字钱包支付。
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t.pricing('faq.generationTime.q')}
+                视频生成需要多长时间？
               </h3>
               <p className="text-gray-600">
-                {t.pricing('faq.generationTime.a')}
+                通常5-15秒的视频需要1-3分钟生成，具体时间取决于视频复杂度。
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t.pricing('faq.apiAvailability.q')}
+                是否提供API访问？
               </h3>
               <p className="text-gray-600">
-                {t.pricing('faq.apiAvailability.a')}
+                白银会员及以上提供API访问，钻石会员提供企业级API。
               </p>
             </div>
           </div>
