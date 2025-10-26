@@ -216,111 +216,111 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              简单透明的定价
+              Simple, Transparent Pricing
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              为您的创作需求选择完美方案。所有方案都包含我们的核心AI视频生成技术。
+              Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {/* 体验版 */}
+            {/* Starter */}
             <Card className="p-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">体验版</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
                 <div className="text-3xl font-bold text-gray-900 mb-4">$0</div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 需要邀请码激活</li>
-                  <li>• 每月10个5秒视频</li>
-                  <li>• 720p视频质量</li>
-                  <li>• 社区支持</li>
+                  <li>• Requires invitation code</li>
+                  <li>• 10 videos per month (5s each)</li>
+                  <li>• 720p video quality</li>
+                  <li>• Community support</li>
                 </ul>
                 <Link href="/auth/signup">
-                  <Button variant="outline" className="w-full">获取邀请码</Button>
+                  <Button variant="outline" className="w-full">Get Invitation Code</Button>
                 </Link>
               </div>
             </Card>
 
-            {/* 青铜会员 */}
+            {/* Bronze Member */}
             <Card className="p-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">青铜会员</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$2<span className="text-lg text-gray-500">/月</span></div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Bronze Member</h3>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$2<span className="text-lg text-gray-500">/month</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 每月30个5秒视频</li>
-                  <li>• 720p视频质量</li>
-                  <li>• 优先支持</li>
-                  <li>• 高级模板</li>
+                  <li>• 30 videos per month (5s each)</li>
+                  <li>• 720p video quality</li>
+                  <li>• Priority support</li>
+                  <li>• Advanced templates</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button variant="outline" className="w-full">选择青铜会员</Button>
+                  <Button variant="outline" className="w-full">Choose Bronze</Button>
                 </Link>
               </div>
             </Card>
 
-            {/* 白银会员 */}
+            {/* Silver Member */}
             <Card className="p-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">白银会员</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$8<span className="text-lg text-gray-500">/月</span></div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Silver Member</h3>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$8<span className="text-lg text-gray-500">/month</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 每月60个10秒视频</li>
-                  <li>• 1080p视频质量</li>
-                  <li>• 专属客服</li>
-                  <li>• API访问</li>
+                  <li>• 60 videos per month (10s each)</li>
+                  <li>• 1080p video quality</li>
+                  <li>• Dedicated customer service</li>
+                  <li>• API access</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button variant="outline" className="w-full">选择白银会员</Button>
+                  <Button variant="outline" className="w-full">Choose Silver</Button>
                 </Link>
               </div>
             </Card>
 
-            {/* 黄金会员 - 推荐 */}
+            {/* Gold Member - Recommended */}
             <Card className="p-6 border-2 border-yellow-500 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  推荐方案
+                  Recommended
                 </span>
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">黄金会员</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$20<span className="text-lg text-gray-500">/月</span></div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Gold Member</h3>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$20<span className="text-lg text-gray-500">/month</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 每月120个15秒视频</li>
-                  <li>• 4K视频质量</li>
-                  <li>• 专属客服</li>
-                  <li>• 优先处理</li>
+                  <li>• 120 videos per month (15s each)</li>
+                  <li>• 4K video quality</li>
+                  <li>• Dedicated customer service</li>
+                  <li>• Priority processing</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700">选择黄金会员</Button>
+                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700">Choose Gold</Button>
                 </Link>
               </div>
             </Card>
 
-            {/* 钻石会员 */}
+            {/* Diamond Member */}
             <Card className="p-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">钻石会员</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$40<span className="text-lg text-gray-500">/月</span></div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Diamond Member</h3>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$40<span className="text-lg text-gray-500">/month</span></div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 每月200个15秒视频</li>
-                  <li>• 4K视频质量</li>
-                  <li>• 专属客户经理</li>
-                  <li>• 企业API</li>
+                  <li>• 200 videos per month (15s each)</li>
+                  <li>• 4K video quality</li>
+                  <li>• Dedicated account manager</li>
+                  <li>• Enterprise API</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button variant="outline" className="w-full">选择钻石会员</Button>
+                  <Button variant="outline" className="w-full">Choose Diamond</Button>
                 </Link>
               </div>
             </Card>
           </div>
 
-          {/* 查看完整定价 */}
+          {/* View Full Pricing */}
           <div className="text-center mt-12">
             <Link href="/pricing">
               <Button size="lg" variant="outline">
                 <Icon name="arrow-right" className="w-5 h-5 mr-2" />
-                查看完整定价方案
+                View Full Pricing Plans
               </Button>
             </Link>
           </div>

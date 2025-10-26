@@ -104,7 +104,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
             >
               <Icon name="dollar-sign" className="h-5 w-5 text-gray-600" />
-              <span className="text-gray-700">定价</span>
+              <span className="text-gray-700">Pricing</span>
             </Link>
 
             {user && (

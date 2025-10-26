@@ -76,10 +76,10 @@ export default function PricingPage() {
         {/* 标题和说明 */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            简单透明的定价
+            Simple, Transparent Pricing
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            为您的创作需求选择完美方案。所有方案都包含我们的核心AI视频生成技术。
+            Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.
           </p>
           {session && (
             <div className="mt-8">
@@ -87,7 +87,7 @@ export default function PricingPage() {
                 onClick={handleManageSubscription}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                管理我的订阅
+                Manage My Subscription
               </button>
             </div>
           )}
@@ -142,72 +142,72 @@ export default function PricingPage() {
                   }`}
                 >
                   {key === 'free' 
-                    ? '获取邀请码'
+                    ? 'Get Invitation Code'
                     : session 
-                      ? (key === 'gold' ? '选择黄金会员' : 
-                         key === 'bronze' ? '选择青铜会员' : 
-                         key === 'silver' ? '选择白银会员' : 
-                         key === 'diamond' ? '选择钻石会员' : '联系销售')
-                      : '登录订阅'}
+                      ? (key === 'gold' ? 'Choose Gold Member' : 
+                         key === 'bronze' ? 'Choose Bronze Member' : 
+                         key === 'silver' ? 'Choose Silver Member' : 
+                         key === 'diamond' ? 'Choose Diamond Member' : 'Contact Sales')
+                      : 'Login to Subscribe'}
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* 会员对比表 */}
+        {/* Membership Comparison Table */}
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
-            会员功能对比
+            Membership Feature Comparison
           </h3>
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    功能
+                    Features
                   </th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    体验版
+                    Starter
                   </th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    青铜会员
+                    Bronze
                   </th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    白银会员
+                    Silver
                   </th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    黄金会员
+                    Gold
                   </th>
                   <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    钻石会员
+                    Diamond
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    月视频数量
+                    Monthly Videos
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10个</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">30个</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">60个</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">120个</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">200个</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">30</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">60</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">120</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">200</td>
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    视频时长
+                    Video Duration
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5秒</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5秒</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10秒</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15秒</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15秒</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5s</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5s</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10s</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15s</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15s</td>
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    视频质量
+                    Video Quality
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
@@ -217,27 +217,27 @@ export default function PricingPage() {
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    客服支持
+                    Support
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">社区</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">优先</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">专属</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">专属</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">客户经理</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Community</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Priority</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Dedicated</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Dedicated</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Account Manager</td>
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    API访问
+                    API Access
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">企业API</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Enterprise API</td>
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    积分奖励
+                    Points Rewards
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
@@ -253,39 +253,39 @@ export default function PricingPage() {
         {/* FAQ */}
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            常见问题
+            Frequently Asked Questions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                可以随时取消订阅吗？
+                Can I cancel my subscription anytime?
               </h3>
               <p className="text-gray-600">
-                是的，您可以随时取消订阅。取消后，您仍可使用到当前计费周期结束。
+                Yes, you can cancel your subscription at any time. After cancellation, you can still use the service until the end of your current billing period.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                支持哪些支付方式？
+                What payment methods do you support?
               </h3>
               <p className="text-gray-600">
-                我们支持所有主要信用卡、借记卡和数字钱包支付。
+                We support all major credit cards, debit cards, and digital wallet payments.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                视频生成需要多长时间？
+                How long does video generation take?
               </h3>
               <p className="text-gray-600">
-                通常5-15秒的视频需要1-3分钟生成，具体时间取决于视频复杂度。
+                Typically, 5-15 second videos take 1-3 minutes to generate, depending on the complexity of the video.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                是否提供API访问？
+                Do you provide API access?
               </h3>
               <p className="text-gray-600">
-                白银会员及以上提供API访问，钻石会员提供企业级API。
+                Silver members and above get API access, while Diamond members get enterprise-level API.
               </p>
             </div>
           </div>

@@ -12,122 +12,122 @@ export const getStripe = () => {
   return null
 }
 
-// 订阅方案配置 - 优化后的会员体系 (USD定价)
+// Subscription Plans Configuration - Optimized Membership System (USD Pricing)
 export const SUBSCRIPTION_PLANS = {
   free: {
-    name: '体验版',
-    description: '邀请制激活，快速获客',
+    name: 'Starter',
+    description: 'Invitation-only activation for rapid user acquisition',
     price: 0,
-    priceId: '', // 免费版不需要价格ID
+    priceId: '', // Free plan doesn't need price ID
     features: [
-      '需要邀请码激活',
-      '每月10个5秒视频',
-      '720p视频质量',
-      '邀请1个用户送20积分',
-      '社区支持',
-      '基础模板',
-      '积分奖励系统'
+      'Requires invitation code',
+      '10 videos per month (5 seconds each)',
+      '720p video quality',
+      '20 points for each invited user',
+      'Community support',
+      'Basic templates',
+      'Points reward system'
     ],
     limits: {
       videosPerMonth: 10,
-      maxDuration: 5, // 秒
+      maxDuration: 5, // seconds
       maxResolution: '720p'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: '邀请制获客'
+    targetAudience: 'Invitation-based acquisition'
   },
   bronze: {
-    name: '青铜会员',
-    description: '入门级会员，保本定价',
+    name: 'Bronze Member',
+    description: 'Entry-level membership with break-even pricing',
     price: 2.00,
-    priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // 青铜会员价格ID
+    priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // Bronze member price ID
     features: [
-      '每月30个5秒视频',
-      '720p视频质量',
-      '优先支持',
-      '高级模板',
-      '批量处理',
-      '无水印',
-      '积分奖励系统'
+      '30 videos per month (5 seconds each)',
+      '720p video quality',
+      'Priority support',
+      'Advanced templates',
+      'Batch processing',
+      'No watermark',
+      'Points reward system'
     ],
     limits: {
       videosPerMonth: 30,
-      maxDuration: 5, // 秒
+      maxDuration: 5, // seconds
       maxResolution: '720p'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: '入门用户'
+    targetAudience: 'Entry-level users'
   },
   silver: {
-    name: '白银会员',
-    description: '进阶级会员，保本定价',
+    name: 'Silver Member',
+    description: 'Intermediate membership with break-even pricing',
     price: 8.00,
-    priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // 白银会员价格ID
+    priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // Silver member price ID
     features: [
-      '每月60个10秒视频',
-      '1080p视频质量',
-      '专属客服',
-      'API访问',
-      '团队协作',
-      '自定义品牌',
-      '高级分析',
-      '积分奖励系统'
+      '60 videos per month (10 seconds each)',
+      '1080p video quality',
+      'Dedicated customer service',
+      'API access',
+      'Team collaboration',
+      'Custom branding',
+      'Advanced analytics',
+      'Points reward system'
     ],
     limits: {
       videosPerMonth: 60,
-      maxDuration: 10, // 秒
+      maxDuration: 10, // seconds
       maxResolution: '1080p'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: '进阶用户'
+    targetAudience: 'Intermediate users'
   },
   gold: {
-    name: '黄金会员',
-    description: '专业级会员，过渡定价',
+    name: 'Gold Member',
+    description: 'Professional membership with transition pricing',
     price: 20.00,
-    priceId: 'price_1SMX9cDqGbi6No9vRbrh4FpH', // 黄金会员价格ID
+    priceId: 'price_1SMX9cDqGbi6No9vRbrh4FpH', // Gold member price ID
     features: [
-      '每月120个15秒视频',
-      '4K视频质量',
-      '专属客服',
-      'API访问',
-      '团队协作',
-      '自定义品牌',
-      '高级分析',
-      '优先处理',
-      '积分奖励系统'
+      '120 videos per month (15 seconds each)',
+      '4K video quality',
+      'Dedicated customer service',
+      'API access',
+      'Team collaboration',
+      'Custom branding',
+      'Advanced analytics',
+      'Priority processing',
+      'Points reward system'
     ],
     limits: {
       videosPerMonth: 120,
-      maxDuration: 15, // 秒
+      maxDuration: 15, // seconds
       maxResolution: '4K'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: '专业用户'
+    targetAudience: 'Professional users'
   },
   diamond: {
-    name: '钻石会员',
-    description: '企业级会员，保本定价',
+    name: 'Diamond Member',
+    description: 'Enterprise membership with break-even pricing',
     price: 40.00,
-    priceId: 'price_1SMXA3DqGbi6No9vybdXHY29', // 钻石会员价格ID
+    priceId: 'price_1SMXA3DqGbi6No9vybdXHY29', // Diamond member price ID
     features: [
-      '每月200个15秒视频',
-      '4K视频质量',
-      '专属客户经理',
-      '企业API',
-      '多团队管理',
-      '白标解决方案',
-      'SLA保障',
-      '定制开发',
-      '积分奖励系统'
+      '200 videos per month (15 seconds each)',
+      '4K video quality',
+      'Dedicated account manager',
+      'Enterprise API',
+      'Multi-team management',
+      'White-label solutions',
+      'SLA guarantee',
+      'Custom development',
+      'Points reward system'
     ],
     limits: {
       videosPerMonth: 200,
-      maxDuration: 15, // 秒
+      maxDuration: 15, // seconds
       maxResolution: '4K'
     },
-    taxBehavior: 'exclusive' as const, // B2B使用exclusive
-    targetAudience: '企业客户'
+    taxBehavior: 'exclusive' as const, // B2B uses exclusive
+    targetAudience: 'Enterprise customers'
   }
 } as const
 
