@@ -53,6 +53,9 @@ const Header: React.FC = () => {
             <Link href="/generate" className="text-gray-700 hover:text-gray-900">
               {t.nav('generate')}
             </Link>
+            <Link href="/pricing" className="text-gray-700 hover:text-gray-900">
+              定价
+            </Link>
             {user && (
               <>
                 <Link href="/mvp" className="text-gray-700 hover:text-gray-900 font-medium">

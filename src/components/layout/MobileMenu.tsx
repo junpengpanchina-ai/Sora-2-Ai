@@ -98,6 +98,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <span className="text-gray-700">{t.nav('generate')}</span>
             </Link>
 
+            <Link 
+              href="/pricing" 
+              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors"
+              onClick={onClose}
+            >
+              <Icon name="dollar-sign" className="h-5 w-5 text-gray-600" />
+              <span className="text-gray-700">定价</span>
+            </Link>
+
             {user && (
               <>
                 <Link 
