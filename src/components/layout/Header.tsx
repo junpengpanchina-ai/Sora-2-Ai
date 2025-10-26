@@ -3,17 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import MobileMenu from './MobileMenu';
 import { ThemeSelector } from '@/components/theme/ThemeSelector';
 import { useTranslations } from '@/hooks/useTranslations';
+import { useSimpleAuth } from '@/hooks/useSimpleAuth';
 import AuthButton from '@/components/auth/AuthButton';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { user, loading } = useSimpleAuth();
   const t = useTranslations();
   const pathname = usePathname();
   
@@ -22,17 +22,13 @@ const Header: React.FC = () => {
 
   const handleSignOut = async () => {
     try {
-      console.log('🔐 开始登出...');
-      // 使用redirect: false来避免自动跳转，然后手动处理
-      const result = await signOut({ redirect: false });
-      console.log('✅ 登出结果:', result);
-      
+      console.log('🔐 Header开始登出...');
       // 手动刷新页面或跳转到首页
       if (typeof window !== 'undefined') {
         window.location.href = '/';
       }
     } catch (error) {
-      console.error('❌ 退出登录失败:', error);
+      console.error('❌ Header退出登录失败:', error);
       // 即使出错也尝试跳转到首页
       if (typeof window !== 'undefined') {
         window.location.href = '/';
@@ -57,7 +53,7 @@ const Header: React.FC = () => {
             <Link href="/generate" className="text-gray-700 hover:text-gray-900">
               {t.nav('generate')}
             </Link>
-            {session && (
+            {user && (
               <>
                 <Link href="/mvp" className="text-gray-700 hover:text-gray-900 font-medium">
                   {t.nav('mvp')}
@@ -79,10 +75,10 @@ const Header: React.FC = () => {
             {/* 主题选择器 */}
             <ThemeSelector />
             
-            {session ? (
+            {user ? (
               <>
                 <span className="text-sm text-gray-700">
-                  {session.user?.name || session.user?.email}
+                  {user.name || user.email}
                 </span>
                 <Link href="/dashboard">
                   <Button variant="outline">{t.nav('dashboard')}</Button>

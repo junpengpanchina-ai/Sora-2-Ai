@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
+import { useSimpleAuth } from '@/hooks/useSimpleAuth'
 import AuthButton from '@/components/auth/AuthButton'
 
 interface MobileMenuProps {
@@ -14,15 +14,12 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const { data: session } = useSession()
+  const { user } = useSimpleAuth()
   const t = useTranslations()
 
   const handleSignOut = async () => {
     try {
       console.log('🔐 移动端开始登出...');
-      // 使用redirect: false来避免自动跳转，然后手动处理
-      const result = await signOut({ redirect: false });
-      console.log('✅ 移动端登出结果:', result);
       onClose();
       
       // 手动刷新页面或跳转到首页
@@ -65,7 +62,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* 用户信息 */}
-          {session && (
+          {user && (
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
@@ -73,7 +70,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">
-                    {session.user?.name || session.user?.email}
+                    {user.name || user.email}
                   </p>
                   <p className="text-sm text-gray-500">{t.common('profile')}</p>
                 </div>
@@ -101,7 +98,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <span className="text-gray-700">{t.nav('generate')}</span>
             </Link>
 
-            {session && (
+            {user && (
               <>
                 <Link 
                   href="/mvp" 
@@ -144,7 +141,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
           {/* 用户操作 */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            {session ? (
+            {user ? (
               <div className="space-y-3">
                 <AuthButton 
                   variant="outline"

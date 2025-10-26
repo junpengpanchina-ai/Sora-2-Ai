@@ -22,7 +22,9 @@ export function useSimpleAuth() {
   // 检查会话状态
   const checkSession = async () => {
     try {
-      const response = await fetch('/api/simple-auth/session')
+      const response = await fetch('/api/simple-auth/session', {
+        credentials: 'include', // 重要：包含cookie
+      })
       const data = await response.json()
       
       setAuthState({
@@ -46,6 +48,7 @@ export function useSimpleAuth() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // 重要：包含cookie
         body: JSON.stringify({ email, password }),
       })
       
@@ -69,6 +72,7 @@ export function useSimpleAuth() {
     try {
       await fetch('/api/simple-auth/logout', {
         method: 'POST',
+        credentials: 'include', // 重要：包含cookie
       })
       
       setAuthState({
