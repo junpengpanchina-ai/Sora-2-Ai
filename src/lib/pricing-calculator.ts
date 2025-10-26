@@ -16,7 +16,7 @@ export interface PricingTier {
 const BASE_COST_PER_SECOND = 0.011 // USD
 const EXCHANGE_RATE = 7.24 // 1 USD = 7.24 CNY
 
-// 积分制度定价模型 - 基于5/10/15秒视频
+// 优化后的会员体系 - 包含黄金会员过渡
 export const PRICING_TIERS: PricingTier[] = [
   {
     name: '体验版',
@@ -43,7 +43,7 @@ export const PRICING_TIERS: PricingTier[] = [
     monthlyVideos: 30, // 5秒视频
     maxDuration: 5,
     pricePerVideo: 0.055, // 成本$0.055，售价$0.055，利润率0%（保本）
-    monthlyPrice: 1.65, // $1.65/月
+    monthlyPrice: 2.00, // $2.00/月（涨价21%）
     costPerSecond: BASE_COST_PER_SECOND,
     marginMultiplier: 1.0, // 保本定价
     features: [
@@ -63,7 +63,7 @@ export const PRICING_TIERS: PricingTier[] = [
     monthlyVideos: 60, // 10秒视频
     maxDuration: 10,
     pricePerVideo: 0.11, // 成本$0.11，售价$0.11，利润率0%（保本）
-    monthlyPrice: 6.60, // $6.60/月
+    monthlyPrice: 8.00, // $8.00/月（涨价21%）
     costPerSecond: BASE_COST_PER_SECOND,
     marginMultiplier: 1.0, // 保本定价
     features: [
@@ -80,11 +80,33 @@ export const PRICING_TIERS: PricingTier[] = [
     targetAudience: '进阶用户'
   },
   {
+    name: '黄金会员',
+    monthlyVideos: 120, // 15秒视频
+    maxDuration: 15,
+    pricePerVideo: 0.165, // 成本$0.165，售价$0.165，利润率0%（保本）
+    monthlyPrice: 20.00, // $20.00/月（过渡定价）
+    costPerSecond: BASE_COST_PER_SECOND,
+    marginMultiplier: 1.0, // 保本定价
+    features: [
+      '每月120个15秒视频',
+      '4K视频质量',
+      '专属客服',
+      'API访问',
+      '团队协作',
+      '自定义品牌',
+      '高级分析',
+      '优先处理',
+      '积分奖励系统'
+    ],
+    taxBehavior: 'inclusive',
+    targetAudience: '专业用户'
+  },
+  {
     name: '钻石会员',
     monthlyVideos: 200, // 15秒视频
     maxDuration: 15,
     pricePerVideo: 0.165, // 成本$0.165，售价$0.165，利润率0%（保本）
-    monthlyPrice: 33.00, // $33.00/月
+    monthlyPrice: 40.00, // $40.00/月（涨价21%）
     costPerSecond: BASE_COST_PER_SECOND,
     marginMultiplier: 1.0, // 保本定价
     features: [

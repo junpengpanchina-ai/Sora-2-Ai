@@ -12,7 +12,7 @@ export const getStripe = () => {
   return null
 }
 
-// 订阅方案配置 - 基于成本优化的炸裂获客策略 (USD定价)
+// 订阅方案配置 - 优化后的会员体系 (USD定价)
 export const SUBSCRIPTION_PLANS = {
   free: {
     name: '体验版',
@@ -21,85 +21,109 @@ export const SUBSCRIPTION_PLANS = {
     priceId: '', // 免费版不需要价格ID
     features: [
       '需要邀请码激活',
-      '每月5个免费视频',
-      '3秒视频长度',
+      '每月10个5秒视频',
       '720p视频质量',
-      '邀请1个用户送10秒视频',
+      '邀请1个用户送20积分',
       '社区支持',
-      '基础模板'
+      '基础模板',
+      '积分奖励系统'
     ],
     limits: {
-      videosPerMonth: 5,
-      maxDuration: 3, // 秒
+      videosPerMonth: 10,
+      maxDuration: 5, // 秒
       maxResolution: '720p'
     },
     taxBehavior: 'inclusive' as const,
     targetAudience: '邀请制获客'
   },
-  creator: {
-    name: '创作者版',
-    description: '内容创作者的理想选择',
-    price: 2.75,
-    priceId: 'price_creator_monthly', // 创作者版价格ID
+  bronze: {
+    name: '青铜会员',
+    description: '入门级会员，保本定价',
+    price: 2.00,
+    priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // 青铜会员价格ID
     features: [
-      '每月30个视频',
-      '8秒视频长度',
-      '1080p视频质量',
+      '每月30个5秒视频',
+      '720p视频质量',
       '优先支持',
       '高级模板',
       '批量处理',
-      '无水印'
+      '无水印',
+      '积分奖励系统'
     ],
     limits: {
       videosPerMonth: 30,
-      maxDuration: 8, // 秒
+      maxDuration: 5, // 秒
+      maxResolution: '720p'
+    },
+    taxBehavior: 'inclusive' as const,
+    targetAudience: '入门用户'
+  },
+  silver: {
+    name: '白银会员',
+    description: '进阶级会员，保本定价',
+    price: 8.00,
+    priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // 白银会员价格ID
+    features: [
+      '每月60个10秒视频',
+      '1080p视频质量',
+      '专属客服',
+      'API访问',
+      '团队协作',
+      '自定义品牌',
+      '高级分析',
+      '积分奖励系统'
+    ],
+    limits: {
+      videosPerMonth: 60,
+      maxDuration: 10, // 秒
       maxResolution: '1080p'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: '内容创作者'
+    targetAudience: '进阶用户'
   },
-  pro: {
-    name: '专业版',
-    description: '专业用户的最佳选择',
-    price: 8.25,
-    priceId: 'price_pro_monthly', // 专业版价格ID
+  gold: {
+    name: '黄金会员',
+    description: '专业级会员，过渡定价',
+    price: 20.00,
+    priceId: 'price_1SMX9cDqGbi6No9vRbrh4FpH', // 黄金会员价格ID
     features: [
-      '每月80个视频',
-      '12秒视频长度',
+      '每月120个15秒视频',
       '4K视频质量',
       '专属客服',
       'API访问',
       '团队协作',
       '自定义品牌',
-      '高级分析'
+      '高级分析',
+      '优先处理',
+      '积分奖励系统'
     ],
     limits: {
-      videosPerMonth: 80,
-      maxDuration: 12,
+      videosPerMonth: 120,
+      maxDuration: 15, // 秒
       maxResolution: '4K'
     },
     taxBehavior: 'inclusive' as const,
     targetAudience: '专业用户'
   },
-  enterprise: {
-    name: '企业版',
-    description: '企业级解决方案',
-    price: 27.50,
-    priceId: 'price_enterprise_monthly', // 企业版价格ID
+  diamond: {
+    name: '钻石会员',
+    description: '企业级会员，保本定价',
+    price: 40.00,
+    priceId: 'price_1SMXA3DqGbi6No9vybdXHY29', // 钻石会员价格ID
     features: [
-      '每月200个视频',
-      '15秒视频长度',
+      '每月200个15秒视频',
       '4K视频质量',
       '专属客户经理',
       '企业API',
       '多团队管理',
       '白标解决方案',
       'SLA保障',
-      '定制开发'
+      '定制开发',
+      '积分奖励系统'
     ],
     limits: {
       videosPerMonth: 200,
-      maxDuration: 15,
+      maxDuration: 15, // 秒
       maxResolution: '4K'
     },
     taxBehavior: 'exclusive' as const, // B2B使用exclusive

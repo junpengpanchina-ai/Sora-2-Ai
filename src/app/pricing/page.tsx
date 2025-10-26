@@ -99,20 +99,20 @@ export default function PricingPage() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
           {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
             <Card 
               key={key} 
-              className={`p-8 relative ${
-                key === 'pro' 
+              className={`p-6 relative ${
+                key === 'gold' 
                   ? 'ring-2 ring-primary-500 shadow-lg scale-105' 
                   : ''
               }`}
             >
-              {key === 'pro' && (
+              {key === 'gold' && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary-500 text-white px-4 py-1 rounded-full text-sm font-medium">
-                    {t.pricing('pro.popular')}
+                  <span className="bg-yellow-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    推荐方案
                   </span>
                 </div>
               )}
@@ -142,19 +142,19 @@ export default function PricingPage() {
                 <Button
                   onClick={() => handleSubscribe(key as SubscriptionPlan)}
                   className={`w-full ${
-                    key === 'pro' 
-                      ? 'bg-primary-600 hover:bg-primary-700' 
+                    key === 'gold' 
+                      ? 'bg-yellow-600 hover:bg-yellow-700 text-white' 
                       : key === 'free'
                       ? 'bg-green-600 hover:bg-green-700 text-white'
                       : ''
                   }`}
-                  variant={key === 'pro' ? 'primary' : key === 'free' ? 'primary' : 'outline'}
+                  variant={key === 'gold' ? 'primary' : key === 'free' ? 'primary' : 'outline'}
                   size="lg"
                 >
                   {key === 'free' 
                     ? '免费开始'
                     : session 
-                      ? (key === 'pro' ? '选择专业版' : key === 'basic' ? '选择基础版' : '联系销售')
+                      ? (key === 'gold' ? '选择黄金会员' : key === 'bronze' ? '选择青铜会员' : key === 'silver' ? '选择白银会员' : key === 'diamond' ? '选择钻石会员' : '联系销售')
                       : t.pricing('cta.loginToSubscribe')}
                 </Button>
               </div>
