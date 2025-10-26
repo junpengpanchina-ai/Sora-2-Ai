@@ -17,33 +17,23 @@ export default function SignInPage() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [isCheckingSession, setIsCheckingSession] = useState(true)
+  const [isCheckingSession, setIsCheckingSession] = useState(false)
   const router = useRouter()
 
-  // 检查用户是否已经登录 - 优化性能
+  // 简化的会话检查 - 只在后台检查，不阻塞UI
   useEffect(() => {
-    let mounted = true
-    
     const checkSession = async () => {
       try {
         const session = await getSession()
-        if (mounted && session) {
+        if (session) {
           router.push('/dashboard')
         }
       } catch (error) {
         console.error('Session check error:', error)
-      } finally {
-        if (mounted) {
-          setIsCheckingSession(false)
-        }
       }
     }
     
     checkSession()
-    
-    return () => {
-      mounted = false
-    }
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -90,17 +80,6 @@ export default function SignInPage() {
     signIn('google', { callbackUrl: '/dashboard' })
   }
 
-  // 如果正在检查会话，显示加载状态
-  if (isCheckingSession) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">{t.common('loading')}</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -123,13 +102,7 @@ export default function SignInPage() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card className="p-6 py-8 px-4 sm:px-10">
-          {isCheckingSession ? (
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto"></div>
-              <p className="mt-2 text-sm text-gray-600">检查登录状态...</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
                   {error}
@@ -198,7 +171,6 @@ export default function SignInPage() {
                 </div>
               </div>
             </form>
-          )}
         </Card>
       </div>
     </div>

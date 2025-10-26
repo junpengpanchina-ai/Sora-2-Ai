@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
-import { useSession } from 'next-auth/react'
+import React, { useEffect, useState } from 'react'
+import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -11,10 +11,39 @@ import { useTranslations } from '@/hooks/useTranslations'
 
 export default function DashboardPage() {
   const t = useTranslations()
-  const { data: session, status } = useSession()
+  const [session, setSession] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  if (status === 'loading') {
+  // 简化的会话检查 - 添加超时机制
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        // 设置超时，避免无限等待
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session check timeout')), 2000)
+        )
+        
+        const sessionPromise = getSession()
+        const sessionData = await Promise.race([sessionPromise, timeoutPromise])
+        
+        if (sessionData) {
+          setSession(sessionData)
+        } else {
+          router.push('/auth/signin')
+        }
+      } catch (error) {
+        console.error('Session check error:', error)
+        router.push('/auth/signin')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    checkSession()
+  }, [router])
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -25,8 +54,7 @@ export default function DashboardPage() {
     )
   }
 
-  if (status === 'unauthenticated') {
-    router.push('/auth/signin')
+  if (!session) {
     return null
   }
 
@@ -36,6 +64,7 @@ export default function DashboardPage() {
         {/* 页面标题 */}
         <div className="px-4 py-6 sm:px-0">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">仪表板</h1>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* 快速操作卡片 */}
             <Card className="p-6">
