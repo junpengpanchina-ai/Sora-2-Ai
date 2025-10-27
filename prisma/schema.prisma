@@ -47,6 +47,10 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
+  // Password reset fields
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  
   // Subscription fields
   subscriptionId String?
   subscriptionStatus String? // active, canceled, past_due, etc.

@@ -20,13 +20,18 @@ export default function SignInPage() {
   const [isCheckingSession, setIsCheckingSession] = useState(false)
   const router = useRouter()
 
-  // 简化的会话检查 - 只在后台检查，不阻塞UI
+  // 检查会话状态 - 使用useEffect但避免DOM渲染问题
   useEffect(() => {
+    let mounted = true
+    
     const checkSession = async () => {
       try {
         const session = await getSession()
-        if (session) {
-          router.push('/dashboard')
+        if (mounted && session) {
+          // 使用setTimeout避免立即重定向导致的React渲染问题
+          setTimeout(() => {
+            router.push('/dashboard')
+          }, 100)
         }
       } catch (error) {
         console.error('Session check error:', error)
@@ -34,6 +39,10 @@ export default function SignInPage() {
     }
     
     checkSession()
+    
+    return () => {
+      mounted = false
+    }
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -128,6 +137,12 @@ export default function SignInPage() {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   {t.auth('password')}
                 </label>
+                <Link
+                  href="/auth/forgot-password"
+                  className="block text-sm text-primary-600 hover:text-primary-500 mb-2"
+                >
+                  Forgot your password?
+                </Link>
                 <Input
                   id="password"
                   type="password"
