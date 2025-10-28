@@ -30,6 +30,29 @@
     "title": "3-Day Free Trial",
     "description": "Experience our AI video generation technology risk-free"
   },
+  "soloFeatures": [
+    "50 AI videos per month",
+    "Up to 30 seconds duration",
+    "4K Ultra HD quality",
+    "AI smart editing and voiceover",
+    "Watermark-free export"
+  ],
+  "teamsFeatures": [
+    "200 AI videos per month",
+    "Up to 60 seconds duration",
+    "4K Ultra HD quality",
+    "Team collaboration (up to 10 members)",
+    "API access",
+    "Dedicated account manager"
+  ],
+  "testimonials": {
+    "title": "User Reviews and Success Stories",
+    "subtitle": "See how other creators use our AI video generation technology to create amazing content"
+  },
+  "stats": {
+    "title": "User Success Data",
+    "subtitle": "Real results achieved by users using our AI video generation technology"
+  },
   "faqTitle": "Frequently Asked Questions",
   "faq": {
     "cancelAnytime": {

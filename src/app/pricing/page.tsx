@@ -4,13 +4,12 @@ import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { SUBSCRIPTION_PLANS, SubscriptionPlan } from '@/lib/stripe'
 import Link from 'next/link'
-import ABTest, { ABTestConfigs } from '@/components/ui/ABTest'
-import Personalization from '@/components/ui/Personalization'
-import UsageStats from '@/components/ui/UsageStats'
+import { useTranslations } from 'next-intl'
 
 export default function PricingPage() {
   const { data: session } = useSession()
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('solo')
+  const t = useTranslations('pricing')
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
     if (!session) {
@@ -75,11 +74,13 @@ export default function PricingPage() {
         {/* 标题和说明 */}
         <div className="text-center mb-16">
           <div className="relative">
-            <ABTest {...ABTestConfigs.pricingPageTitle} />
+            <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
+              {t('title')}
+            </h2>
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
           </div>
           <p className="mt-8 text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            选择适合您的AI视频生成方案。所有方案都包含<strong className="text-green-600">3天免费试用</strong>，让您充分体验我们的AI技术。
+            {t('subtitle')}
           </p>
           {session && (
             <div className="mt-8">
@@ -87,16 +88,12 @@ export default function PricingPage() {
                 onClick={handleManageSubscription}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                管理我的订阅
+                {t('cta.loginToSubscribe')}
               </button>
             </div>
           )}
         </div>
 
-        {/* 个性化推荐 */}
-        <div className="mb-16">
-          <Personalization />
-        </div>
 
         {/* 定价方案 - Memelord风格双方案 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -117,7 +114,7 @@ export default function PricingPage() {
               {key === 'teams' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                    推荐方案
+                    {t('plans.teams.popular')}
                   </span>
                 </div>
               )}
@@ -135,11 +132,11 @@ export default function PricingPage() {
                   <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  {plan.trialDays}天免费试用
+                  {t('trial.title')}
                 </div>
 
                 <ul className="space-y-3 text-gray-600 mb-8 text-sm">
-                  {plan.features.map((feature, index) => (
+                  {(key === 'solo' ? t.raw('soloFeatures') : t.raw('teamsFeatures')).map((feature: string, index: number) => (
                     <li key={index} className="flex items-start">
                       <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -157,7 +154,7 @@ export default function PricingPage() {
                       : 'bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-900 hover:to-black'
                   }`}
                 >
-                  开始{plan.trialDays}天免费试用
+                  {t('getStarted')}
                 </button>
               </div>
             </div>
@@ -168,10 +165,10 @@ export default function PricingPage() {
         <div className="mt-20">
           <div className="text-center mb-16">
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              用户评价和成功案例
+              {t('testimonials.title')}
             </h3>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              看看其他创作者如何使用我们的AI视频生成技术创造精彩内容
+              {t('testimonials.subtitle')}
             </p>
           </div>
 
@@ -247,42 +244,30 @@ export default function PricingPage() {
           {/* 成功案例数据展示 */}
           <div className="mt-16 bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8">
             <div className="text-center mb-8">
-              <h4 className="text-2xl font-bold text-gray-900 mb-2">用户成功数据</h4>
-              <p className="text-gray-600">真实用户使用我们的AI视频生成技术取得的成果</p>
+              <h4 className="text-2xl font-bold text-gray-900 mb-2">{t('stats.title')}</h4>
+              <p className="text-gray-600">{t('stats.subtitle')}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600 mb-2">10,000+</div>
-                <div className="text-gray-600">月活跃用户</div>
+                <div className="text-gray-600">Monthly Active Users</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">500万+</div>
-                <div className="text-gray-600">AI视频生成</div>
+                <div className="text-3xl font-bold text-green-600 mb-2">5M+</div>
+                <div className="text-gray-600">AI Videos Generated</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-purple-600 mb-2">95%</div>
-                <div className="text-gray-600">用户满意度</div>
+                <div className="text-gray-600">User Satisfaction</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-orange-600 mb-2">300%</div>
-                <div className="text-gray-600">效率提升</div>
+                <div className="text-gray-600">Efficiency Boost</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 使用统计 - 仅对已登录用户显示 */}
-        {session && (
-          <div className="mt-20">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">您的使用统计</h3>
-              <p className="text-gray-600">了解您的AI视频生成使用情况</p>
-            </div>
-            <div className="max-w-4xl mx-auto">
-              <UsageStats userId={session.user?.id} plan={selectedPlan} />
-            </div>
-          </div>
-        )}
 
         {/* Membership Comparison Table */}
         <div className="mt-16">
