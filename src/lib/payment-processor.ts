@@ -39,10 +39,7 @@ export class PaymentProcessor {
       throw new Error(`Invalid plan: ${plan}`)
     }
 
-    // 免费版不需要支付
-    if (plan === 'free') {
-      return this.handleFreePlanActivation(userId, inviteCode)
-    }
+    // 所有方案都需要支付（包含3天免费试用）
 
     // 构建支付会话参数
     const sessionParams: any = {

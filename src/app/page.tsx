@@ -216,100 +216,54 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Simple, Transparent Pricing
+              简单透明的定价
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.
+              选择适合您的AI视频生成方案。所有方案都包含3天免费试用，让您充分体验我们的AI技术。
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {/* Starter */}
-            <Card className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Sora Solo */}
+            <Card className="p-8">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$0</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Sora Solo</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">$42<span className="text-xl text-gray-500">/月</span></div>
+                <div className="text-sm text-green-600 font-medium mb-4">3天免费试用</div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• Requires invitation code</li>
-                  <li>• 10 videos per month (5s each)</li>
-                  <li>• 720p video quality</li>
-                  <li>• Community support</li>
-                </ul>
-                <Link href="/auth/signup">
-                  <Button variant="outline" className="w-full">Get Invitation Code</Button>
-                </Link>
-              </div>
-            </Card>
-
-            {/* Bronze Member */}
-            <Card className="p-6">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Bronze Member</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$2<span className="text-lg text-gray-500">/month</span></div>
-                <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 30 videos per month (5s each)</li>
-                  <li>• 720p video quality</li>
-                  <li>• Priority support</li>
-                  <li>• Advanced templates</li>
+                  <li>• 每月50个AI视频生成</li>
+                  <li>• 最长30秒视频时长</li>
+                  <li>• 4K超高清画质</li>
+                  <li>• AI智能剪辑和配音</li>
+                  <li>• 无水印导出</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Choose Bronze</Button>
+                  <Button className="w-full bg-gray-800 hover:bg-gray-900">开始3天免费试用</Button>
                 </Link>
               </div>
             </Card>
 
-            {/* Silver Member */}
-            <Card className="p-6">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Silver Member</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$8<span className="text-lg text-gray-500">/month</span></div>
-                <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 60 videos per month (10s each)</li>
-                  <li>• 1080p video quality</li>
-                  <li>• Dedicated customer service</li>
-                  <li>• API access</li>
-                </ul>
-                <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Choose Silver</Button>
-                </Link>
-              </div>
-            </Card>
-
-            {/* Gold Member - Recommended */}
-            <Card className="p-6 border-2 border-yellow-500 relative">
+            {/* Sora Teams - Recommended */}
+            <Card className="p-8 border-2 border-blue-500 relative scale-105">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Recommended
+                <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                  推荐方案
                 </span>
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Gold Member</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$20<span className="text-lg text-gray-500">/month</span></div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Sora Teams</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">$299<span className="text-xl text-gray-500">/月</span></div>
+                <div className="text-sm text-green-600 font-medium mb-4">3天免费试用</div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 120 videos per month (15s each)</li>
-                  <li>• 4K video quality</li>
-                  <li>• Dedicated customer service</li>
-                  <li>• Priority processing</li>
+                  <li>• 每月200个AI视频生成</li>
+                  <li>• 最长60秒视频时长</li>
+                  <li>• 4K超高清画质</li>
+                  <li>• 团队协作功能(最多10人)</li>
+                  <li>• API接口访问</li>
+                  <li>• 专属客户经理</li>
                 </ul>
                 <Link href="/pricing">
-                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700">Choose Gold</Button>
-                </Link>
-              </div>
-            </Card>
-
-            {/* Diamond Member */}
-            <Card className="p-6">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Diamond Member</h3>
-                <div className="text-3xl font-bold text-gray-900 mb-4">$40<span className="text-lg text-gray-500">/month</span></div>
-                <ul className="space-y-2 text-gray-600 mb-6 text-sm">
-                  <li>• 200 videos per month (15s each)</li>
-                  <li>• 4K video quality</li>
-                  <li>• Dedicated account manager</li>
-                  <li>• Enterprise API</li>
-                </ul>
-                <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Choose Diamond</Button>
+                  <Button className="w-full bg-blue-500 hover:bg-blue-600">开始3天免费试用</Button>
                 </Link>
               </div>
             </Card>
@@ -320,7 +274,7 @@ export default function HomePage() {
             <Link href="/pricing">
               <Button size="lg" variant="outline">
                 <Icon name="arrow-right" className="w-5 h-5 mr-2" />
-                View Full Pricing Plans
+                查看完整定价详情
               </Button>
             </Link>
           </div>

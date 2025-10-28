@@ -1,19 +1,20 @@
 {
   "title": "Simple, Transparent Pricing",
-  "subtitle": "Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.",
-  "free": "Starter",
-  "pro": "Professional",
-  "enterprise": "Enterprise",
+  "subtitle": "Choose the perfect AI video generation plan. All plans include 3-day free trial to experience our AI technology.",
+  "solo": "Sora Solo",
+  "teams": "Sora Teams",
   "monthly": "Monthly",
   "yearly": "Annual",
   "save": "Save 20%",
   "features": {
-    "videosPerMonth": "Videos per month",
+    "videosPerMonth": "AI videos per month",
     "resolution": "Video quality",
     "exportFormats": "Export options",
     "prioritySupport": "Priority support",
     "customBranding": "Custom branding",
-    "apiAccess": "API access"
+    "apiAccess": "API access",
+    "teamCollaboration": "Team collaboration",
+    "trialDays": "Free trial days"
   },
   "getStarted": "Start Free Trial",
   "contactSales": "Contact Sales",
@@ -21,18 +22,13 @@
     "loginToSubscribe": "Sign In to Subscribe"
   },
   "plans": {
-    "pro": {
-      "popular": "Most Popular"
+    "teams": {
+      "popular": "Recommended"
     }
   },
-  "invitationReward": {
-    "title": "Referral Rewards",
-    "description": "Invite friends and earn exclusive benefits",
-    "newUserReward": "New User Bonus",
-    "referralRewards": [
-      "10-second video generation",
-      "15-second video generation"
-    ]
+  "trial": {
+    "title": "3-Day Free Trial",
+    "description": "Experience our AI video generation technology risk-free"
   },
   "faqTitle": "Frequently Asked Questions",
   "faq": {
@@ -50,7 +46,11 @@
     },
     "apiAvailability": {
       "q": "Do you offer API access?",
-      "a": "Yes! Enterprise customers get full REST API access with comprehensive documentation and dedicated support."
+      "a": "Yes! Teams plan customers get full REST API access with comprehensive documentation and dedicated support."
+    },
+    "trialPeriod": {
+      "q": "What's included in the free trial?",
+      "a": "The 3-day free trial includes full access to all features of your chosen plan with no limitations."
     }
   }
 }
