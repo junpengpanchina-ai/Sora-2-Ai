@@ -225,11 +225,16 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Sora Solo */}
-            <Card className="p-8">
+            <Card className="p-8 hover:shadow-xl transition-all duration-300">
               <div className="text-center">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Sora Solo</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">$42<span className="text-xl text-gray-500">/月</span></div>
-                <div className="text-sm text-green-600 font-medium mb-4">3天免费试用</div>
+                <div className="text-5xl font-bold text-gray-900 mb-2">$42<span className="text-2xl text-gray-500 font-normal">/月</span></div>
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-6">
+                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  3天免费试用
+                </div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
                   <li>• 每月50个AI视频生成</li>
                   <li>• 最长30秒视频时长</li>
@@ -244,16 +249,21 @@ export default function HomePage() {
             </Card>
 
             {/* Sora Teams - Recommended */}
-            <Card className="p-8 border-2 border-blue-500 relative scale-105">
+            <Card className="p-8 border-2 border-blue-500 relative scale-105 shadow-blue-100 hover:shadow-2xl transition-all duration-300">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                   推荐方案
                 </span>
               </div>
               <div className="text-center">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Sora Teams</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">$299<span className="text-xl text-gray-500">/月</span></div>
-                <div className="text-sm text-green-600 font-medium mb-4">3天免费试用</div>
+                <div className="text-5xl font-bold text-gray-900 mb-2">$299<span className="text-2xl text-gray-500 font-normal">/月</span></div>
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-6">
+                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  3天免费试用
+                </div>
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
                   <li>• 每月200个AI视频生成</li>
                   <li>• 最长60秒视频时长</li>

@@ -67,15 +67,18 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 标题和说明 */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            简单透明的定价
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            选择适合您的AI视频生成方案。所有方案都包含3天免费试用，让您充分体验我们的AI技术。
+          <div className="relative">
+            <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
+              简单透明的定价
+            </h2>
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+          </div>
+          <p className="mt-8 text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            选择适合您的AI视频生成方案。所有方案都包含<strong className="text-green-600">3天免费试用</strong>，让您充分体验我们的AI技术。
           </p>
           {session && (
             <div className="mt-8">
@@ -94,10 +97,10 @@ export default function PricingPage() {
           {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
             <div 
               key={key}
-              className={`bg-white rounded-2xl border shadow-sm p-8 relative ${
+              className={`bg-white rounded-3xl border shadow-xl hover:shadow-2xl p-8 relative transition-all duration-300 ${
                 key === 'teams' 
-                  ? 'border-2 border-blue-500 scale-105' 
-                  : 'border-gray-200'
+                  ? 'border-2 border-blue-500 scale-105 shadow-blue-100' 
+                  : 'border-gray-200 hover:border-gray-300'
               }`}
             >
               {key === 'teams' && (
@@ -113,29 +116,34 @@ export default function PricingPage() {
                   {plan.name}
                 </h3>
                 
-                <div className="text-4xl font-bold text-gray-900 mb-2">
+                <div className="text-5xl font-bold text-gray-900 mb-2">
                   ${plan.price}
-                  <span className="text-xl text-gray-500">/月</span>
+                  <span className="text-2xl text-gray-500 font-normal">/月</span>
                 </div>
-                <div className="text-sm text-green-600 font-medium mb-4">
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-6">
+                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
                   {plan.trialDays}天免费试用
                 </div>
 
-                <ul className="space-y-2 text-gray-600 mb-6 text-sm">
+                <ul className="space-y-3 text-gray-600 mb-8 text-sm">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
-                      <span className="text-gray-400 mr-2">•</span>
-                      <span>{feature}</span>
+                      <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <button
                   onClick={() => handleSubscribe(key as SubscriptionPlan)}
-                  className={`w-full py-4 px-6 rounded-lg font-medium transition-colors text-lg ${
+                  className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${
                     key === 'teams'
-                      ? 'bg-blue-500 text-white hover:bg-blue-600'
-                      : 'bg-gray-800 text-white hover:bg-gray-900'
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700'
+                      : 'bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-900 hover:to-black'
                   }`}
                 >
                   开始{plan.trialDays}天免费试用
