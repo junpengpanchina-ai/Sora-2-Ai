@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function PricingPage() {
   const { data: session } = useSession()
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('gold')
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('solo')
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
     if (!session) {
@@ -16,11 +16,7 @@ export default function PricingPage() {
       return
     }
 
-    // 免费版需要邀请码，跳转到注册页面
-    if (plan === 'free') {
-      window.location.href = '/auth/signup?plan=free'
-      return
-    }
+    // 所有方案都需要登录后订阅
 
     try {
       const response = await fetch('/api/stripe/create-checkout-session', {
@@ -76,10 +72,10 @@ export default function PricingPage() {
         {/* 标题和说明 */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            Simple, Transparent Pricing
+            简单透明的定价
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Choose the perfect plan for your creative needs. All plans include our core AI video generation technology.
+            选择适合您的AI视频生成方案。所有方案都包含3天免费试用，让您充分体验我们的AI技术。
           </p>
           {session && (
             <div className="mt-8">
@@ -87,26 +83,26 @@ export default function PricingPage() {
                 onClick={handleManageSubscription}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Manage My Subscription
+                管理我的订阅
               </button>
             </div>
           )}
         </div>
 
-        {/* 定价方案 - 5个会员体系 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        {/* 定价方案 - Memelord风格双方案 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
             <div 
               key={key}
-              className={`bg-white rounded-2xl border shadow-sm p-6 relative ${
-                key === 'gold' 
-                  ? 'border-2 border-yellow-500' 
+              className={`bg-white rounded-2xl border shadow-sm p-8 relative ${
+                key === 'teams' 
+                  ? 'border-2 border-blue-500 scale-105' 
                   : 'border-gray-200'
               }`}
             >
-              {key === 'gold' && (
+              {key === 'teams' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
                     推荐方案
                   </span>
                 </div>
@@ -117,9 +113,12 @@ export default function PricingPage() {
                   {plan.name}
                 </h3>
                 
-                <div className="text-3xl font-bold text-gray-900 mb-4">
-                  {plan.price === 0 ? '$0' : `$${plan.price}`}
-                  {plan.price > 0 && <span className="text-lg text-gray-500">/月</span>}
+                <div className="text-4xl font-bold text-gray-900 mb-2">
+                  ${plan.price}
+                  <span className="text-xl text-gray-500">/月</span>
+                </div>
+                <div className="text-sm text-green-600 font-medium mb-4">
+                  {plan.trialDays}天免费试用
                 </div>
 
                 <ul className="space-y-2 text-gray-600 mb-6 text-sm">
@@ -133,22 +132,13 @@ export default function PricingPage() {
 
                 <button
                   onClick={() => handleSubscribe(key as SubscriptionPlan)}
-                  className={`inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none px-4 py-2 text-base w-full ${
-                    key === 'gold' 
-                      ? 'bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500 shadow-sm hover:shadow-md' 
-                      : key === 'free'
-                      ? 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 shadow-sm hover:shadow-md'
-                      : 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500'
+                  className={`w-full py-4 px-6 rounded-lg font-medium transition-colors text-lg ${
+                    key === 'teams'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'bg-gray-800 text-white hover:bg-gray-900'
                   }`}
                 >
-                  {key === 'free' 
-                    ? 'Get Invitation Code'
-                    : session 
-                      ? (key === 'gold' ? 'Choose Gold Member' : 
-                         key === 'bronze' ? 'Choose Bronze Member' : 
-                         key === 'silver' ? 'Choose Silver Member' : 
-                         key === 'diamond' ? 'Choose Diamond Member' : 'Contact Sales')
-                      : 'Login to Subscribe'}
+                  开始{plan.trialDays}天免费试用
                 </button>
               </div>
             </div>

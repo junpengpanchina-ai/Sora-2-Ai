@@ -12,122 +12,65 @@ export const getStripe = () => {
   return null
 }
 
-// Subscription Plans Configuration - Optimized Membership System (USD Pricing)
+// Subscription Plans Configuration - Memelord-inspired Pricing Model
 export const SUBSCRIPTION_PLANS = {
-  free: {
-    name: 'Starter',
-    description: 'Invitation-only activation for rapid user acquisition',
-    price: 0,
-    priceId: '', // Free plan doesn't need price ID
+  solo: {
+    name: 'Sora Solo',
+    description: '个人创作者的专业AI视频生成方案',
+    price: 42.00,
+    priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // Solo plan price ID
     features: [
-      'Requires invitation code',
-      '10 videos per month (5 seconds each)',
-      '720p video quality',
-      '20 points for each invited user',
-      'Community support',
-      'Basic templates',
-      'Points reward system'
+      '3天免费试用',
+      '每月50个AI视频生成',
+      '最长30秒视频时长',
+      '4K超高清画质',
+      'AI智能剪辑',
+      'AI配音和字幕',
+      '热门模板库',
+      '无水印导出',
+      '优先处理队列',
+      '邮件技术支持'
     ],
     limits: {
-      videosPerMonth: 10,
-      maxDuration: 5, // seconds
-      maxResolution: '720p'
-    },
-    taxBehavior: 'inclusive' as const,
-    targetAudience: 'Invitation-based acquisition'
-  },
-  bronze: {
-    name: 'Bronze Member',
-    description: 'Entry-level membership with break-even pricing',
-    price: 2.00,
-    priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // Bronze member price ID
-    features: [
-      '30 videos per month (5 seconds each)',
-      '720p video quality',
-      'Priority support',
-      'Advanced templates',
-      'Batch processing',
-      'No watermark',
-      'Points reward system'
-    ],
-    limits: {
-      videosPerMonth: 30,
-      maxDuration: 5, // seconds
-      maxResolution: '720p'
-    },
-    taxBehavior: 'inclusive' as const,
-    targetAudience: 'Entry-level users'
-  },
-  silver: {
-    name: 'Silver Member',
-    description: 'Intermediate membership with break-even pricing',
-    price: 8.00,
-    priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // Silver member price ID
-    features: [
-      '60 videos per month (10 seconds each)',
-      '1080p video quality',
-      'Dedicated customer service',
-      'API access',
-      'Team collaboration',
-      'Custom branding',
-      'Advanced analytics',
-      'Points reward system'
-    ],
-    limits: {
-      videosPerMonth: 60,
-      maxDuration: 10, // seconds
-      maxResolution: '1080p'
-    },
-    taxBehavior: 'inclusive' as const,
-    targetAudience: 'Intermediate users'
-  },
-  gold: {
-    name: 'Gold Member',
-    description: 'Professional membership with transition pricing',
-    price: 20.00,
-    priceId: 'price_1SMX9cDqGbi6No9vRbrh4FpH', // Gold member price ID
-    features: [
-      '120 videos per month (15 seconds each)',
-      '4K video quality',
-      'Dedicated customer service',
-      'API access',
-      'Team collaboration',
-      'Custom branding',
-      'Advanced analytics',
-      'Priority processing',
-      'Points reward system'
-    ],
-    limits: {
-      videosPerMonth: 120,
-      maxDuration: 15, // seconds
+      videosPerMonth: 50,
+      maxDuration: 30, // seconds
       maxResolution: '4K'
     },
     taxBehavior: 'inclusive' as const,
-    targetAudience: 'Professional users'
+    targetAudience: '个人创作者和内容制作人',
+    trialDays: 3
   },
-  diamond: {
-    name: 'Diamond Member',
-    description: 'Enterprise membership with break-even pricing',
-    price: 40.00,
-    priceId: 'price_1SMXA3DqGbi6No9vybdXHY29', // Diamond member price ID
+  teams: {
+    name: 'Sora Teams',
+    description: '团队协作的企业级AI视频解决方案',
+    price: 299.00,
+    priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // Teams plan price ID
     features: [
-      '200 videos per month (15 seconds each)',
-      '4K video quality',
-      'Dedicated account manager',
-      'Enterprise API',
-      'Multi-team management',
-      'White-label solutions',
-      'SLA guarantee',
-      'Custom development',
-      'Points reward system'
+      '3天免费试用',
+      '每月200个AI视频生成',
+      '最长60秒视频时长',
+      '4K超高清画质',
+      'AI智能剪辑',
+      'AI配音和字幕',
+      '全部模板库',
+      '团队协作功能',
+      '最多10名团队成员',
+      '批量处理',
+      'API接口访问',
+      '自定义品牌水印',
+      '高级数据分析',
+      '专属客户经理',
+      '7x24小时技术支持'
     ],
     limits: {
       videosPerMonth: 200,
-      maxDuration: 15, // seconds
-      maxResolution: '4K'
+      maxDuration: 60, // seconds
+      maxResolution: '4K',
+      maxTeamMembers: 10
     },
-    taxBehavior: 'exclusive' as const, // B2B uses exclusive
-    targetAudience: 'Enterprise customers'
+    taxBehavior: 'inclusive' as const,
+    targetAudience: '企业团队和代理商',
+    trialDays: 3
   }
 } as const
 
