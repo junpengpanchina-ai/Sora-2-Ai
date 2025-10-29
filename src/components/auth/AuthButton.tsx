@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/Button'
 import { useTranslations } from '@/hooks/useTranslations'
 import { useSimpleAuth } from '@/hooks/useSimpleAuth'
@@ -30,20 +31,34 @@ export default function AuthButton({
       // 用户已登录，执行退出操作
       try {
         console.log('🔐 智能按钮开始登出...')
+        
+        // 先尝试 NextAuth signOut（用于 Google OAuth 登录）
+        try {
+          await signOut({ redirect: false, callbackUrl: '/' })
+          console.log('✅ NextAuth 登出成功')
+        } catch (nextAuthError) {
+          console.log('⚠️ NextAuth 登出失败或未使用 NextAuth:', nextAuthError)
+        }
+        
+        // 再调用 simple-auth logout（用于其他登录方式）
         const result = await logout()
-        console.log('✅ 智能按钮登出结果:', result)
+        console.log('✅ Simple Auth 登出结果:', result)
         
         // 执行自定义退出回调
         if (onLogout) {
           onLogout()
         }
         
-        // 跳转到首页
-        router.push('/')
+        // 强制刷新页面以确保状态更新
+        if (typeof window !== 'undefined') {
+          window.location.href = '/'
+        }
       } catch (error) {
         console.error('❌ 智能按钮退出失败:', error)
         // 即使出错也尝试跳转到首页
-        router.push('/')
+        if (typeof window !== 'undefined') {
+          window.location.href = '/'
+        }
       }
     } else {
       // 用户未登录，跳转到登录页面

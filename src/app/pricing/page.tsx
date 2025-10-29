@@ -1,14 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useSession } from 'next-auth/react'
 import { SUBSCRIPTION_PLANS, SubscriptionPlan } from '@/lib/stripe'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 export default function PricingPage() {
   const { data: session } = useSession()
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('solo')
   const t = useTranslations('pricing')
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
@@ -102,12 +100,13 @@ export default function PricingPage() {
 
 
         {/* 定价方案 - Memelord风格双方案 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="relative">
           {/* 添加装饰性背景元素 */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-20 animate-pulse"></div>
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-100 rounded-full opacity-20 animate-pulse" style={{animationDelay: '1s'}}></div>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto relative z-10">
           {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
             <div 
               key={key}
@@ -165,6 +164,7 @@ export default function PricingPage() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* 用户评价和案例展示 */}

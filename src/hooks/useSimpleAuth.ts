@@ -22,6 +22,27 @@ export function useSimpleAuth() {
   // 检查会话状态
   const checkSession = async () => {
     try {
+      // 首先检查 NextAuth session（用于 Google OAuth 登录）
+      const nextAuthResponse = await fetch('/api/auth/session', {
+        credentials: 'include',
+      })
+      
+      if (nextAuthResponse.ok) {
+        const nextAuthData = await nextAuthResponse.json()
+        if (nextAuthData?.user) {
+          setAuthState({
+            user: {
+              id: nextAuthData.user.id || '',
+              email: nextAuthData.user.email || '',
+              name: nextAuthData.user.name || nextAuthData.user.email || '',
+            },
+            loading: false
+          })
+          return
+        }
+      }
+      
+      // 如果 NextAuth 没有 session，检查 simple-auth
       const response = await fetch('/api/simple-auth/session', {
         credentials: 'include', // 重要：包含cookie
       })
@@ -90,6 +111,26 @@ export function useSimpleAuth() {
   // 组件挂载时检查会话
   useEffect(() => {
     checkSession()
+    
+    // 监听页面焦点变化，当页面获得焦点时刷新 session（用于检测 Google OAuth 登录后）
+    const handleFocus = () => {
+      checkSession()
+    }
+    
+    // 监听页面可见性变化，当页面变为可见时刷新 session
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkSession()
+      }
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [])
 
   return {
