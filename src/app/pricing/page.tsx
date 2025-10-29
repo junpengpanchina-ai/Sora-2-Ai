@@ -274,138 +274,42 @@ export default function PricingPage() {
           </div>
         </div>
 
-
-        {/* Membership Comparison Table */}
-        <div className="mt-16">
-          <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
-            Membership Feature Comparison
-          </h3>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Features
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Starter
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Bronze
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Silver
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gold
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Diamond
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    Monthly Videos
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">30</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">60</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">120</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">200</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    Video Duration
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5s</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5s</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">10s</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15s</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">15s</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    Video Quality
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">720p</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">1080p</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">4K</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">4K</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    Support
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Community</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Priority</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Dedicated</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Dedicated</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Account Manager</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    API Access
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">❌</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Enterprise API</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    Points Rewards
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">✅</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
         {/* FAQ */}
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Frequently Asked Questions
+            {t('faq.title')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Can I cancel my subscription anytime?
+                {t('faq.cancel.title')}
               </h3>
               <p className="text-gray-600">
-                Yes, you can cancel your subscription at any time. After cancellation, you can still use the service until the end of your current billing period.
+                {t('faq.cancel.answer')}
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                What payment methods do you support?
+                {t('faq.payment.title')}
               </h3>
               <p className="text-gray-600">
-                We support all major credit cards, debit cards, and digital wallet payments.
+                {t('faq.payment.answer')}
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                How long does video generation take?
+                {t('faq.generation.title')}
               </h3>
               <p className="text-gray-600">
-                Typically, 5-15 second videos take 1-3 minutes to generate, depending on the complexity of the video.
+                {t('faq.generation.answer')}
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Do you provide API access?
+                {t('faq.api.title')}
               </h3>
               <p className="text-gray-600">
-                Silver members and above get API access, while Diamond members get enterprise-level API.
+                {t('faq.api.answer')}
               </p>
             </div>
           </div>

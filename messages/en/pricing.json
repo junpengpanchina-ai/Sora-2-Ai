@@ -53,27 +53,23 @@
     "title": "User Success Data",
     "subtitle": "Real results achieved by users using our AI video generation technology"
   },
-  "faqTitle": "Frequently Asked Questions",
   "faq": {
-    "cancelAnytime": {
-      "q": "Can I cancel my subscription anytime?",
-      "a": "Absolutely! You can cancel your subscription at any time with no cancellation fees or penalties."
+    "title": "Frequently Asked Questions",
+    "cancel": {
+      "title": "Can I cancel my subscription anytime?",
+      "answer": "Yes, you can cancel your subscription at any time. After cancellation, you can still use the service until the end of your current billing period."
     },
-    "paymentMethods": {
-      "q": "What payment methods do you accept?",
-      "a": "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers for Enterprise customers."
+    "payment": {
+      "title": "What payment methods do you support?",
+      "answer": "We support all major credit cards, debit cards, and digital wallet payments."
     },
-    "generationTime": {
-      "q": "How long does video generation take?",
-      "a": "Most videos are generated within 2-5 minutes. Complex scenes or 4K quality may take up to 10 minutes."
+    "generation": {
+      "title": "How long does video generation take?",
+      "answer": "Typically, 5-30 second videos take 1-3 minutes to generate, depending on the complexity of the video."
     },
-    "apiAvailability": {
-      "q": "Do you offer API access?",
-      "a": "Yes! Teams plan customers get full REST API access with comprehensive documentation and dedicated support."
-    },
-    "trialPeriod": {
-      "q": "What's included in the free trial?",
-      "a": "The 3-day free trial includes full access to all features of your chosen plan with no limitations."
+    "api": {
+      "title": "Do you provide API access?",
+      "answer": "Yes! Teams plan customers get full REST API access. Solo plan includes standard features without API access."
     }
   }
 }
