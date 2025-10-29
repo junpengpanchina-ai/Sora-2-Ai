@@ -22,14 +22,48 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       console.log('🔐 移动端开始登出...');
       onClose();
       
-      // 手动刷新页面或跳转到首页
+      // 1. 调用 NextAuth signOut
+      try {
+        const { signOut } = await import('next-auth/react');
+        await signOut({ redirect: false, callbackUrl: '/' });
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (nextAuthError) {
+        console.log('⚠️ NextAuth 登出失败:', nextAuthError);
+      }
+      
+      // 2. 清除 simple-auth session
+      try {
+        await fetch('/api/simple-auth/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+      } catch (simpleAuthError) {
+        console.log('⚠️ Simple Auth 登出失败:', simpleAuthError);
+      }
+      
+      // 3. 清除本地存储
       if (typeof window !== 'undefined') {
-        window.location.href = '/';
+        try {
+          localStorage.clear();
+          sessionStorage.clear();
+        } catch (storageError) {
+          console.log('⚠️ 清除本地存储失败:', storageError);
+        }
+        
+        // 4. 设置退出标志
+        try {
+          sessionStorage.setItem('just_logged_out', 'true');
+        } catch (e) {
+          console.log('⚠️ 设置退出标志失败:', e);
+        }
+        
+        // 5. 强制刷新页面
+        await new Promise(resolve => setTimeout(resolve, 300));
+        window.location.replace('/');
       }
     } catch (error) {
       console.error('❌ 移动端登出失败:', error);
-      onClose();
-      // 即使出错也尝试跳转到首页
+      // 即使出错也强制刷新页面
       if (typeof window !== 'undefined') {
         window.location.href = '/';
       }

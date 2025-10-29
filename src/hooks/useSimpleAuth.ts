@@ -110,16 +110,37 @@ export function useSimpleAuth() {
 
   // 组件挂载时检查会话
   useEffect(() => {
-    checkSession()
+    // 检查是否刚刚退出登录（通过检查 sessionStorage）
+    const isJustLoggedOut = typeof window !== 'undefined' && 
+      sessionStorage.getItem('just_logged_out') === 'true'
+    
+    if (isJustLoggedOut) {
+      // 如果刚刚退出，清除标志并跳过检查
+      sessionStorage.removeItem('just_logged_out')
+      setAuthState({
+        user: null,
+        loading: false
+      })
+      console.log('⏭️ 跳过 session 检查（刚刚退出登录）')
+      return
+    }
+    
+    // 延迟检查，给退出操作完成的时间
+    const timer = setTimeout(() => {
+      checkSession()
+    }, 100)
     
     // 监听页面焦点变化，当页面获得焦点时刷新 session（用于检测 Google OAuth 登录后）
+    // 但只在不是刚刚退出的情况下
     const handleFocus = () => {
-      checkSession()
+      if (sessionStorage.getItem('just_logged_out') !== 'true') {
+        checkSession()
+      }
     }
     
     // 监听页面可见性变化，当页面变为可见时刷新 session
     const handleVisibilityChange = () => {
-      if (!document.hidden) {
+      if (!document.hidden && sessionStorage.getItem('just_logged_out') !== 'true') {
         checkSession()
       }
     }
@@ -128,6 +149,7 @@ export function useSimpleAuth() {
     document.addEventListener('visibilitychange', handleVisibilityChange)
     
     return () => {
+      clearTimeout(timer)
       window.removeEventListener('focus', handleFocus)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }

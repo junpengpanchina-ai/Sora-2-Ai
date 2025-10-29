@@ -6,6 +6,7 @@ import { AIThemeProvider } from '@/components/theme/AIThemeProvider'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import AuthDebugPanel from '@/components/auth/AuthDebugPanel'
 import './globals.css'
 
 interface RootLayoutProps {
@@ -30,6 +31,7 @@ export default async function RootLayout({
                 </main>
                 <NotificationContainer />
                 <SpeedInsights />
+                <AuthDebugPanel />
               </ErrorBoundary>
             </NextIntlClientProvider>
           </AIThemeProvider>
