@@ -1,0 +1,24 @@
+🔧 快速修复 redirect_uri_mismatch 错误
+
+问题：您的应用运行在 http://localhost:3001，但Google Cloud Console中没有配置这个URI
+
+✅ 立即执行的步骤：
+
+1. 打开浏览器，访问以下链接：
+   https://console.cloud.google.com/apis/credentials/oauthclient/222103705593-n67hsjl9mnt5i69keat0o9iuq2pojvc8.apps.googleusercontent.com?project=skilled-acolyte-476516-g8
+
+2. 在"已获授权的重定向 URI"部分，点击"+ 添加 URI"
+
+3. 添加以下两个URI（逐行添加）：
+   http://localhost:3000/api/auth/callback/google
+   http://localhost:3001/api/auth/callback/google
+
+4. 在"已获授权的 JavaScript 来源"部分，添加：
+   http://localhost:3000
+   http://localhost:3001
+
+5. 点击"保存"按钮
+
+6. 等待1-盖子让更改生效，然后重启服务器并测试
+
+📖 详细说明请查看：FIX_REDIRECT_URI_ERROR.md

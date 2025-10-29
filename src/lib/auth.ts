@@ -79,6 +79,46 @@ export const authOptions: NextAuthOptions = {
         : []),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      console.log('🔐 Google OAuth 登录回调:', { 
+        email: user.email, 
+        provider: account?.provider,
+        hasProfile: !!profile 
+      })
+
+      if (account?.provider === 'google') {
+        try {
+          // 检查用户是否已存在
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email! }
+          })
+
+          if (!existingUser) {
+            // 创建新用户
+            const newUser = await prisma.user.create({
+              data: {
+                email: user.email!,
+                name: user.name || user.email!,
+                image: user.image,
+                emailVerified: new Date(),
+                // Google OAuth 用户不需要密码
+                password: null,
+              }
+            })
+            console.log('✅ 创建新Google用户:', newUser.email)
+          } else {
+            console.log('✅ 现有Google用户登录:', existingUser.email)
+          }
+          
+          return true
+        } catch (error) {
+          console.error('❌ Google OAuth 用户创建失败:', error)
+          return false
+        }
+      }
+      
+      return true
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id

@@ -89,11 +89,7 @@ function SignUpForm() {
   }
 
   const handleGoogleSignIn = () => {
-    // 检查 Google 凭据是否配置
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) {
-      alert('Google 登录功能暂未配置，请使用邮箱注册')
-      return
-    }
+    console.log('🔐 尝试Google注册...')
     signIn('google', { callbackUrl: '/dashboard' })
   }
 

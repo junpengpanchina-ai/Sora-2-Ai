@@ -18,8 +18,14 @@ export default function PricingPage() {
       return
     }
 
-    // 所有方案都需要登录后订阅
+    // 使用直接的Stripe支付链接
+    const planConfig = SUBSCRIPTION_PLANS[plan]
+    if (planConfig.checkoutUrl) {
+      window.location.href = planConfig.checkoutUrl
+      return
+    }
 
+    // 如果没有直接链接，使用API创建会话
     try {
       const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
@@ -27,9 +33,9 @@ export default function PricingPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          priceId: SUBSCRIPTION_PLANS[plan].priceId,
+          priceId: planConfig.priceId,
           plan: plan,
-          locale: 'zh', // 支持本地化
+          locale: 'en', // 使用英文
         }),
       })
 

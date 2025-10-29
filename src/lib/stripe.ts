@@ -19,6 +19,7 @@ export const SUBSCRIPTION_PLANS = {
     description: '个人创作者的专业AI视频生成方案',
     price: 42.00,
     priceId: 'price_1SMX8IDqGbi6No9vtsx2w3Xw', // Solo plan price ID
+    checkoutUrl: 'https://buy.stripe.com/5kQaEXaIi2bVall7iE0kE00', // Direct Stripe checkout link
     features: [
       '3天免费试用',
       '每月50个AI视频生成',
@@ -45,6 +46,7 @@ export const SUBSCRIPTION_PLANS = {
     description: '团队协作的企业级AI视频解决方案',
     price: 299.00,
     priceId: 'price_1SMX8tDqGbi6No9v6LPCtisJ', // Teams plan price ID
+    checkoutUrl: 'https://buy.stripe.com/fZu00jaIidUDctt46s0kE02', // Teams plan checkout URL
     features: [
       '3天免费试用',
       '每月200个AI视频生成',
