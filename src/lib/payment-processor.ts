@@ -1,5 +1,5 @@
 // 支付处理工具 - 优化价格充值逻辑
-import { SUBSCRIPTION_PLANS, SubscriptionPlan } from './stripe'
+import { SUBSCRIPTION_PLANS, SubscriptionPlan } from './plans'
 import { stripe } from './stripe'
 
 // 支付配置

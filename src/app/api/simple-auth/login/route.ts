@@ -3,9 +3,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { isSimpleAuthCompatEnabled } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
   try {
+    if (!isSimpleAuthCompatEnabled()) {
+      return NextResponse.json({ error: 'SimpleAuth disabled' }, { status: 410 })
+    }
     const { email, password } = await request.json()
     
     if (!email || !password) {

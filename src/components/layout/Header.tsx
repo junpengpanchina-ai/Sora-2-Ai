@@ -11,6 +11,7 @@ import { useTranslations } from '@/hooks/useTranslations';
 import { useSimpleAuth } from '@/hooks/useSimpleAuth';
 import { signOut, useSession } from 'next-auth/react';
 import AuthButton from '@/components/auth/AuthButton';
+import { isSimpleAuthCompatEnabled } from '@/lib/utils';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -87,15 +88,17 @@ const Header: React.FC = () => {
         console.log('⚠️ NextAuth 登出失败:', nextAuthError);
       }
       
-      // 4. 清除 simple-auth session（如果有）
-      try {
-        await fetch('/api/simple-auth/logout', {
-          method: 'POST',
-          credentials: 'include'
-        });
-        console.log('✅ Simple Auth 登出成功');
-      } catch (simpleAuthError) {
-        console.log('⚠️ Simple Auth 登出失败:', simpleAuthError);
+      // 4. 清除 simple-auth session（如果兼容层开启）
+      if (isSimpleAuthCompatEnabled()) {
+        try {
+          await fetch('/api/simple-auth/logout', {
+            method: 'POST',
+            credentials: 'include'
+          });
+          console.log('✅ Simple Auth 登出成功');
+        } catch (simpleAuthError) {
+          console.log('⚠️ Simple Auth 登出失败:', simpleAuthError);
+        }
       }
       
       // 5. 设置退出标志（必须在清除存储之前设置）

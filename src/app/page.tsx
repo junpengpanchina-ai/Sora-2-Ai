@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -7,15 +8,74 @@ import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
 import { useSimpleAuth } from '@/hooks/useSimpleAuth'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function HomePage() {
   const t = useTranslations()
-  const { user, loading } = useSimpleAuth()
+  const { user: simpleAuthUser, loading: simpleAuthLoading, checkSession } = useSimpleAuth()
+  const { data: nextAuthSession, status: nextAuthStatus } = useSession()
   const router = useRouter()
+  
+  // 合并两种登录方式的状态
+  const user = nextAuthSession?.user || simpleAuthUser
+  const loading = simpleAuthLoading || nextAuthStatus === 'loading'
   
   // 如果用户已登录，显示欢迎信息
   const showWelcomeMessage = user && !loading
+  
+  // 页面加载时检查 session（用于 Google OAuth 回调后刷新状态）
+  useEffect(() => {
+    // 如果是 Google OAuth 回调返回且已登录，立即刷新
+    if (nextAuthStatus === 'authenticated') {
+      console.log('✅ NextAuth 已认证，刷新 session')
+      checkSession()
+    }
+  }, [nextAuthStatus, checkSession])
+  
+  // URL 参数检测（用于 Google 回调后强制刷新）
+  useEffect(() => {
+    // 检查是否是 OAuth 回调返回（URL 可能包含相关参数）
+    const urlParams = new URLSearchParams(window.location.search)
+    const hasOAuthParams = urlParams.has('code') || urlParams.has('state')
+    
+    if (hasOAuthParams) {
+      console.log('🔐 检测到 OAuth 回调参数，准备刷新 session')
+      
+      // OAuth 回调返回，多次刷新确保 session 已创建
+      const timers: NodeJS.Timeout[] = []
+      
+      // 立即尝试刷新（可能还太快）
+      timers.push(setTimeout(() => {
+        console.log('🔄 第1次尝试刷新 session (0.5秒)')
+        checkSession()
+      }, 500))
+      
+      // 延迟刷新（确保 session cookie 已设置）
+      timers.push(setTimeout(() => {
+        console.log('🔄 第2次尝试刷新 session (1秒)')
+        checkSession()
+        // 强制刷新 NextAuth session
+        import('next-auth/react').then(({ getSession }) => {
+          getSession().then(session => {
+            console.log('📡 NextAuth getSession 结果:', session?.user?.email || '无')
+          })
+        })
+      }, 1000))
+      
+      // 再次延迟刷新（确保稳定）
+      timers.push(setTimeout(() => {
+        console.log('🔄 第3次尝试刷新 session (2秒)')
+        checkSession()
+      }, 2000))
+      
+      // 清除 URL 参数
+      window.history.replaceState({}, '', window.location.pathname)
+      
+      return () => {
+        timers.forEach(timer => clearTimeout(timer))
+      }
+    }
+  }, [checkSession])
   
   
   return (
@@ -73,8 +133,15 @@ export default function HomePage() {
                     className="w-full sm:w-auto min-w-[280px] bg-white text-gray-700 border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 shadow-lg"
                     onClick={() => {
                       console.log('🚀 首页直接Google登录')
-                      signIn('google', { callbackUrl: '/' })
+                      // 使用 redirect: true 让 NextAuth 自动处理重定向到 Google
+                      signIn('google', { 
+                        callbackUrl: '/',
+                        redirect: true 
+                      }).catch((error) => {
+                        console.error('❌ Google登录错误:', error)
+                      })
                     }}
+                    type="button"
                   >
                     <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

@@ -91,13 +91,15 @@ export default function SignInPage() {
       setIsGoogleLoading(true)
       setError('')
       
-      // 直接调用 signIn，NextAuth 会自动处理重定向
-      const result = await signIn('google', { 
-        redirect: true, // 使用默认重定向
-        callbackUrl: '/'
+      // 直接调用 signIn，NextAuth 会自动处理重定向到 Google
+      // redirect: true 表示让 NextAuth 自动跳转，不需要等待返回值
+      await signIn('google', { 
+        callbackUrl: '/',
+        redirect: true // 自动重定向，页面会直接跳转到 Google
       })
       
-      console.log('✅ Google登录发起成功，结果:', result)
+      // 如果 redirect: true，这行代码不会执行（因为页面已经跳转）
+      // 但如果用户取消或出错，会执行到这里
     } catch (error: any) {
       console.error('❌ Google登录失败:', error)
       setIsGoogleLoading(false)

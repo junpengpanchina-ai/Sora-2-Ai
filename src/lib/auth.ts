@@ -119,23 +119,88 @@ export const authOptions: NextAuthOptions = {
       
       return true
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      // 初次登录时，user 对象存在
       if (user) {
-        token.id = user.id
-        token.email = user.email
-        token.name = user.name
-        token.image = user.image
+        // 确保从数据库获取完整的用户信息
+        let dbUser
+        try {
+          dbUser = await prisma.user.findUnique({
+            where: { email: user.email! }
+          })
+          
+          if (dbUser) {
+            token.id = dbUser.id
+            token.email = dbUser.email
+            token.name = dbUser.name || dbUser.email
+            token.image = dbUser.image
+          } else {
+            // 如果数据库中没有（不应该发生），使用 user 对象
+            token.id = user.id
+            token.email = user.email
+            token.name = user.name || user.email
+            token.image = user.image
+          }
+          
+          console.log('✅ JWT token 设置完成:', {
+            id: token.id,
+            email: token.email
+          })
+        } catch (error) {
+          console.error('❌ 获取用户信息失败:', error)
+          // 即使出错也设置基本信息
+          token.id = user.id
+          token.email = user.email
+          token.name = user.name || user.email
+          token.image = user.image
+        }
       }
+      
+      // 如果 token 中没有 id，尝试从数据库获取（用于刷新时）
+      if (!token.id && token.email) {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: token.email as string }
+          })
+          if (dbUser) {
+            token.id = dbUser.id
+            token.name = dbUser.name || dbUser.email
+            token.image = dbUser.image
+          }
+        } catch (error) {
+          console.error('❌ 刷新 token 时获取用户信息失败:', error)
+        }
+      }
+      
       return token
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && token.email) {
         session.user.id = token.id as string
         session.user.email = token.email as string
-        session.user.name = token.name as string
-        session.user.image = token.image as string
+        session.user.name = (token.name as string) || token.email as string
+        session.user.image = (token.image as string) || null
+        
+        console.log('✅ Session 设置完成:', {
+          id: session.user.id,
+          email: session.user.email
+        })
+      } else {
+        console.warn('⚠️ Session token 中缺少必要信息:', { token })
       }
       return session
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 60 * 60, // 30天
+      },
     },
   },
 }

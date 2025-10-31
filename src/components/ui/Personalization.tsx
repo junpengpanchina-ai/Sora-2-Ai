@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { SUBSCRIPTION_PLANS } from '@/lib/stripe'
+import { SUBSCRIPTION_PLANS } from '@/lib/plans'
 
 interface PersonalizationProps {
   userProfile?: {

@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icon'
 import { useTranslations } from '@/hooks/useTranslations'
 import { useSimpleAuth } from '@/hooks/useSimpleAuth'
 import AuthButton from '@/components/auth/AuthButton'
+import { isSimpleAuthCompatEnabled } from '@/lib/utils'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -31,14 +32,16 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         console.log('⚠️ NextAuth 登出失败:', nextAuthError);
       }
       
-      // 2. 清除 simple-auth session
-      try {
-        await fetch('/api/simple-auth/logout', {
-          method: 'POST',
-          credentials: 'include'
-        });
-      } catch (simpleAuthError) {
-        console.log('⚠️ Simple Auth 登出失败:', simpleAuthError);
+      // 2. 清除 simple-auth session（仅在兼容层开启时）
+      if (isSimpleAuthCompatEnabled()) {
+        try {
+          await fetch('/api/simple-auth/logout', {
+            method: 'POST',
+            credentials: 'include'
+          });
+        } catch (simpleAuthError) {
+          console.log('⚠️ Simple Auth 登出失败:', simpleAuthError);
+        }
       }
       
       // 3. 清除本地存储

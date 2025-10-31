@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { isSimpleAuthCompatEnabled } from '@/lib/utils'
 
 interface User {
   id: string
@@ -42,16 +43,19 @@ export function useSimpleAuth() {
         }
       }
       
-      // 如果 NextAuth 没有 session，检查 simple-auth
-      const response = await fetch('/api/simple-auth/session', {
-        credentials: 'include', // 重要：包含cookie
-      })
-      const data = await response.json()
-      
-      setAuthState({
-        user: data.user,
-        loading: false
-      })
+      // 如果 NextAuth 没有 session，且兼容层启用，再检查 simple-auth
+      if (isSimpleAuthCompatEnabled()) {
+        const response = await fetch('/api/simple-auth/session', {
+          credentials: 'include',
+        })
+        const data = await response.json()
+        setAuthState({
+          user: data.user,
+          loading: false
+        })
+      } else {
+        setAuthState({ user: null, loading: false })
+      }
     } catch (error) {
       console.error('Session check error:', error)
       setAuthState({
@@ -64,6 +68,9 @@ export function useSimpleAuth() {
   // 登录
   const login = async (email: string, password: string) => {
     try {
+      if (!isSimpleAuthCompatEnabled()) {
+        return { success: false, error: 'SimpleAuth disabled' }
+      }
       const response = await fetch('/api/simple-auth/login', {
         method: 'POST',
         headers: {
@@ -91,10 +98,12 @@ export function useSimpleAuth() {
   // 登出
   const logout = async () => {
     try {
-      await fetch('/api/simple-auth/logout', {
-        method: 'POST',
-        credentials: 'include', // 重要：包含cookie
-      })
+      if (isSimpleAuthCompatEnabled()) {
+        await fetch('/api/simple-auth/logout', {
+          method: 'POST',
+          credentials: 'include',
+        })
+      }
       
       setAuthState({
         user: null,
@@ -110,7 +119,7 @@ export function useSimpleAuth() {
 
   // 组件挂载时检查会话
   useEffect(() => {
-    // 检查是否刚刚退出登录（通过检查 sessionStorage）
+    // 检查是否刚刚退出登录
     const isJustLoggedOut = typeof window !== 'undefined' && 
       sessionStorage.getItem('just_logged_out') === 'true'
     
@@ -125,13 +134,10 @@ export function useSimpleAuth() {
       return
     }
     
-    // 延迟检查，给退出操作完成的时间
-    const timer = setTimeout(() => {
-      checkSession()
-    }, 100)
+    // 立即检查一次（不延迟）
+    checkSession()
     
     // 监听页面焦点变化，当页面获得焦点时刷新 session（用于检测 Google OAuth 登录后）
-    // 但只在不是刚刚退出的情况下
     const handleFocus = () => {
       if (sessionStorage.getItem('just_logged_out') !== 'true') {
         checkSession()
@@ -149,7 +155,6 @@ export function useSimpleAuth() {
     document.addEventListener('visibilitychange', handleVisibilityChange)
     
     return () => {
-      clearTimeout(timer)
       window.removeEventListener('focus', handleFocus)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }

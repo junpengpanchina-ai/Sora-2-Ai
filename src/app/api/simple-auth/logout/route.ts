@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isSimpleAuthCompatEnabled } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
   try {
+    if (!isSimpleAuthCompatEnabled()) {
+      return NextResponse.json({ error: 'SimpleAuth disabled' }, { status: 410 })
+    }
     const response = NextResponse.json({ success: true }, { status: 200 })
     
     // 清除认证cookie - 设置过期时间为过去的时间

@@ -11,7 +11,13 @@ export function useTranslations() {
     setIsClient(true)
   }, [])
   
-  const t = useNextIntlTranslations()
+  // 调用 next-intl 的 useTranslations
+  // 注意：必须在组件顶层调用，不能在 try-catch 中
+  // 使用默认命名空间确保安全
+  const nextIntlT = useNextIntlTranslations()
+  
+  // 包装 t 函数以确保它始终是一个可调用的函数
+  const t = typeof nextIntlT === 'function' ? nextIntlT : ((key: string) => key)
 
   // 通用翻译
   const common = (key: string) => {
@@ -81,7 +87,8 @@ export function useTranslations() {
     }
     
     try {
-      return t('common.' + key) || key
+      const result = t('common.' + key)
+      return result && result !== 'common.' + key ? result : key
     } catch {
       return key
     }
@@ -90,7 +97,8 @@ export function useTranslations() {
   // 导航翻译
   const nav = (key: string) => {
     try {
-      return t('nav.' + key) || key
+      const result = t('nav.' + key)
+      return result && result !== 'nav.' + key ? result : key
     } catch {
       return key
     }
@@ -99,7 +107,8 @@ export function useTranslations() {
   // 认证翻译
   const auth = (key: string) => {
     try {
-      return t('auth.' + key) || key
+      const result = t('auth.' + key)
+      return result && result !== 'auth.' + key ? result : key
     } catch {
       return key
     }
@@ -216,7 +225,7 @@ export function useTranslations() {
   }
 
   // 定价翻译
-  const pricing = (key: string) => {
+  const pricing = (key: string, params?: Record<string, any>) => {
     if (!isClient) {
       // 服务器端渲染时返回默认值
       const defaults: Record<string, string> = {
@@ -230,13 +239,36 @@ export function useTranslations() {
         'save': 'Save 20%',
         'getStarted': 'Start Free Trial',
         'contactSales': 'Contact Sales',
-        'pro.popular': 'Most Popular'
+        'pro.popular': 'Most Popular',
+        'freeTrial': params?.days ? `${params.days}天免费试用` : '免费试用',
+        'startFreeTrial': '开始免费试用',
+        'recommended': '推荐'
       }
-      return defaults[key] || key
+      let result = defaults[key] || key
+      // 简单的参数替换
+      if (params) {
+        Object.entries(params).forEach(([paramKey, paramValue]) => {
+          result = result.replace(`{${paramKey}}`, String(paramValue))
+        })
+      }
+      return result
     }
     
     try {
-      return t('pricing.' + key) || key
+      let translation = t('pricing.' + key)
+      if (!translation || translation === 'pricing.' + key) {
+        translation = key
+      }
+      // 简单的参数替换
+      if (params && translation) {
+        let result = String(translation)
+        Object.entries(params).forEach(([paramKey, paramValue]) => {
+          result = result.replace(`{${paramKey}}`, String(paramValue))
+          result = result.replace(`{{${paramKey}}}`, String(paramValue))
+        })
+        return result
+      }
+      return translation || key
     } catch {
       return key
     }
